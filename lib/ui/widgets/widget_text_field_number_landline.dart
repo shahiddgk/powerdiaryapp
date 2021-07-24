@@ -36,7 +36,7 @@ class _TextFeildLandlineNumberWidgetState
                   textAlignVertical: TextAlignVertical.center,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(14),
+                    LengthLimitingTextInputFormatter(15),
                     FilteringTextInputFormatter.deny(RegExp(r"[ ]")),
                   ],
                   onChanged: (v) {
