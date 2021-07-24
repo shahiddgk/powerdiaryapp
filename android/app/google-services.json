@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "562914783930",
+    "project_id": "powerdiary-a9244",
+    "storage_bucket": "powerdiary-a9244.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562914783930:android:f86db907d6f0023be34883",
+        "android_client_info": {
+          "package_name": "com.powerdiary.powerdiaryltd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562914783930-vej9tdpmlpmpkvf9fj88osegn7kvv378.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrmQoOTrbABSPpmfS8ZGd48SSGE2RlHFI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562914783930-vej9tdpmlpmpkvf9fj88osegn7kvv378.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
