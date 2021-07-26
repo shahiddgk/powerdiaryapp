@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,8 +10,12 @@ class TextFeildLandlineNumberWidget extends StatefulWidget {
   IconData iconData;
   bool optional;
 
-  TextFeildLandlineNumberWidget(
-      {this.hint, this.controller, this.iconData, this.optional = false});
+  TextFeildLandlineNumberWidget({
+    this.hint,
+    this.controller,
+    this.iconData,
+    this.optional = false,
+  });
 
   @override
   _TextFeildLandlineNumberWidgetState createState() =>
@@ -36,18 +41,18 @@ class _TextFeildLandlineNumberWidgetState
                   textAlignVertical: TextAlignVertical.center,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(15),
+                    LengthLimitingTextInputFormatter(11),
                     FilteringTextInputFormatter.deny(RegExp(r"[ ]")),
                   ],
                   onChanged: (v) {
-                    numberValidation(v);
+                    fieldValidation(v);
                   },
                   onFieldSubmitted: (v) {
-                    numberValidation(v);
+                    fieldValidation(v);
                   },
                   controller: widget.controller,
                   validator: (v) {
-                    return numberValidation(v);
+                    return fieldValidation(v);
                   },
                   decoration: InputDecoration(
                       errorText: "",
@@ -90,27 +95,19 @@ class _TextFeildLandlineNumberWidgetState
         ));
   }
 
-  String numberValidation(String v) {
-    if (widget.optional) {
-      if (v.length > 0) {
-        setState(() {
-          isNumberValidated = v.length == 11;
-        });
-      }
+  String fieldValidation(String v) {
+    if (widget.optional && v.isEmpty) {
       setState(() {
         isEmptyValidated = true;
+        isNumberValidated = true;
       });
       return null;
     } else {
-      if (v.length > 0) {
-        setState(() {
-          isNumberValidated = v.length == 11;
-        });
-      }
       setState(() {
-        isEmptyValidated = v.isNotEmpty;
+        isEmptyValidated = widget.optional ? true : v.isNotEmpty;
+        isNumberValidated = v.length == 11 ? true : false;
       });
-      return v.isNotEmpty ? null : "";
+      return isEmptyValidated && isNumberValidated ? null : "";
     }
   }
 }

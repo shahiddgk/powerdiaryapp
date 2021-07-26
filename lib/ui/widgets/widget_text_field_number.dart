@@ -34,7 +34,7 @@ class _TextFeildNumberWidgetState extends State<TextFeildNumberWidget> {
                   textAlignVertical: TextAlignVertical.center,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(15),
+                    LengthLimitingTextInputFormatter(11),
                     FilteringTextInputFormatter.deny(RegExp(r"[ ]")),
                     // BlacklistingTextInputFormatter(RegExp("[ ]"))
                   ],

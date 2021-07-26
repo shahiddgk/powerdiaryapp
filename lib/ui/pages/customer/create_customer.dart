@@ -93,6 +93,7 @@ class _CreateCustomerState extends State<CreateCustomer> {
                       controller: _lastNameController,
                     ),
                     TextFeildNumberWidget(
+                      optional: true,
                       hint: "Mobile Number",
                       controller: _primaryPhoneController,
                     ),
@@ -131,10 +132,8 @@ class _CreateCustomerState extends State<CreateCustomer> {
                           items: addrressList?.map((item) {
                             return new DropdownMenuItem(
                               child: new Text(
-                                  //item
                                   "${item.line1},${item.line2},${item.line3}"),
                               value:
-                                  //item
                                   '${item.line1},${item.line2},${item.line3}',
                             );
                           })?.toList(),
