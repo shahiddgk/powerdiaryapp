@@ -25,7 +25,11 @@ class _BookingListingState extends State<BookingListing> {
 
   bool _isLoading = true;
   List<BookingReadResponse> bookingList = [];
+  List<BookingReadResponse> bookingListSearch = [];
+  // List<BookingReadResponse> bookingServiceListSearch = [];
+
   PdLocation _pdLocation;
+  final _debouncer = Debouncer(milliseconds: 2000);
 
   String dropdownValue = 'Cash';
   String holder = '';
@@ -34,14 +38,18 @@ class _BookingListingState extends State<BookingListing> {
 
   TextEditingController _chequeController = new TextEditingController();
 
+  TextEditingController _SearchController = new TextEditingController();
+
   @override
   void initState() {
     _getBookingList();
     getCurrentLocation(context).then((value) {
       setState(() {
         _pdLocation = value;
+        bookingListSearch = [];
       });
     });
+    _SearchController.text;
     super.initState();
   }
 
@@ -55,6 +63,7 @@ class _BookingListingState extends State<BookingListing> {
       setState(() {
         _isLoading = false;
         bookingList = value.values;
+        bookingListSearch = bookingList;
       });
     }).catchError((e) {
       print(e);
@@ -68,7 +77,14 @@ class _BookingListingState extends State<BookingListing> {
     });
   }
 
-  List<String> paymentMethod = ['Cash', 'Card', 'PayPal', 'Invoice', 'cheque'];
+  List<String> paymentMethod = [
+    'Cash',
+    'Card',
+    'PayPal',
+    'Invoice',
+    'BankTransfer',
+    'cheque'
+  ];
 
   void getDropDownItem() {
     setState(() {
@@ -82,134 +98,322 @@ class _BookingListingState extends State<BookingListing> {
     });
   }
 
+  Widget Searchbar = Text("Booking Listing");
+  Icon icon = Icon(Icons.search);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Booking Listing'),
+          title: Searchbar,
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  if (this.icon.icon == Icons.search) {
+                    this.icon = Icon(
+                      Icons.search,
+                      color: Color(0xFF392C70),
+                    );
+                    this.Searchbar = TextField(
+                      controller: _SearchController,
+                      decoration: InputDecoration(
+                        hintText: "Enter Name",
+                        hintStyle: TextStyle(color: Colors.white),
+                        suffixIcon: IconButton(
+                          onPressed: () => {
+                            _SearchController.clear(),
+                            Navigator.of(context).push(new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    BookingListing())),
+                          },
+                          icon: Icon(
+                            Icons.cancel,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                      onChanged: (text) {
+                        _debouncer.run(() {
+                          setState(() {
+                            bookingListSearch = bookingList
+                                .where((index) => index.customerName
+                                    .toLowerCase()
+                                    .contains(text.toLowerCase()))
+                                .toList();
+                          });
+                        });
+                      },
+                    );
+                  } else {
+                    this.Searchbar = Text("Booking Listing");
+                    this.icon = Icon(Icons.search);
+                  }
+                });
+              },
+              icon: icon,
+            ),
+          ],
         ),
         body: Stack(
           children: [
             Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: bookingList.length == 0
-                    ? Text("No Booking available")
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: DataTable(
-                              columns: [
-                                DataColumn(label: Text("Sr.No#")),
-                                DataColumn(label: Text("User")),
-                                DataColumn(label: Text("Customer")),
-                                DataColumn(label: Text("Service")),
-                                DataColumn(label: Text("Price")),
-                                DataColumn(label: Text("Book Date")),
-                                DataColumn(label: Text("Book Time")),
-                                DataColumn(label: Text("Book Status")),
-                                DataColumn(label: Text("Actions")),
-                              ],
-                              rows: List.generate(
-                                  bookingList.length,
-                                  (index) => DataRow(cells: <DataCell>[
-                                        DataCell(Text('${index + 1}')),
-                                        DataCell(
-                                            Text(bookingList[index].userName)),
-                                        DataCell(Text(
-                                            bookingList[index].customerName)),
-                                        DataCell(
-                                            Text(bookingList[index].services)),
-                                        DataCell(Text(
-                                            '${bookingList[index].totalPrice}')),
-                                        DataCell(Text(DateFormat.yMMMd().format(
-                                            bookingList[index].dueDate))),
-                                        // DataCell(Text(DateFormat.Hm()
-                                        //     .format(bookingList[index].startTime))),
-                                        DataCell(Text(
-                                          bookingList[index].startTime,
-                                        )),
-                                        DataCell(IgnorePointer(
-                                          ignoring: bookingList[index]
-                                                      .serviceStatus ==
-                                                  3
-                                              ? true
-                                              : false,
-                                          child: DropdownButton(
-                                            hint: Text("Completed"),
-                                            value: bookingList[index]
-                                                .serviceStatus,
-                                            items: [
-                                              DropdownMenuItem(
-                                                child: Text("Booked"),
-                                                value: 1,
-                                              ),
-                                              DropdownMenuItem(
-                                                child: Text("In-Progress"),
-                                                value: 2,
-                                              ),
-                                              DropdownMenuItem(
-                                                child: Text("Completed"),
-                                                value: 3,
-                                                onTap: () {
-                                                  _paymentPopup(
-                                                      bookingList[index]);
+                child: bookingListSearch.length == 0
+                    ? bookingList.length == 0
+                        ? Text("No Booking available")
+                        : SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(
+                                  columns: [
+                                    DataColumn(label: Text("Sr.No#")),
+                                    DataColumn(label: Text("User")),
+                                    DataColumn(label: Text("Customer")),
+                                    DataColumn(label: Text("Service")),
+                                    DataColumn(label: Text("Price")),
+                                    DataColumn(label: Text("Book Date")),
+                                    DataColumn(label: Text("Book Time")),
+                                    DataColumn(label: Text("Book Status")),
+                                    DataColumn(label: Text("Actions")),
+                                  ],
+                                  rows: List.generate(
+                                      bookingList.length,
+                                      (index) => DataRow(cells: <DataCell>[
+                                            DataCell(Text('${index + 1}')),
+                                            DataCell(Text(
+                                                bookingList[index].userName)),
+                                            DataCell(Text(bookingList[index]
+                                                .customerName)),
+                                            DataCell(Text(
+                                                bookingList[index].services)),
+                                            DataCell(Text(
+                                                '${bookingList[index].totalPrice}')),
+                                            DataCell(Text(DateFormat.yMMMd()
+                                                .format(bookingList[index]
+                                                    .dueDate))),
+                                            // DataCell(Text(DateFormat.Hm()
+                                            //     .format(bookingList[index].startTime))),
+                                            DataCell(Text(
+                                              bookingList[index].startTime,
+                                            )),
+                                            DataCell(IgnorePointer(
+                                              ignoring: bookingList[index]
+                                                              .serviceStatus ==
+                                                          3 ||
+                                                      bookingList[index]
+                                                              .serviceStatus ==
+                                                          4
+                                                  ? true
+                                                  : false,
+                                              child: DropdownButton(
+                                                hint: Text("Completed"),
+                                                value: bookingList[index]
+                                                    .serviceStatus,
+                                                items: [
+                                                  DropdownMenuItem(
+                                                    child: Text("Booked"),
+                                                    value: 1,
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text("In-Progress"),
+                                                    value: 2,
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text("Completed"),
+                                                    value: 3,
+                                                    onTap: () {
+                                                      _paymentPopup(
+                                                          bookingList[index]);
+                                                    },
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text("Cancel"),
+                                                    value: 4,
+                                                  ),
+                                                ],
+                                                onChanged: (value) {
+                                                  if (value != 3) {
+                                                    _updateBookingStatus(
+                                                        bookingList[index]);
+                                                  }
                                                 },
                                               ),
-                                              DropdownMenuItem(
-                                                child: Text("Cancel"),
-                                                value: 4,
+                                            )),
+                                            //Text(_selectedBookStatus),
+                                            DataCell(Row(
+                                              children: [
+                                                IconButton(
+                                                  icon: Icon(Icons.edit),
+                                                  onPressed: () {
+                                                    _updateBooking(
+                                                        bookingList[index]);
+                                                  },
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(Icons.delete),
+                                                  onPressed: () {
+                                                    _deleteBooking(
+                                                        bookingList[index]);
+                                                  },
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(Icons
+                                                      .receipt_long_outlined),
+                                                  onPressed: () {
+                                                    _showBooking(
+                                                        bookingList[index]);
+                                                  },
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(Icons.directions),
+                                                  onPressed: () {
+                                                    _showDirections(
+                                                        bookingList[index]);
+                                                    // _getCurrentLocation();
+                                                  },
+                                                )
+                                              ],
+                                            ))
+                                          ])),
+                                )))
+                    : bookingListSearch.length == 0
+                        ? Text("No Booking available")
+                        : SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(
+                                  columns: [
+                                    DataColumn(label: Text("Sr.No#")),
+                                    DataColumn(label: Text("User")),
+                                    DataColumn(label: Text("Customer")),
+                                    DataColumn(label: Text("Service")),
+                                    DataColumn(label: Text("Price")),
+                                    DataColumn(label: Text("Book Date")),
+                                    DataColumn(label: Text("Book Time")),
+                                    DataColumn(label: Text("Book Status")),
+                                    DataColumn(label: Text("Actions")),
+                                  ],
+                                  rows: List.generate(
+                                      bookingListSearch.length,
+                                      (index) => DataRow(cells: <DataCell>[
+                                            DataCell(Text('${index + 1}')),
+                                            DataCell(Text(
+                                                bookingListSearch[index]
+                                                    .userName)),
+                                            DataCell(Text(
+                                                bookingListSearch[index]
+                                                    .customerName)),
+                                            DataCell(Text(
+                                                bookingListSearch[index]
+                                                    .services)),
+                                            DataCell(Text(
+                                                '${bookingListSearch[index].totalPrice}')),
+                                            DataCell(Text(DateFormat.yMMMd()
+                                                .format(bookingListSearch[index]
+                                                    .dueDate))),
+                                            // DataCell(Text(DateFormat.Hm()
+                                            //     .format(bookingList[index].startTime))),
+                                            DataCell(Text(
+                                              bookingListSearch[index]
+                                                  .startTime,
+                                            )),
+                                            DataCell(IgnorePointer(
+                                              ignoring: bookingListSearch[index]
+                                                              .serviceStatus ==
+                                                          3 ||
+                                                      bookingList[index]
+                                                              .serviceStatus ==
+                                                          4
+                                                  ? true
+                                                  : false,
+                                              child: DropdownButton(
+                                                hint: Text("Completed"),
+                                                value: bookingListSearch[index]
+                                                    .serviceStatus,
+                                                items: [
+                                                  DropdownMenuItem(
+                                                    child: Text("Booked"),
+                                                    value: 1,
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text("In-Progress"),
+                                                    value: 2,
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text("Completed"),
+                                                    value: 3,
+                                                    onTap: () {
+                                                      _paymentPopup(
+                                                          bookingListSearch[
+                                                              index]);
+                                                    },
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text("Cancel"),
+                                                    value: 4,
+                                                  ),
+                                                ],
+                                                onChanged: (value) {
+                                                  if (value != 3) {
+                                                    _updateBookingStatus(
+                                                        bookingListSearch[
+                                                            index]);
+                                                  }
+                                                },
                                               ),
-                                            ],
-                                            onChanged: (value) {
-                                              if (value != 3) {
-                                                _updateBookingStatus(
-                                                    bookingList[index]);
-                                              }
-                                            },
-                                          ),
-                                        )),
-                                        //Text(_selectedBookStatus),
-                                        DataCell(Row(
-                                          children: [
-                                            IconButton(
-                                              icon: Icon(Icons.edit),
-                                              onPressed: () {
-                                                _updateBooking(
-                                                    bookingList[index]);
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: Icon(Icons.delete),
-                                              onPressed: () {
-                                                _deleteBooking(
-                                                    bookingList[index]);
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: Icon(
-                                                  Icons.receipt_long_outlined),
-                                              onPressed: () {
-                                                _showBooking(
-                                                    bookingList[index]);
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: Icon(Icons.directions),
-                                              onPressed: () {
-                                                _showDirections(
-                                                    bookingList[index]);
-                                                // _getCurrentLocation();
-                                              },
-                                            )
-                                          ],
-                                        ))
-                                      ])),
-                            )))),
+                                            )),
+                                            //Text(_selectedBookStatus),
+                                            DataCell(Row(
+                                              children: [
+                                                IconButton(
+                                                  icon: Icon(Icons.edit),
+                                                  onPressed: () {
+                                                    _updateBooking(
+                                                        bookingListSearch[
+                                                            index]);
+                                                  },
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(Icons.delete),
+                                                  onPressed: () {
+                                                    _deleteBooking(
+                                                        bookingListSearch[
+                                                            index]);
+                                                  },
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(Icons
+                                                      .receipt_long_outlined),
+                                                  onPressed: () {
+                                                    _showBooking(
+                                                        bookingListSearch[
+                                                            index]);
+                                                  },
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(Icons.directions),
+                                                  onPressed: () {
+                                                    _showDirections(
+                                                        bookingListSearch[
+                                                            index]);
+                                                    // _getCurrentLocation();
+                                                  },
+                                                )
+                                              ],
+                                            ))
+                                          ])),
+                                )))),
             if (_isLoading)
               Container(
                   height: MediaQuery.of(context).size.height,
-                  child: PDProgressIndicator())
+                  child: PDProgressIndicator()),
           ],
         ));
   }
@@ -289,6 +493,29 @@ class _BookingListingState extends State<BookingListing> {
         );
       },
     );
+  }
+
+  _searchField(text) {
+    // return Padding(
+    //   padding: EdgeInsets.all(8.0),
+    // child: TextField(
+    //   decoration: InputDecoration(
+    //     hintText: "Search...",
+    //   ),
+    //   onChanged: (text) {
+    _debouncer.run(() {
+      setState(() {
+        bookingListSearch = bookingList
+            .where((index) =>
+                index.customerName.toLowerCase().contains(text.toLowerCase()))
+            .toList();
+        print(text);
+        print(bookingListSearch);
+      });
+    });
+    // },
+    // ),
+    // );
   }
 
   _updateBookingStatus(BookingReadResponse bookingReadResponse) {
@@ -424,5 +651,20 @@ class _BookingListingState extends State<BookingListing> {
         );
       });
     });
+  }
+}
+
+class Debouncer {
+  final int milliseconds;
+  VoidCallback action;
+  Timer _timer;
+
+  Debouncer({this.milliseconds});
+
+  run(VoidCallback action) {
+    if (null != _timer) {
+      _timer.cancel();
+    }
+    _timer = Timer(Duration(microseconds: milliseconds), action);
   }
 }

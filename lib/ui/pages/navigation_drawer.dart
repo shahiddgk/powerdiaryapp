@@ -49,25 +49,45 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 onClick: () {
                   Navigator.pushNamed(context, RouteManager.route_dashboard);
                 }),
-            MLMenuItem(
-                leading: Icon(Icons.business_center),
-                trailing: Icon(Icons.arrow_right),
-                content: Text('Category'),
-                onClick: () {},
-                subMenuItems: [
-                  MLSubmenu(
-                      onClick: () {
-                        Navigator.pushNamed(
-                            context, RouteManager.route_category_list);
-                      },
-                      submenuContent: Text('Category Listing')),
-                  MLSubmenu(
-                      onClick: () {
-                        Navigator.pushNamed(
-                            context, RouteManager.route_category_create);
-                      },
-                      submenuContent: Text('Create Category')),
-                ]),
+            globalSessionUser.roleId == 60
+                ? MLMenuItem(
+                    leading: Icon(Icons.business_center),
+                    trailing: Icon(Icons.arrow_right),
+                    content: Text('Category'),
+                    onClick: () {},
+                    subMenuItems: [
+                        MLSubmenu(
+                            onClick: () {
+                              Navigator.pushNamed(
+                                  context, RouteManager.route_category_list);
+                            },
+                            submenuContent: Text('Category Listing')),
+                        MLSubmenu(
+                            // onClick: () {
+                            //   Navigator.pushNamed(
+                            //       context, RouteManager.route_category_create);
+                            // },
+                            submenuContent: Text('Create Category')),
+                      ])
+                : MLMenuItem(
+                    leading: Icon(Icons.business_center),
+                    trailing: Icon(Icons.arrow_right),
+                    content: Text('Category'),
+                    onClick: () {},
+                    subMenuItems: [
+                        MLSubmenu(
+                            onClick: () {
+                              Navigator.pushNamed(
+                                  context, RouteManager.route_category_list);
+                            },
+                            submenuContent: Text('Category Listing')),
+                        MLSubmenu(
+                            onClick: () {
+                              Navigator.pushNamed(
+                                  context, RouteManager.route_category_create);
+                            },
+                            submenuContent: Text('Create Category')),
+                      ]),
             MLMenuItem(
                 leading: Icon(Icons.insert_chart),
                 trailing: Icon(Icons.arrow_right),

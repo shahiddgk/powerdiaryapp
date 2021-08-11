@@ -193,24 +193,34 @@ class _ViewBookingInvoiceState extends State<ViewBookingInvoice> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.end,
                                               children: [
-                                                bookingShowResponse
-                                                            .bookingDetails[0]
-                                                            .paymentMethod ==
-                                                        "cheque"
-                                                    ? Text(
-                                                        "Payment Method:",
-                                                        maxLines: 1,
-                                                        softWrap: false,
-                                                        overflow:
-                                                            TextOverflow.fade,
-                                                      )
-                                                    : Text(
-                                                        "Payment Method: ${bookingShowResponse.bookingDetails.length > 0 ? bookingShowResponse.bookingDetails[0].paymentMethod : ""} ",
-                                                        maxLines: 1,
-                                                        softWrap: false,
-                                                        overflow:
-                                                            TextOverflow.fade,
-                                                      ),
+                                                Text(
+                                                  "Payment Method:",
+                                                  maxLines: 1,
+                                                  softWrap: false,
+                                                  overflow: TextOverflow.fade,
+                                                ),
+                                                // : Text(
+                                                //     "Payment Method: ${bookingShowResponse.bookingDetails.length > 0 ? bookingShowResponse.bookingDetails[0].paymentMethod : ""} ",
+                                                //     maxLines: 1,
+                                                //     softWrap: false,
+                                                //     overflow:
+                                                //         TextOverflow.fade,
+                                                //   ),
+                                                Visibility(
+                                                    visible: bookingShowResponse
+                                                                .bookingDetails[
+                                                                    0]
+                                                                .paymentMethod !=
+                                                            "cheque"
+                                                        ? true
+                                                        : false,
+                                                    child: Text(
+                                                      "${bookingShowResponse.bookingDetails.length > 0 ? bookingShowResponse.bookingDetails[0].paymentMethod : ""} ",
+                                                      maxLines: 1,
+                                                      softWrap: false,
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                    )),
                                                 //if(bookingShowResponse.bookingDetails[0].paymentMethod == 4){
                                                 Visibility(
                                                   visible: bookingShowResponse

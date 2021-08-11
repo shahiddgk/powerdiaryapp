@@ -96,27 +96,33 @@ class _CategoryListingState extends State<CategoryListing> {
                                           // activeColor: Colors.white,
                                           //inactiveThumbColor: Colors.grey,
                                         )),
-                                        DataCell(Row(
-                                          children: [
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.edit,
+                                        DataCell(Visibility(
+                                          visible:
+                                              globalSessionUser.roleId == 60
+                                                  ? false
+                                                  : true,
+                                          child: Row(
+                                            children: [
+                                              IconButton(
+                                                icon: Icon(
+                                                  Icons.edit,
+                                                ),
+                                                onPressed: () {
+                                                  _updateCategory(
+                                                      categoryList[index]);
+                                                },
                                               ),
-                                              onPressed: () {
-                                                _updateCategory(
-                                                    categoryList[index]);
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.delete,
-                                              ),
-                                              onPressed: () {
-                                                _deleteCategory(
-                                                    categoryList[index]);
-                                              },
-                                            )
-                                          ],
+                                              IconButton(
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                ),
+                                                onPressed: () {
+                                                  _deleteCategory(
+                                                      categoryList[index]);
+                                                },
+                                              )
+                                            ],
+                                          ),
                                         ))
                                       ])),
                             )))),
