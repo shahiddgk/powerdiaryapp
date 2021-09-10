@@ -68,6 +68,7 @@ class BookingReadResponse {
     serviceIds = json['services_id'] == null ? "" : json['services_id'];
     serviceColor =
         json['services_colors'] == null ? "" : json['services_colors'];
+
     customerName = json['customer_name'] == null ? "" : json['customer_name'];
     userName = json['user_name'] == null ? "" : json['user_name'];
     totalPrice = json['total_price'] == null ? 0 : json['total_price'];
