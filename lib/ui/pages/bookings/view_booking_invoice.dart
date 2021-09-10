@@ -275,7 +275,7 @@ class _ViewBookingInvoiceState extends State<ViewBookingInvoice> {
                                           ),
                                           Html(
                                             data:
-                                                "${bookingShowResponse.companyDetails.footer}",
+                                                "${bookingShowResponse.companyDetails.footer} ",
                                             // softWrap: true,
                                           )
                                         ],
