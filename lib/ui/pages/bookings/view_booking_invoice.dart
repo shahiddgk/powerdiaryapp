@@ -43,7 +43,7 @@ class _ViewBookingInvoiceState extends State<ViewBookingInvoice> {
     HTTPManager()
         .showBookingInvoice(BookingShowRequest(
             companyId: "${widget.bookingReadResponse.companyId}",
-            invoidId: "${widget.bookingReadResponse.invoice}"))
+            bookingId: "${widget.bookingReadResponse.bookingId}"))
         .then((value) {
       setState(() {
         _isLoading = false;
@@ -245,9 +245,9 @@ class _ViewBookingInvoiceState extends State<ViewBookingInvoice> {
                                           (index) => DataRow(cells: <DataCell>[
                                             DataCell(Text("${index + 1}")),
                                             DataCell(Text(
-                                                "${bookingShowResponse.bookingDetails[index].serviceName}")),
+                                                "${bookingShowResponse.serviceData[index].serviceName}")),
                                             DataCell(Text(
-                                                "£${bookingShowResponse.bookingDetails[index].servicePrice}")),
+                                                "£${bookingShowResponse.serviceData[index].servicePrice}")),
                                           ]),
                                         ))),
                                 Align(
@@ -410,7 +410,7 @@ class _ViewBookingInvoiceState extends State<ViewBookingInvoice> {
     });
     HTTPManager()
         .sendInvoiceBooking(BookingSendInvoice(
-      invoice: bookingShowResponse.bookingDetails[0].invoice,
+      bookingId: '${bookingShowResponse.bookingDetails[0].bookingId}',
       companyId: '${bookingShowResponse.bookingDetails[0].companyId}',
     ))
         .then((value) {

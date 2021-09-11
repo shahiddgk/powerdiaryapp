@@ -116,13 +116,13 @@ class _ServicesListingState extends State<ServicesListing> {
                                                     serviceList[index]);
                                               },
                                             ),
-                                            IconButton(
-                                              icon: Icon(Icons.delete),
-                                              onPressed: () {
-                                                _deleteService(
-                                                    serviceList[index]);
-                                              },
-                                            )
+                                            // IconButton(
+                                            //   icon: Icon(Icons.delete),
+                                            //   onPressed: () {
+                                            //     _deleteService(
+                                            //         serviceList[index]);
+                                            //   },
+                                            // )
                                           ],
                                         ))
                                       ])),

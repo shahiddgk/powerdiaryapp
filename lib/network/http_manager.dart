@@ -8,6 +8,7 @@ import 'package:powerdiary/models/request/login_request.dart';
 import 'package:powerdiary/models/request/post_code_address_request.dart';
 import 'package:powerdiary/models/request/role_request.dart';
 import 'package:powerdiary/models/request/service_request.dart';
+import 'package:powerdiary/models/request/tax_info_request.dart';
 import 'package:powerdiary/models/request/user_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
 import 'package:powerdiary/models/response/booking_show_reponse.dart';
@@ -23,6 +24,7 @@ import 'package:powerdiary/models/response/role_permission_response.dart';
 import 'package:powerdiary/models/response/roles_list_response.dart';
 import 'package:powerdiary/models/response/service_list_response.dart';
 import 'package:powerdiary/models/response/session_user_model.dart';
+import 'package:powerdiary/models/response/tax_info_response.dart';
 import 'package:powerdiary/models/response/user_list_response.dart';
 import 'package:powerdiary/network/response_handler.dart';
 import 'package:powerdiary/models/response/post_code_address_response.dart';
@@ -240,6 +242,14 @@ class HTTPManager {
     final GeneralResponseModel response =
         await _handler.post(url, bookingSendInvoice.toJson(), false);
     return response;
+  }
+
+  Future<TaxListModel> getTaxListing(TaxListRequest taxListRequest) async {
+    final url = ApplicationURLs.API_TAX_INFO;
+    final GeneralResponseModel response =
+        await _handler.post(url, taxListRequest.toJson(), false);
+    TaxListModel taxListModel = TaxListModel.fromJson(response.data);
+    return taxListModel;
   }
 
   Future<UserListModel> getUserListing(UserListRequest userListRequest) async {

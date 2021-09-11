@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:powerdiary/models/response/customer_list_response.dart';
+import 'package:powerdiary/ui/pages/dashboard/dashboard.dart';
 
 class BookingReadResponse {
   String address;
@@ -9,7 +11,7 @@ class BookingReadResponse {
   String serviceColor;
   String customerName;
   String userName;
-  int totalPrice;
+  dynamic totalPrice;
   DateTime dueDate;
   String startTime;
   int endTime;
@@ -19,9 +21,10 @@ class BookingReadResponse {
   String chequenumber;
   int isDeleted;
   int companyId;
-  int id;
-  int invoice;
+  int bookingId;
+  dynamic invoice;
   int customerId;
+  int paymentDays;
 
   int userId;
   int roleId;
@@ -50,9 +53,10 @@ class BookingReadResponse {
       this.chequenumber,
       this.isDeleted,
       this.companyId,
-      this.id,
+      this.bookingId,
       this.invoice,
       this.customerId,
+      this.paymentDays,
       this.formatedStartTime,
       this.formatedEndTime,
       this.formatedDetails,
@@ -84,9 +88,10 @@ class BookingReadResponse {
     chequenumber = json['chequenumber'] == null ? "" : json['chequenumber'];
     isDeleted = json['is_deleted'] == null ? 0 : json['is_deleted'];
     companyId = json['company_id'] == null ? 0 : json['company_id'];
-    id = json['id'] == null ? 0 : json['id'];
+    bookingId = json['booking_id'] == null ? 0 : json['booking_id'];
     invoice = json['invoice'] == null ? 0 : json['invoice'];
     customerId = json['customer_id'] == null ? 0 : json['customer_id'];
+    paymentDays = json['paymentDays'] == null ? 0 : json['paymentDays'];
     userId = json['user_id'] == null ? 0 : json['user_id'];
     roleId = json['role_id'] == null ? 0 : json['role_id'];
     services_color =
@@ -122,9 +127,10 @@ class BookingReadResponse {
     data['chequenumber'] = this.chequenumber;
     data['is_deleted'] = this.isDeleted;
     data['company_id'] = this.companyId;
-    data['id'] = this.id;
+    data['booking_id'] = this.bookingId;
     data['invoice'] = this.invoice;
     data['customer_id'] = this.customerId;
+    data['paymentdays'] = this.paymentDays;
     data['user_id'] = this.userId;
     data['role_id'] = this.roleId;
     data['services_color'] = this.services_color;

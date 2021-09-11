@@ -130,30 +130,36 @@ class _EditCustomerState extends State<EditCustomer> {
                       ),
                       Visibility(
                         visible:
-                            _zipController == 0 || _zipController.text.isEmpty
+                            _addressListState == 0 || _addressListState.isEmpty
                                 ? false
                                 : true,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: PostCodeAddressDropdownFeildWidget(
-                            hintText: "Select Address",
-                            initialState: _addressListState,
-                            onValueChange: (val) {
-                              setState(() {
-                                _addressListState = val;
-                                _addressController.text = val;
-                              });
-                            },
-                            items: addrressList?.map((item) {
-                              return new DropdownMenuItem(
-                                child: new Text(
-                                    //item
-                                    "${item.line1},${item.line2},${item.line3}"),
-                                value:
-                                    //item
-                                    '${item.line1},${item.line2},${item.line3}',
-                              );
-                            })?.toList(),
+                        child: Visibility(
+                          visible:
+                              _zipController == 0 || _zipController.text.isEmpty
+                                  ? false
+                                  : true,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: PostCodeAddressDropdownFeildWidget(
+                              hintText: "Select Address",
+                              initialState: _addressListState,
+                              onValueChange: (val) {
+                                setState(() {
+                                  _addressListState = val;
+                                  _addressController.text = val;
+                                });
+                              },
+                              items: addrressList?.map((item) {
+                                return new DropdownMenuItem(
+                                  child: new Text(
+                                      //item
+                                      "${item.line1},${item.line2},${item.line3}"),
+                                  value:
+                                      //item
+                                      '${item.line1},${item.line2},${item.line3}',
+                                );
+                              })?.toList(),
+                            ),
                           ),
                         ),
                       ),
@@ -237,8 +243,8 @@ class _EditCustomerState extends State<EditCustomer> {
         email: _emailController.text,
         zip: _zipController.text,
         address: _addressController.text,
-        latitude: "${_pdLocation.latitude}",
-        longitude: "${_pdLocation.longitude}",
+        // latitude: "${_pdLocation.latitude}",
+        // longitude: "${_pdLocation.longitude}",
         referredBy: referredByDropDownValue,
         id: '${widget.customerReadResponse.id}',
         companyId: '${widget.customerReadResponse.companyId}',

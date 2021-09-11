@@ -249,8 +249,8 @@ class _CreateCustomerState extends State<CreateCustomer> {
               email: _emailController.text,
               zip: _zipController.text,
               address: _addressController.text,
-              latitude: "${_pdLocation.latitude}",
-              longitude: "${_pdLocation.longitude}",
+              // latitude: "${_pdLocation.latitude}",
+              // longitude: "${_pdLocation.longitude}",
               referredBy: referredByDropDownValue,
               companyId: '${globalSessionUser.companyId}'))
           .then((value) {

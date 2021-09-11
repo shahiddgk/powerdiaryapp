@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -5,9 +7,11 @@ import 'package:powerdiary/models/multiselect_model.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
 import 'package:powerdiary/models/request/customer_request.dart';
 import 'package:powerdiary/models/request/service_request.dart';
+import 'package:powerdiary/models/request/tax_info_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
 import 'package:powerdiary/models/response/customer_list_response.dart';
 import 'package:powerdiary/models/response/service_list_response.dart';
+import 'package:powerdiary/models/response/tax_info_response.dart';
 import 'package:powerdiary/network/http_manager.dart';
 import 'package:powerdiary/ui/widgets/widget_button.dart';
 import 'package:powerdiary/ui/widgets/widget_button_small.dart';
@@ -36,10 +40,11 @@ class _CreateBookingState extends State<CreateBooking> {
   TextEditingController _timeController = new TextEditingController();
   TextEditingController _finishtimeController = new TextEditingController();
   TextEditingController _priceController = new TextEditingController();
-
+  TextEditingController _numofDaysController = new TextEditingController();
   TextEditingController _commentsController = new TextEditingController();
 
   bool _isLoading = true;
+  bool checkedValue = true;
 
   List<CustomerReadResponse> customersList = [];
   CustomerReadResponse selectedCustomer;
@@ -49,6 +54,9 @@ class _CreateBookingState extends State<CreateBooking> {
   List<ServiceReadResponse> serviceList = [];
   List selectedServices = [];
   int servicesSum;
+
+  String api_response = "";
+  List<TaxInfoResponse> taxList = [];
 
   @override
   initState() {
@@ -73,7 +81,31 @@ class _CreateBookingState extends State<CreateBooking> {
       });
     }
     _getCustomerList();
+
+    _getTaxList();
+
     super.initState();
+  }
+
+  _getTaxList() {
+    HTTPManager()
+        .getTaxListing(TaxListRequest(companyId: globalSessionUser.companyId))
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+        taxList = value.values;
+        api_response = jsonEncode(value.values);
+      });
+    }).catchError((e) {
+      print(e);
+      showAlert(context, e.toString(), true, () {
+        setState(() {
+          _isLoading = false;
+        });
+      }, () {
+        _getTaxList();
+      });
+    });
   }
 
   _getCustomerList() {
@@ -206,8 +238,17 @@ class _CreateBookingState extends State<CreateBooking> {
                           services.add(vl.id);
                         }
                         setState(() {
-                          _priceController.text = totalPrice.toString();
-                          servicesSum = totalPrice;
+                          if (taxList[0].vat == 0) {
+                            _priceController.text =
+                                (totalPrice + taxList[0].amount).toString();
+                            servicesSum = totalPrice;
+                          } else {
+                            _priceController.text = (totalPrice +
+                                    totalPrice * taxList[0].amount / 100)
+                                .toStringAsFixed(2);
+                            servicesSum = totalPrice;
+                          }
+
                           selectedServices = services;
                         });
                       },
@@ -217,6 +258,26 @@ class _CreateBookingState extends State<CreateBooking> {
                       iconData: FontAwesomeIcons.poundSign,
                       controller: _priceController,
                       isNumber: true,
+                    ),
+                    CheckboxListTile(
+                      title: Text("Payment upon completion"),
+                      value: checkedValue,
+                      onChanged: (newValue) {
+                        setState(() {
+                          checkedValue = newValue;
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity
+                          .leading, //  <-- leading Checkbox
+                    ),
+                    Visibility(
+                      visible: checkedValue == true ? false : true,
+                      child: TextFeildWidget(
+                        hint: 'Enter number of Days',
+                        controller: _numofDaysController,
+                        optional: true,
+                        isNumber: true,
+                      ),
                     ),
                     TextFeildWidget(
                       hint: 'Comments',
@@ -281,6 +342,7 @@ class _CreateBookingState extends State<CreateBooking> {
         finishTime: _finishtimeController.text,
         comment: _commentsController.text,
         serviceId: selectedServices,
+        paymentDays: '${_numofDaysController.text}',
       ))
           .then((value) {
         setState(() {

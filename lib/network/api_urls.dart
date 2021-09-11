@@ -33,12 +33,13 @@ class ApplicationURLs {
 
   //Bookings
   static const API_BOOKING_LIST = BASE_URL + "service-bookings";
-  static const API_BOOKING_CREATE = BASE_URL + "service-bookings/create";
+  static const API_BOOKING_CREATE = BASE_URL + "service-bookings/store";
   static const API_BOOKING_UPDATE = BASE_URL + "service-bookings/update";
   static const API_BOOKING_SHOW = BASE_URL + "service-bookings/show";
   static const API_BOOKING_DELETE = BASE_URL + "service-bookings/delete";
   static const API_BOOKING_STATUS = BASE_URL + "booking-status";
   static const API_BOOKING_SEND_INVOICE = BASE_URL + "send-invoice";
+  static const API_TAX_INFO = BASE_URL + "tax-info";
 
   //User
   static const API_USER_LIST = BASE_URL + "users";

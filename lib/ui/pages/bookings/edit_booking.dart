@@ -33,11 +33,13 @@ class _EditBookingState extends State<EditBooking> {
   TextEditingController _timeController = new TextEditingController();
   TextEditingController _finishController = new TextEditingController();
   TextEditingController _priceController = new TextEditingController();
+  TextEditingController _numofDaysController = new TextEditingController();
 
   TextEditingController _commentsController = new TextEditingController();
   TextEditingController _selectedServicesController =
       new TextEditingController();
   bool _isLoading = true;
+  bool checkedValue = true;
 
   List<CustomerReadResponse> customersList = [];
   CustomerReadResponse selectedCustomer;
@@ -64,6 +66,20 @@ class _EditBookingState extends State<EditBooking> {
             .addAll(widget.bookingReadResponse.serviceIds.split(","));
         _selectedServicesController.text = widget.bookingReadResponse.services;
       }
+
+      if (widget.bookingReadResponse.comment != null) {
+        _numofDaysController.text = '${widget.bookingReadResponse.paymentDays}';
+        if (_numofDaysController.text == '0') {
+          setState(() {
+            checkedValue = true;
+          });
+        } else {
+          setState(() {
+            checkedValue = false;
+          });
+        }
+      }
+
       // if (widget.bookingReadResponse.customerId != null)
       //   selectedCustomer = "${widget.bookingReadResponse.customerId}";
     });
@@ -181,6 +197,26 @@ class _EditBookingState extends State<EditBooking> {
                     isNumber: true,
                     //readOnly: true,
                   ),
+                  CheckboxListTile(
+                    title: Text("Payment upon completion"),
+                    value: checkedValue,
+                    onChanged: (newValue) {
+                      setState(() {
+                        checkedValue = newValue;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity
+                        .leading, //  <-- leading Checkbox
+                  ),
+                  Visibility(
+                    visible: checkedValue == true ? false : true,
+                    child: TextFeildWidget(
+                      hint: 'Enter Number of Days',
+                      controller: _numofDaysController,
+                      optional: true,
+                      isNumber: true,
+                    ),
+                  ),
                   TextFeildWidget(
                     hint: 'Comments',
                     controller: _commentsController,
@@ -222,7 +258,7 @@ class _EditBookingState extends State<EditBooking> {
       });
       HTTPManager()
           .updateBooking(BookingUpdateRequest(
-        invoice: '${widget.bookingReadResponse.invoice}',
+        bookingId: '${widget.bookingReadResponse.bookingId}',
         companyId: "${globalSessionUser.companyId}",
         userId: "${globalSessionUser.id}",
         customerId: "${selectedCustomer.id}",
@@ -232,6 +268,7 @@ class _EditBookingState extends State<EditBooking> {
         finishTime: _finishController.text,
         comment: _commentsController.text,
         serviceId: selectedServices,
+        paymentDays: _numofDaysController.text,
       ))
           .then((value) {
         setState(() {

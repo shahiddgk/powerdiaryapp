@@ -401,7 +401,7 @@ class _dashboardState extends State<dashboard> {
       HTTPManager()
           .deleteBooking(BookingShowRequest(
         companyId: '${bookingReadResponse.companyId}',
-        invoidId: '${bookingReadResponse.invoice}',
+        bookingId: '${bookingReadResponse.bookingId}',
       ))
           .then((value) {
         setState(() {

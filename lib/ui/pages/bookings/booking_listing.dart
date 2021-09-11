@@ -296,7 +296,7 @@ class _BookingListingState extends State<BookingListing> {
       bookingReadResponse.serviceStatus = 3;
     });
     _bookingStatus(
-      '${bookingReadResponse.invoice}',
+      '${bookingReadResponse.bookingId}',
       '${bookingReadResponse.companyId}',
       bookingReadResponse.paymentMethod,
       bookingReadResponse.chequenumber,
@@ -366,7 +366,7 @@ class _BookingListingState extends State<BookingListing> {
       HTTPManager()
           .deleteBooking(BookingShowRequest(
         companyId: '${bookingReadResponse.companyId}',
-        invoidId: '${bookingReadResponse.invoice}',
+        bookingId: '${bookingReadResponse.bookingId}',
       ))
           .then((value) {
         setState(() {
@@ -388,14 +388,14 @@ class _BookingListingState extends State<BookingListing> {
     });
   }
 
-  _bookingStatus(String invoice, String companyId, String paymentInstrument,
+  _bookingStatus(String bookingId, String companyId, String paymentInstrument,
       String paymentInstrumentNumber, int serviceStatus) {
     setState(() {
       _isLoading = true;
     });
     HTTPManager()
         .statusBooking(BookingStatusRequest(
-      invoice: invoice,
+      bookingId: bookingId,
       companyId: companyId,
       serviceStatus: "$serviceStatus",
       paymentMethod: dropdownValue,
@@ -416,7 +416,7 @@ class _BookingListingState extends State<BookingListing> {
         });
       }, () {
         _bookingStatus(
-          invoice,
+          bookingId,
           companyId,
           paymentInstrument,
           paymentInstrumentNumber,

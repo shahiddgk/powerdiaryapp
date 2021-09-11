@@ -107,15 +107,15 @@ class _CategoryListingState extends State<CategoryListing> {
                                                     categoryList[index]);
                                               },
                                             ),
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.delete,
-                                              ),
-                                              onPressed: () {
-                                                _deleteCategory(
-                                                    categoryList[index]);
-                                              },
-                                            )
+                                            // IconButton(
+                                            //   icon: Icon(
+                                            //     Icons.delete,
+                                            //   ),
+                                            //   onPressed: () {
+                                            //     _deleteCategory(
+                                            //         categoryList[index]);
+                                            //   },
+                                            // )
                                           ],
                                         ))
                                       ])),

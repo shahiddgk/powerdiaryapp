@@ -24,8 +24,8 @@ class CustomerCreateRequest {
   String address;
   String referredBy;
   String companyId;
-  String latitude;
-  String longitude;
+  // String latitude;
+  // String longitude;
 
   CustomerCreateRequest(
       {this.firstName,
@@ -35,8 +35,8 @@ class CustomerCreateRequest {
       this.email,
       this.zip,
       this.address,
-      this.latitude,
-      this.longitude,
+      // this.latitude,
+      // this.longitude,
       this.referredBy,
       this.companyId});
 
@@ -48,8 +48,8 @@ class CustomerCreateRequest {
     email = json['email'];
     zip = json['zip'];
     address = json['address'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    // latitude = json['latitude'];
+    // longitude = json['longitude'];
     referredBy = json['referred_by'];
     companyId = json['company_id'];
   }
@@ -63,8 +63,8 @@ class CustomerCreateRequest {
     data['email'] = this.email;
     data['zip'] = this.zip;
     data['address'] = this.address;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
+    // data['latitude'] = this.latitude;
+    // data['longitude'] = this.longitude;
     data['referred_by'] = this.referredBy;
     data['company_id'] = this.companyId;
     return data;
@@ -78,8 +78,8 @@ class CustomerUpdateRequest {
   String secondaryPhone;
   String email;
   String zip;
-  String latitude;
-  String longitude;
+  // String latitude;
+  // String longitude;
   String address;
   String referredBy;
   String companyId;
@@ -93,8 +93,8 @@ class CustomerUpdateRequest {
       this.email,
       this.zip,
       this.address,
-      this.latitude,
-      this.longitude,
+      // this.latitude,
+      // this.longitude,
       this.referredBy,
       this.companyId,
       this.id});
@@ -107,8 +107,8 @@ class CustomerUpdateRequest {
     email = json['email'];
     zip = json['zip'];
     address = json['address'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    // latitude = json['latitude'];
+    // longitude = json['longitude'];
     referredBy = json['referred_by'];
     companyId = json['company_id'];
     id = json['id'];
@@ -124,8 +124,8 @@ class CustomerUpdateRequest {
     data['email'] = this.email;
     data['zip'] = this.zip;
     data['address'] = this.address;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
+    // data['latitude'] = this.latitude;
+    // data['longitude'] = this.longitude;
     data['referred_by'] = this.referredBy;
     data['company_id'] = this.companyId;
     return data;

@@ -101,13 +101,13 @@ class _CustomersListingState extends State<CustomersListing> {
                                                     customerList[index]);
                                               },
                                             ),
-                                            IconButton(
-                                              icon: Icon(Icons.delete),
-                                              onPressed: () {
-                                                _deleteCustomer(
-                                                    customerList[index]);
-                                              },
-                                            )
+                                            // IconButton(
+                                            //   icon: Icon(Icons.delete),
+                                            //   onPressed: () {
+                                            //     _deleteCustomer(
+                                            //         customerList[index]);
+                                            //   },
+                                            // )
                                           ],
                                         ))
                                       ])),
