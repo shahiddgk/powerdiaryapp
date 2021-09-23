@@ -81,13 +81,13 @@ class _ExpenseTypeState extends State<ExpenseType> {
                                                 expensetypeList[index]);
                                           },
                                         ),
-                                        IconButton(
-                                          icon: Icon(Icons.delete),
-                                          onPressed: () {
-                                            _deleteExpenseType(
-                                                expensetypeList[index]);
-                                          },
-                                        )
+                                        // IconButton(
+                                        //   icon: Icon(Icons.delete),
+                                        //   onPressed: () {
+                                        //     _deleteExpenseType(
+                                        //         expensetypeList[index]);
+                                        //   },
+                                        // )
                                       ],
                                     ))
                                   ]))),

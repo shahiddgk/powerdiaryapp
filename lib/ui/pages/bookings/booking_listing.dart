@@ -164,7 +164,7 @@ class _BookingListingState extends State<BookingListing> {
                                             onChanged: (value) {
                                               if (value != 3) {
                                                 _updateBookingStatus(
-                                                    bookingList[index]);
+                                                    bookingList[index], value);
                                               }
                                             },
                                           ),
@@ -267,7 +267,7 @@ class _BookingListingState extends State<BookingListing> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
-                    _updateBookingStatus(bookingReadResponse);
+                    _updateBookingStatus(bookingReadResponse, 3);
                     _toggle();
                     Navigator.of(context).pop();
                   },
@@ -291,9 +291,9 @@ class _BookingListingState extends State<BookingListing> {
     );
   }
 
-  _updateBookingStatus(BookingReadResponse bookingReadResponse) {
+  _updateBookingStatus(BookingReadResponse bookingReadResponse, int value) {
     setState(() {
-      bookingReadResponse.serviceStatus = 3;
+      bookingReadResponse.serviceStatus = value;
     });
     _bookingStatus(
       '${bookingReadResponse.bookingId}',
@@ -392,6 +392,8 @@ class _BookingListingState extends State<BookingListing> {
       String paymentInstrumentNumber, int serviceStatus) {
     setState(() {
       _isLoading = true;
+
+      print(serviceStatus);
     });
     HTTPManager()
         .statusBooking(BookingStatusRequest(

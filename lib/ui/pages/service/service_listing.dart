@@ -69,9 +69,9 @@ class _ServicesListingState extends State<ServicesListing> {
                                 DataColumn(label: Text("Price")),
                                 DataColumn(label: Text("Service Color")),
                                 DataColumn(label: Text("Customer Message")),
-                                DataColumn(label: Text("isActive")),
                                 DataColumn(label: Text("Created At")),
                                 DataColumn(label: Text("Updated At")),
+                                DataColumn(label: Text("Status")),
                                 DataColumn(label: Text("Actions")),
                               ],
                               rows: List.generate(
@@ -89,6 +89,10 @@ class _ServicesListingState extends State<ServicesListing> {
                                             ? " "
                                             : serviceList[index]
                                                 .customerMessage)),
+                                        DataCell(Text(DateFormat.yMMMd().format(
+                                            serviceList[index].createdAt))),
+                                        DataCell(Text(DateFormat.yMMMd().format(
+                                            serviceList[index].updatedAt))),
                                         DataCell(Switch(
                                           value: serviceList[index].isActive,
                                           onChanged: (value) {
@@ -103,10 +107,6 @@ class _ServicesListingState extends State<ServicesListing> {
                                           activeColor: Colors.white,
                                           inactiveThumbColor: Colors.grey,
                                         )),
-                                        DataCell(Text(DateFormat.yMMMd().format(
-                                            serviceList[index].createdAt))),
-                                        DataCell(Text(DateFormat.yMMMd().format(
-                                            serviceList[index].updatedAt))),
                                         DataCell(Row(
                                           children: [
                                             IconButton(

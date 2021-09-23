@@ -1,3 +1,5 @@
+import 'package:powerdiary/ui/pages/dashboard/dashboard.dart';
+
 class ExpenseListRequest {
   int companyId;
 
@@ -19,6 +21,7 @@ class ExpenseCreateRequest {
   String expenseType;
   String payable;
   String amount;
+  String expenseMethod;
   //String description;
 
   ExpenseCreateRequest({
@@ -26,6 +29,7 @@ class ExpenseCreateRequest {
     this.expenseType,
     this.payable,
     this.amount,
+    this.expenseMethod,
     // this.description
   });
 
@@ -34,6 +38,7 @@ class ExpenseCreateRequest {
     expenseType = json['expense_type'];
     payable = json['payable'];
     amount = json['amount'];
+    expenseMethod = json['payment_method'];
     // description = json['description'];
   }
 
@@ -43,6 +48,7 @@ class ExpenseCreateRequest {
     data['expense_type'] = this.expenseType;
     data['payable'] = this.payable;
     data['amount'] = this.amount;
+    data['payment_method'] = this.expenseMethod;
     //data['description'] = this.description;
     return data;
   }
@@ -54,6 +60,7 @@ class ExpenseUpdateRequest {
   String expenseType;
   String payable;
   String amount;
+  String paymentMethod;
   //String description;
 
   ExpenseUpdateRequest({
@@ -62,6 +69,7 @@ class ExpenseUpdateRequest {
     this.expenseType,
     this.payable,
     this.amount,
+    this.paymentMethod,
     //this.description
   });
 
@@ -71,6 +79,7 @@ class ExpenseUpdateRequest {
     expenseType = json['expense_type'];
     payable = json['payable'];
     amount = json['amount'];
+    paymentMethod = json['payment_method'];
     // description = json['description'];
   }
 
@@ -81,14 +90,15 @@ class ExpenseUpdateRequest {
     data['expense_type'] = this.expenseType;
     data['payable'] = this.payable;
     data['amount'] = this.amount;
+    data['payment_method'] = this.paymentMethod;
     //data['description'] = this.description;
     return data;
   }
 }
 
 class ExpenseDeleteRequest {
-  int companyId;
-  int id;
+  dynamic companyId;
+  dynamic id;
 
   ExpenseDeleteRequest({this.companyId, this.id});
 

@@ -65,6 +65,8 @@ class BookingDetails {
   dynamic totalPrice;
   dynamic paymentMethod;
   dynamic chequenumber;
+  dynamic paymentDays;
+  dynamic vat;
 
   BookingDetails({
     this.bookingId,
@@ -75,6 +77,8 @@ class BookingDetails {
     this.totalPrice,
     this.paymentMethod,
     this.chequenumber,
+    this.paymentDays,
+    this.vat,
   });
 
   BookingDetails.fromJson(Map<String, dynamic> json) {
@@ -86,6 +90,8 @@ class BookingDetails {
     totalPrice = json['total_price'];
     paymentMethod = json['payment_method'];
     chequenumber = json['chequenumber'];
+    paymentDays = json['payment_days'];
+    vat = json['vat'];
   }
 
   Map<String, dynamic> toJson() {
@@ -98,6 +104,8 @@ class BookingDetails {
     data['total_price'] = this.totalPrice;
     data['payment_method'] = this.paymentMethod;
     data['chequenumber'] = this.chequenumber;
+    data['payment_days'] = this.paymentDays;
+    data['vat'] = this.vat;
     return data;
   }
 }

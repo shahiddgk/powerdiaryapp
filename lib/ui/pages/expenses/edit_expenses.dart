@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:powerdiary/models/request/expense_request.dart';
@@ -29,6 +30,7 @@ class _EditExpensesState extends State<EditExpenses> {
 
   List<ExpenseTypeReadResponse> expenseTypeList = [];
   String _selectedExpenseType;
+  int _selectedExpenseMethod;
   bool _isLoading = true;
 
   @override
@@ -36,9 +38,10 @@ class _EditExpensesState extends State<EditExpenses> {
     setState(() {
       _payableController.text =
           DateFormat('yyyy-MM-dd').format(widget.expenseReadResponse.payable);
-      _amountController.text = widget.expenseReadResponse.amount;
+      _amountController.text = "${widget.expenseReadResponse.amount}";
       // _descriptionController.text = widget.expenseReadResponse.description;
       _selectedExpenseType = '${widget.expenseReadResponse.expenseType}';
+      _selectedExpenseMethod = widget.expenseReadResponse.paymentMethod;
     });
     _getExpenseTypeList();
     super.initState();
@@ -77,6 +80,45 @@ class _EditExpensesState extends State<EditExpenses> {
                         );
                       })?.toList(),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: Card(
+                        child: Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black38)),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: DropdownButton(
+                              isExpanded: true,
+                              value: _selectedExpenseMethod,
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text("Cash"),
+                                  value: 1,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Card"),
+                                  value: 2,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Bank Transfer"),
+                                  value: 3,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Check"),
+                                  value: 4,
+                                ),
+                              ],
+                              onChanged: (value) {
+                                _selectedExpenseMethod = value;
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     CustomDatePickerWidget(
                       hint: 'Payable',
                       controller: _payableController,
@@ -84,6 +126,7 @@ class _EditExpensesState extends State<EditExpenses> {
                     TextFeildWidget(
                       hint: 'Amount',
                       controller: _amountController,
+                      isNumber: true,
                     ),
                     // TextFeildWidget(
                     //   hint: 'Expense Description',
@@ -154,6 +197,8 @@ class _EditExpensesState extends State<EditExpenses> {
         expenseType: _selectedExpenseType,
         payable: _payableController.text,
         amount: _amountController.text,
+        paymentMethod: '${_selectedExpenseMethod}',
+
         //        description: _descriptionController.text
       ))
           .then((value) {

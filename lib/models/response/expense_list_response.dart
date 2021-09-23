@@ -1,33 +1,36 @@
 class ExpenseReadResponse {
-  int id;
-  String expenseType;
+  dynamic id;
+  dynamic expenseType;
   DateTime payable;
-  String amount;
+  dynamic amount;
   String description;
-  int companyId;
+  dynamic companyId;
   int isActive;
   int isDeleted;
   DateTime createdAt;
   DateTime updatedAt;
   String type;
+  int paymentMethod;
 
-  ExpenseReadResponse({this.id,
-    this.expenseType,
-    this.payable,
-    this.amount,
-    this.description,
-    this.companyId,
-    this.isActive,
-    this.isDeleted,
-    this.createdAt,
-    this.updatedAt,
-    this.type});
+  ExpenseReadResponse(
+      {this.id,
+      this.expenseType,
+      this.payable,
+      this.amount,
+      this.description,
+      this.companyId,
+      this.isActive,
+      this.isDeleted,
+      this.createdAt,
+      this.updatedAt,
+      this.type,
+      this.paymentMethod});
 
   ExpenseReadResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'] == null ? 0 : json['id'];
     expenseType = json['expense_type'] == null ? "" : json['expense_type'];
     payable = DateTime.parse(json['payable']) == null
-        ?  DateTime.now()
+        ? DateTime.now()
         : DateTime.parse(json['payable']);
     amount = json['amount'] == null ? "" : json['amount'];
     description = json['description'] == null ? "" : json['description'];
@@ -35,12 +38,13 @@ class ExpenseReadResponse {
     isActive = json['is_active'] == null ? 0 : json['is_active'];
     isDeleted = json['is_deleted'] == null ? 0 : json['is_deleted'];
     createdAt = DateTime.parse(json['created_at']) == null
-        ?  DateTime.now()
+        ? DateTime.now()
         : DateTime.parse(json['created_at']);
     updatedAt = DateTime.parse(json['updated_at']) == null
-        ?  DateTime.now()
+        ? DateTime.now()
         : DateTime.parse(json['updated_at']);
     type = json['type'] == null ? "" : json['type'];
+    paymentMethod = json['payment_method'] == null ? 0 : json['payment_method'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +60,7 @@ class ExpenseReadResponse {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['type'] = this.type;
+    data['payment_method'] = this.paymentMethod;
     return data;
   }
 }

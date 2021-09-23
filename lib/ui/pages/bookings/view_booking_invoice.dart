@@ -223,6 +223,8 @@ class _ViewBookingInvoiceState extends State<ViewBookingInvoice> {
                                                       "Cheque#:${bookingShowResponse.bookingDetails.length > 0 ? bookingShowResponse.bookingDetails[0].chequenumber : ""}"),
                                                 ),
                                                 // }
+                                                Text(
+                                                    "Payment Days: ${bookingShowResponse.bookingDetails[0].paymentDays}")
                                               ],
                                             ),
                                           ),
@@ -253,12 +255,32 @@ class _ViewBookingInvoiceState extends State<ViewBookingInvoice> {
                                 Align(
                                     alignment: Alignment.centerRight,
                                     child: Text(
-                                      "Total:£ ${bookingShowResponse.bookingDetails.length > 0 ? bookingShowResponse.bookingDetails[0].totalPrice : ""}",
+                                      "Sub Total:£ ${bookingShowResponse.bookingDetails.length > 0 ? bookingShowResponse.bookingDetails[0].totalPrice : ""}",
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 28.0,
+                                          fontSize: 15.0,
                                           fontWeight: FontWeight.w500),
                                     )),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    "Vat:£ ${bookingShowResponse.bookingDetails[0].vat}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    "Grand Total:£ ${bookingShowResponse.bookingDetails[0].totalPrice + bookingShowResponse.bookingDetails[0].vat}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Padding(
@@ -411,7 +433,7 @@ class _ViewBookingInvoiceState extends State<ViewBookingInvoice> {
     HTTPManager()
         .sendInvoiceBooking(BookingSendInvoice(
       bookingId: '${bookingShowResponse.bookingDetails[0].bookingId}',
-      companyId: '${bookingShowResponse.bookingDetails[0].companyId}',
+      companyId: bookingShowResponse.bookingDetails[0].companyId,
     ))
         .then((value) {
       setState(() {

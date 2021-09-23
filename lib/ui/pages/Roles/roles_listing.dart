@@ -101,12 +101,12 @@ class _RolesListingState extends State<RolesListing> {
                                               _updateRole(roleList[index]);
                                             },
                                           ),
-                                          IconButton(
-                                            icon: Icon(Icons.delete),
-                                            onPressed: () {
-                                              _deleteRole(roleList[index]);
-                                            },
-                                          )
+                                          // IconButton(
+                                          //   icon: Icon(Icons.delete),
+                                          //   onPressed: () {
+                                          //     _deleteRole(roleList[index]);
+                                          //   },
+                                          // )
                                         ],
                                       ))
                                     ])),

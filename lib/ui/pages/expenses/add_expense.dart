@@ -24,7 +24,10 @@ class _AddExpensesState extends State<AddExpenses> {
 
   List<ExpenseTypeReadResponse> expenseTypeList = [];
   String _selectedExpenseType;
+  int _selectedExpenseMethod = 1;
   bool _isLoading = true;
+
+  List<String> expenseMethod = ['Cash', 'Card', 'Bank Transfer', 'cheque'];
 
   @override
   void initState() {
@@ -85,6 +88,45 @@ class _AddExpensesState extends State<AddExpenses> {
                         );
                       })?.toList(),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: Card(
+                        child: Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black38)),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: DropdownButton(
+                              isExpanded: true,
+                              value: _selectedExpenseMethod,
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text("Cash"),
+                                  value: 1,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Card"),
+                                  value: 2,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Bank Transfer"),
+                                  value: 3,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Check"),
+                                  value: 4,
+                                ),
+                              ],
+                              onChanged: (value) {
+                                _selectedExpenseMethod = value;
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     CustomDatePickerWidget(
                       hint: 'Payable',
                       controller: _payableController,
@@ -93,6 +135,7 @@ class _AddExpensesState extends State<AddExpenses> {
                       iconData: FontAwesomeIcons.poundSign,
                       hint: 'Amount',
                       controller: _amountController,
+                      isNumber: true,
                     ),
                     // TextFeildWidget(
                     //   hint: 'Expense Description',
@@ -140,6 +183,8 @@ class _AddExpensesState extends State<AddExpenses> {
         expenseType: _selectedExpenseType,
         payable: _payableController.text,
         amount: _amountController.text,
+        expenseMethod: '${_selectedExpenseMethod}',
+
         //        description: _descriptionController.text
       ))
           .then((value) {

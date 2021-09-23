@@ -116,12 +116,12 @@ class _UserListingState extends State<UserListing> {
                                             _updateUser(userList[index]);
                                           },
                                         ),
-                                        IconButton(
-                                          icon: Icon(Icons.delete),
-                                          onPressed: () {
-                                            _deleteUser(userList[index]);
-                                          },
-                                        )
+                                        // IconButton(
+                                        //   icon: Icon(Icons.delete),
+                                        //   onPressed: () {
+                                        //     _deleteUser(userList[index]);
+                                        //   },
+                                        // )
                                       ],
                                     ))
                                   ])),

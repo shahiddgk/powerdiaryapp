@@ -268,7 +268,9 @@ class _EditBookingState extends State<EditBooking> {
         finishTime: _finishController.text,
         comment: _commentsController.text,
         serviceId: selectedServices,
-        paymentDays: _numofDaysController.text,
+        paymentDays: _numofDaysController.text.isEmpty
+            ? '${0}'
+            : '${_numofDaysController.text}',
       ))
           .then((value) {
         setState(() {

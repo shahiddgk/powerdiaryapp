@@ -152,8 +152,8 @@ class BookingShowRequest {
 }
 
 class BookingSendInvoice {
-  String bookingId;
-  String companyId;
+  dynamic bookingId;
+  dynamic companyId;
 
   BookingSendInvoice({
     this.bookingId,

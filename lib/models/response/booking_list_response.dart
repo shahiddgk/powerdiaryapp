@@ -20,10 +20,10 @@ class BookingReadResponse {
   String paymentMethod;
   String chequenumber;
   int isDeleted;
-  int companyId;
+  dynamic companyId;
   int bookingId;
   dynamic invoice;
-  int customerId;
+  dynamic customerId;
   int paymentDays;
 
   int userId;

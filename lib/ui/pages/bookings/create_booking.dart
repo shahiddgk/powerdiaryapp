@@ -238,17 +238,8 @@ class _CreateBookingState extends State<CreateBooking> {
                           services.add(vl.id);
                         }
                         setState(() {
-                          if (taxList[0].vat == 0) {
-                            _priceController.text =
-                                (totalPrice + taxList[0].amount).toString();
-                            servicesSum = totalPrice;
-                          } else {
-                            _priceController.text = (totalPrice +
-                                    totalPrice * taxList[0].amount / 100)
-                                .toStringAsFixed(2);
-                            servicesSum = totalPrice;
-                          }
-
+                          _priceController.text = totalPrice.toString();
+                          servicesSum = totalPrice;
                           selectedServices = services;
                         });
                       },
@@ -342,7 +333,9 @@ class _CreateBookingState extends State<CreateBooking> {
         finishTime: _finishtimeController.text,
         comment: _commentsController.text,
         serviceId: selectedServices,
-        paymentDays: '${_numofDaysController.text}',
+        paymentDays: _numofDaysController.text.isEmpty
+            ? '${0}'
+            : '${_numofDaysController.text}',
       ))
           .then((value) {
         setState(() {
