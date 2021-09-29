@@ -32,6 +32,7 @@ class _PostCodeAddressDropdownFeildWidgetState
                   child: ButtonTheme(
                     alignedDropdown: true,
                     child: DropdownButton<String>(
+                      isExpanded: true,
                       value: widget.initialState,
                       iconSize: 30,
                       icon: (null),

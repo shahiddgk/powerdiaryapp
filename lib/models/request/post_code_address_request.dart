@@ -4,7 +4,11 @@ class PostCodeAddressListRequest {
 
   PostCodeAddressListRequest(this.postcode, this.apiKey);
 
-  // PostCodeAddressListRequest.fromJson(Map<String, dynamic> json) {
+  // _zipController.text.split(" ").join("")
+  // this.postcode,
+  //_zipController.text.split(" ").join(""),
+
+// PostCodeAddressListRequest.fromJson(Map<String, dynamic> json) {
   //   postcode = json['postcode'];
   //   apiKey = json['api_key'];
   // }

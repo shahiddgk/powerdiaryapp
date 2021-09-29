@@ -63,11 +63,11 @@ class _EditCustomerState extends State<EditCustomer> {
       _addressController.text = widget.customerReadResponse.address;
       referredByDropDownValue = widget.customerReadResponse.referredBy;
       _pdLocation = new PdLocation(
-          latitude: widget.customerReadResponse.latitude,
-          longitude: widget.customerReadResponse.longitude,
+          latitude: double.parse(widget.customerReadResponse.latitude),
+          longitude: double.parse(widget.customerReadResponse.longitude),
           address: widget.customerReadResponse.address);
-      _getAddressesList();
       _addressListState = widget.customerReadResponse.address;
+      _getAddressesList();
       _isLoading = false;
     });
     super.initState();
@@ -129,15 +129,15 @@ class _EditCustomerState extends State<EditCustomer> {
                         onClick: _getAddressesList,
                       ),
                       Visibility(
-                        visible:
-                            _addressListState == 0 || _addressListState.isEmpty
-                                ? false
-                                : true,
+                        // visible:
+                        //     _addressListState == 0 || _addressListState.isEmpty
+                        //         ? false
+                        //         : true,
                         child: Visibility(
-                          visible:
-                              _zipController == 0 || _zipController.text.isEmpty
-                                  ? false
-                                  : true,
+                          // visible:
+                          //     _zipController == 0 || _zipController.text.isEmpty
+                          //         ? false
+                          //         : true,
                           child: SingleChildScrollView(
                             scrollDirection: Axis.vertical,
                             child: PostCodeAddressDropdownFeildWidget(
@@ -153,10 +153,10 @@ class _EditCustomerState extends State<EditCustomer> {
                                 return new DropdownMenuItem(
                                   child: new Text(
                                       //item
-                                      "${item.line1},${item.line2},${item.line3}"),
+                                      "${item.line1},${item.line2},${item.line3},${item.district},${item.postcode}"),
                                   value:
                                       //item
-                                      '${item.line1},${item.line2},${item.line3}',
+                                      '${item.line1},${item.line2},${item.line3},${item.district},${item.postcode}',
                                 );
                               })?.toList(),
                             ),
@@ -243,8 +243,8 @@ class _EditCustomerState extends State<EditCustomer> {
         email: _emailController.text,
         zip: _zipController.text,
         address: _addressController.text,
-        // latitude: "${_pdLocation.latitude}",
-        // longitude: "${_pdLocation.longitude}",
+        latitude: '${_pdLocation.latitude}',
+        longitude: '${_pdLocation.longitude}',
         referredBy: referredByDropDownValue,
         id: '${widget.customerReadResponse.id}',
         companyId: '${widget.customerReadResponse.companyId}',
@@ -270,11 +270,12 @@ class _EditCustomerState extends State<EditCustomer> {
   }
 
   _getAddressesList() {
-    if (_zipController.text == 0 || _zipController.text.isEmpty) {
+    if (_zipController.text.isEmpty) {
+      return Text("Enter Post Code");
     } else {
       HTTPManager()
-          .getPostCodeAddressListing(PostCodeAddressListRequest(
-              _zipController.text.split(" ").join(""), api_key))
+          .getPostCodeAddressListing(
+              PostCodeAddressListRequest(_zipController.text, api_key))
           .then((value) {
         setState(() {
           _isLoading = false;

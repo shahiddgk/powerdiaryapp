@@ -335,8 +335,8 @@ class _dashboardState extends State<dashboard> {
         await MapLauncher.showDirections(
           mapType: MapType.apple,
           destination: Coords(
-            bookingReadResponse.customerReadResponse.latitude,
-            bookingReadResponse.customerReadResponse.longitude,
+            double.parse(bookingReadResponse.customerReadResponse.latitude),
+            double.parse(bookingReadResponse.customerReadResponse.longitude),
           ),
           destinationTitle: bookingReadResponse.customerReadResponse.address,
           origin: Coords(_pdLocation.latitude, _pdLocation.longitude),
@@ -351,8 +351,8 @@ class _dashboardState extends State<dashboard> {
         await MapLauncher.showDirections(
           mapType: MapType.apple,
           destination: Coords(
-            bookingReadResponse.customerReadResponse.latitude,
-            bookingReadResponse.customerReadResponse.longitude,
+            double.parse(bookingReadResponse.customerReadResponse.latitude),
+            double.parse(bookingReadResponse.customerReadResponse.longitude),
           ),
           destinationTitle: bookingReadResponse.customerReadResponse.address,
           origin: Coords(_pdLocation.latitude, _pdLocation.longitude),

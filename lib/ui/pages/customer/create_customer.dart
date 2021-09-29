@@ -93,7 +93,6 @@ class _CreateCustomerState extends State<CreateCustomer> {
                       controller: _lastNameController,
                     ),
                     TextFeildNumberWidget(
-                      optional: true,
                       hint: "Mobile Number",
                       controller: _primaryPhoneController,
                     ),
@@ -132,9 +131,9 @@ class _CreateCustomerState extends State<CreateCustomer> {
                           items: addrressList?.map((item) {
                             return new DropdownMenuItem(
                               child: new Text(
-                                  "${item.line1},${item.line2},${item.line3}"),
+                                  "${item.line1},${item.line2},${item.line3},${item.district},${item.postcode}"),
                               value:
-                                  '${item.line1},${item.line2},${item.line3}',
+                                  '${item.line1},${item.line2},${item.line3},${item.district},${item.postcode}',
                             );
                           })?.toList(),
                         ),
@@ -211,8 +210,8 @@ class _CreateCustomerState extends State<CreateCustomer> {
     if (_zipController.text == 0 || _zipController.text.isEmpty) {
     } else {
       HTTPManager()
-          .getPostCodeAddressListing(PostCodeAddressListRequest(
-              _zipController.text.split(" ").join(""), api_key))
+          .getPostCodeAddressListing(
+              PostCodeAddressListRequest(_zipController.text, api_key))
           .then((value) {
         setState(() {
           _isLoading = false;
@@ -249,8 +248,8 @@ class _CreateCustomerState extends State<CreateCustomer> {
               email: _emailController.text,
               zip: _zipController.text,
               address: _addressController.text,
-              // latitude: "${_pdLocation.latitude}",
-              // longitude: "${_pdLocation.longitude}",
+              latitude: '${_pdLocation.latitude}',
+              longitude: '${_pdLocation.longitude}',
               referredBy: referredByDropDownValue,
               companyId: '${globalSessionUser.companyId}'))
           .then((value) {

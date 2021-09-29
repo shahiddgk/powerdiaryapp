@@ -311,8 +311,8 @@ class _BookingListingState extends State<BookingListing> {
         await MapLauncher.showDirections(
           mapType: MapType.apple,
           destination: Coords(
-            bookingReadResponse.customerReadResponse.latitude,
-            bookingReadResponse.customerReadResponse.longitude,
+            double.parse(bookingReadResponse.customerReadResponse.latitude),
+            double.parse(bookingReadResponse.customerReadResponse.longitude),
           ),
           destinationTitle: "Some Destination",
           origin: Coords(_pdLocation.latitude, _pdLocation.longitude),
@@ -327,8 +327,8 @@ class _BookingListingState extends State<BookingListing> {
         await MapLauncher.showDirections(
           mapType: MapType.apple,
           destination: Coords(
-            bookingReadResponse.customerReadResponse.latitude,
-            bookingReadResponse.customerReadResponse.longitude,
+            double.parse(bookingReadResponse.customerReadResponse.latitude),
+            double.parse(bookingReadResponse.customerReadResponse.longitude),
           ),
           //destinationTitle: "Some Destination",
           origin: Coords(_pdLocation.latitude, _pdLocation.longitude),

@@ -7,8 +7,8 @@ class CustomerReadResponse {
   String email;
   String zip;
   String address;
-  dynamic longitude;
-  dynamic latitude;
+  String longitude;
+  String latitude;
   String referredBy;
   dynamic companyId;
   bool isActive;
@@ -44,14 +44,18 @@ class CustomerReadResponse {
     email = json['email'] == null ? "" : json['email'];
     zip = json['zip'] == null ? "" : json['zip'];
     address = json['address'] == null ? "" : json['address'];
-    longitude = json['longitude'] == null ? 0.0 : json['longitude'].toDouble();
-    latitude = json['latitude'] == null ? 0.0 : json['latitude'].toDouble();
+    longitude = json['longitude'] == null ? 0.0 : json['longitude'];
+    latitude = json['latitude'] == null ? 0.0 : json['latitude'];
     referredBy = json['referred_by'] == null ? "" : json['referred_by'];
     companyId = json['company_id'] == null ? 0 : json['company_id'];
     isActive = json['is_active'] == 1 ? true : false;
     isDeleted = json['is_deleted'] == null ? 0 : json['is_deleted'];
-    createdAt = DateTime.parse(json['created_at']) == null ? DateTime.now() : DateTime.parse(json['created_at']);
-    updatedAt = DateTime.parse(json['updated_at']) == null ? DateTime.now() : DateTime.parse(json['updated_at']);
+    createdAt = DateTime.parse(json['created_at']) == null
+        ? DateTime.now()
+        : DateTime.parse(json['created_at']);
+    updatedAt = DateTime.parse(json['updated_at']) == null
+        ? DateTime.now()
+        : DateTime.parse(json['updated_at']);
   }
 
   CustomerReadResponse.fromBookingJson(Map<String, dynamic> json) {
@@ -132,6 +136,4 @@ class CustomerListModel {
       this.values.add(model);
     }
   }
-
-
 }
