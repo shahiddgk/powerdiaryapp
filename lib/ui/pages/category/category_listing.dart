@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:powerdiary/models/request/category_request.dart';
+import 'package:powerdiary/models/request/permission_request.dart';
 import 'package:powerdiary/models/response/category_list_response.dart';
+import 'package:powerdiary/models/response/permission_list_response.dart';
 import 'package:powerdiary/network/http_manager.dart';
 import 'package:powerdiary/ui/pages/category/edit_category.dart';
 import 'package:powerdiary/ui/widgets/widget_progress_indicator.dart';
@@ -19,10 +22,29 @@ class _CategoryListingState extends State<CategoryListing> {
   bool _isLoading = true;
   String api_response = "";
   List<CategoryReadResponse> categoryList = [];
+  PermissionShowResponse permissionShowResponse;
+  int _counter = 5;
+  Timer _timer;
+
+  void _startTimer() {
+    _counter = 5;
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _timer.cancel();
+        }
+      });
+    });
+  }
 
   @override
   void initState() {
     _getCategoryList();
+    _getPermissionList();
+    _startTimer();
   }
 
   _getCategoryList() {
@@ -47,6 +69,28 @@ class _CategoryListingState extends State<CategoryListing> {
     });
   }
 
+  _getPermissionList() {
+    HTTPManager()
+        .getPermissionList(PermissionListRequest(
+            companyId: globalSessionUser.companyId,
+            roleId: globalSessionUser.roleId))
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+        permissionShowResponse = value;
+      });
+    }).catchError((e) {
+      print(e);
+      showAlert(context, e.toString(), true, () {
+        setState(() {
+          _isLoading = false;
+        });
+      }, () {
+        _getPermissionList();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,67 +103,86 @@ class _CategoryListingState extends State<CategoryListing> {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: categoryList.length == 0
                     ? Text("No Category available")
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: DataTable(
-                              columns: [
-                                DataColumn(label: Text("Sr.No#")),
-                                DataColumn(label: Text("Category Name")),
-                                //DataColumn(label: Text("Category Description")),
-                                DataColumn(label: Text("Created At")),
-                                DataColumn(label: Text("Status")),
-                                DataColumn(label: Text("Action")),
-                              ],
-                              rows: List.generate(
-                                  categoryList.length,
-                                  (index) => DataRow(cells: <DataCell>[
-                                        DataCell(Text('${index + 1}')),
-                                        DataCell(
-                                            Text(categoryList[index].name)),
-                                        // DataCell(Text(
-                                        //     categoryList[index].description)),
-                                        DataCell(Text(DateFormat.yMMMd().format(
-                                            categoryList[index].createdAt))),
-                                        DataCell(Switch(
-                                          value: categoryList[index].isActive,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              categoryList[index].isActive =
-                                                  value;
-                                            });
-                                            _activateCategory(
-                                                categoryList[index]);
-                                          },
-                                          //activeTrackColor: Colors.blue,
-                                          // activeColor: Colors.white,
-                                          //inactiveThumbColor: Colors.grey,
-                                        )),
-                                        DataCell(Row(
-                                          children: [
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.edit,
-                                              ),
-                                              onPressed: () {
-                                                _updateCategory(
+                    : _counter > 0
+                        ? Center(child: CircularProgressIndicator())
+                        : SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(
+                                  columns: [
+                                    DataColumn(label: Text("Sr.No#")),
+                                    DataColumn(label: Text("Category Name")),
+                                    //DataColumn(label: Text("Category Description")),
+                                    DataColumn(label: Text("Created At")),
+                                    DataColumn(label: Text("Status")),
+                                    DataColumn(label: Text("Action")),
+                                  ],
+                                  rows: List.generate(
+                                      categoryList.length,
+                                      (index) => DataRow(cells: <DataCell>[
+                                            DataCell(Text('${index + 1}')),
+                                            DataCell(
+                                                Text(categoryList[index].name)),
+                                            // DataCell(Text(
+                                            //     categoryList[index].description)),
+                                            DataCell(Text(DateFormat.yMMMd()
+                                                .format(categoryList[index]
+                                                    .createdAt))),
+                                            DataCell(Switch(
+                                              value:
+                                                  categoryList[index].isActive,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  categoryList[index].isActive =
+                                                      value;
+                                                });
+                                                _activateCategory(
                                                     categoryList[index]);
                                               },
-                                            ),
-                                            // IconButton(
-                                            //   icon: Icon(
-                                            //     Icons.delete,
-                                            //   ),
-                                            //   onPressed: () {
-                                            //     _deleteCategory(
-                                            //         categoryList[index]);
-                                            //   },
-                                            // )
-                                          ],
-                                        ))
-                                      ])),
-                            )))),
+                                              //activeTrackColor: Colors.blue,
+                                              // activeColor: Colors.white,
+                                              //inactiveThumbColor: Colors.grey,
+                                            )),
+                                            DataCell(Row(
+                                              children: [
+                                                permissionShowResponse
+                                                            .category[0]
+                                                            .update ==
+                                                        1
+                                                    ? IconButton(
+                                                        icon: Icon(
+                                                          Icons.edit,
+                                                        ),
+                                                        onPressed: () {
+                                                          _updateCategory(
+                                                              categoryList[
+                                                                  index]);
+                                                        },
+                                                      )
+                                                    : IconButton(
+                                                        icon: Icon(
+                                                          Icons.edit,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        // onPressed: () {
+                                                        //   _updateCategory(
+                                                        //       categoryList[index]);
+                                                        // },
+                                                      ),
+                                                // IconButton(
+                                                //   icon: Icon(
+                                                //     Icons.delete,
+                                                //   ),
+                                                //   onPressed: () {
+                                                //     _deleteCategory(
+                                                //         categoryList[index]);
+                                                //   },
+                                                // )
+                                              ],
+                                            ))
+                                          ])),
+                                )))),
             if (_isLoading)
               Container(
                   height: MediaQuery.of(context).size.height,

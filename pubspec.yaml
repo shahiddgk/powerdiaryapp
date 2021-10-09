@@ -62,6 +62,7 @@ dependencies:
   dropdown_search: ^0.4.9
   url_launcher:
   date_format: ^2.0.2
+  syncfusion_flutter_maps:
 
 #  data_connection_checker: ^0.3.4
 #  connectivity: ^2.0.2

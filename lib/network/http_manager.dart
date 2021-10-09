@@ -5,6 +5,7 @@ import 'package:powerdiary/models/request/customer_request.dart';
 import 'package:powerdiary/models/request/expense_request.dart';
 import 'package:powerdiary/models/request/expense_types_request.dart';
 import 'package:powerdiary/models/request/login_request.dart';
+import 'package:powerdiary/models/request/permission_request.dart';
 import 'package:powerdiary/models/request/post_code_address_request.dart';
 import 'package:powerdiary/models/request/role_request.dart';
 import 'package:powerdiary/models/request/service_request.dart';
@@ -17,6 +18,7 @@ import 'package:powerdiary/models/response/customer_list_response.dart';
 import 'package:powerdiary/models/response/expense_list_response.dart';
 import 'package:powerdiary/models/response/expense_type_list_response.dart';
 import 'package:powerdiary/models/response/general_response_model.dart';
+import 'package:powerdiary/models/response/permission_list_response.dart';
 import 'package:powerdiary/models/response/post_code_address_response.dart';
 import 'package:powerdiary/models/response/post_code_response_model.dart';
 import 'package:powerdiary/models/response/qutations_list_response.dart';
@@ -307,6 +309,16 @@ class HTTPManager {
     RolePermissionList roleListModel =
         RolePermissionList.fromJson(accessIdMap, response.data);
     return roleListModel;
+  }
+
+  Future<PermissionShowResponse> getPermissionList(
+      PermissionListRequest permissionListRequest) async {
+    final url = ApplicationURLs.API_ROLE_PERMISSIONS_LIST;
+    final GeneralResponseModel response =
+        await _handler.post(url, permissionListRequest.toJson(), false);
+    PermissionShowResponse permissionShowResponse =
+        PermissionShowResponse.fromJson(response.data);
+    return permissionShowResponse;
   }
 
   Future<GeneralResponseModel> createRole(

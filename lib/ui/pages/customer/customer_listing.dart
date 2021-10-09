@@ -1,14 +1,19 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:powerdiary/models/request/customer_request.dart';
+import 'package:powerdiary/models/request/permission_request.dart';
 import 'package:powerdiary/models/response/customer_list_response.dart';
+import 'package:powerdiary/models/response/permission_list_response.dart';
 import 'package:powerdiary/network/http_manager.dart';
 import 'package:powerdiary/ui/pages/customer/edit_customer.dart';
 import 'package:powerdiary/ui/widgets/widget_progress_indicator.dart';
 import 'package:powerdiary/utils/utils.dart';
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 class CustomersListing extends StatefulWidget {
   @override
@@ -19,10 +24,51 @@ class _CustomersListingState extends State<CustomersListing> {
   bool _isLoading = true;
   String api_response = "";
   List<CustomerReadResponse> customerList = [];
+  PermissionShowResponse permissionShowResponse;
+
+  int _counter = 5;
+  Timer _timer;
+
+  void _startTimer() {
+    _counter = 5;
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _timer.cancel();
+        }
+      });
+    });
+  }
+
+  List<Model> _data;
+  MapShapeSource _dataSource;
+  MapTileLayerController _controller;
 
   @override
   void initState() {
     _getCustomerList();
+
+    _getPermissionList();
+    _startTimer();
+
+    _getCoordinates();
+
+    _data = <Model>[
+      Model('UK', 53.400002, -2.983333),
+    ];
+  }
+
+  _getCoordinates() {
+    for (int i = 0; i < customerList.length; i++) {
+      setState(() {
+        _data.add(Model('UK', double.parse(customerList[i].latitude),
+            double.parse(customerList[i].longitude)));
+        print(_data);
+      });
+    }
   }
 
   _getCustomerList() {
@@ -47,6 +93,28 @@ class _CustomersListingState extends State<CustomersListing> {
     });
   }
 
+  _getPermissionList() {
+    HTTPManager()
+        .getPermissionList(PermissionListRequest(
+            companyId: globalSessionUser.companyId,
+            roleId: globalSessionUser.roleId))
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+        permissionShowResponse = value;
+      });
+    }).catchError((e) {
+      print(e);
+      showAlert(context, e.toString(), true, () {
+        setState(() {
+          _isLoading = false;
+        });
+      }, () {
+        _getPermissionList();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,59 +127,355 @@ class _CustomersListingState extends State<CustomersListing> {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: customerList.length == 0
                     ? Text("No Customer available")
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: DataTable(
-                              columns: [
-                                DataColumn(label: Text("Sr.No#")),
-                                DataColumn(label: Text("Name")),
-                                DataColumn(label: Text("Phone")),
-                                DataColumn(label: Text("E-Mail")),
-                                DataColumn(label: Text("Address")),
-                                DataColumn(label: Text("Referred By")),
-                                DataColumn(label: Text("Created")),
-                                DataColumn(label: Text("Actions")),
-                              ],
-                              rows: List.generate(
-                                  customerList.length,
-                                  (index) => DataRow(cells: <DataCell>[
-                                        DataCell(Text('${index + 1}')),
-                                        DataCell(Text(
-                                            customerList[index].firstName)),
-                                        DataCell(Text(
-                                            customerList[index].primaryPhone)),
-                                        DataCell(Text(
-                                            customerList[index].email ??
-                                                'default')),
-                                        DataCell(
-                                            Text(customerList[index].address)),
-                                        DataCell(Text(
-                                            customerList[index].referredBy ??
-                                                'default')),
-                                        DataCell(Text(DateFormat.yMMMd().format(
-                                            customerList[index].createdAt))),
-                                        DataCell(Row(
-                                          children: [
-                                            IconButton(
-                                              icon: Icon(Icons.edit),
-                                              onPressed: () {
-                                                _updateCustomer(
-                                                    customerList[index]);
-                                              },
+                    : _counter > 0
+                        ? Center(child: CircularProgressIndicator())
+                        : GridView.builder(
+                            itemCount: customerList.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisSpacing: 5,
+                                    mainAxisSpacing: 5,
+                                    childAspectRatio: 0.72,
+                                    crossAxisCount: 2),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Card(
+                                  shadowColor: Colors.white,
+                                  color: Colors.white,
+                                  elevation: 20,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.all(5),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(children: [
+                                                    Icon(Icons.person),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          customerList[index]
+                                                              .firstName,
+                                                          style: TextStyle(
+                                                            fontSize: 15.0,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 3,
+                                                        ),
+                                                        Text(
+                                                          customerList[index]
+                                                              .lastName,
+                                                          style: TextStyle(
+                                                            fontSize: 15.0,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ]),
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.phone),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        customerList[index]
+                                                            .primaryPhone,
+                                                        style: TextStyle(
+                                                          fontSize: 15.0,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.phone),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        customerList[index]
+                                                            .secondaryPhone,
+                                                        style: TextStyle(
+                                                          fontSize: 15.0,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.email),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        customerList[index]
+                                                            .email,
+                                                        style: TextStyle(
+                                                          fontSize: 15.0,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .location_city_outlined),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        customerList[index]
+                                                            .address,
+                                                        style: TextStyle(
+                                                          fontSize: 15.0,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                // Container(
+                                                //   height: 110,
+                                                //   width: MediaQuery.of(context)
+                                                //       .size
+                                                //       .width,
+                                                //   child: SingleChildScrollView(
+                                                //     scrollDirection:
+                                                //         Axis.horizontal,
+                                                //     child:
+                                                //         SingleChildScrollView(
+                                                //       scrollDirection:
+                                                //           Axis.vertical,
+                                                //       child: SfMaps(
+                                                //         layers: <MapLayer>[
+                                                //           MapTileLayer(
+                                                //             initialMarkersCount:
+                                                //                 1,
+                                                //             //controller: _controller,
+                                                //             urlTemplate:
+                                                //                 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                //             initialFocalLatLng: MapLatLng(
+                                                //                 double.parse(
+                                                //                     customerList[
+                                                //                             index]
+                                                //                         .latitude),
+                                                //                 double.parse(
+                                                //                     customerList[
+                                                //                             index]
+                                                //                         .longitude)),
+                                                //             initialZoomLevel: 3,
+                                                //             markerBuilder:
+                                                //                 (BuildContext
+                                                //                         context,
+                                                //                     int index) {
+                                                //               return MapMarker(
+                                                //                 latitude: dataLatitude(
+                                                //                     index,
+                                                //                     customerList[
+                                                //                             index]
+                                                //                         .latitude,
+                                                //                     customerList[
+                                                //                             index]
+                                                //                         .longitude),
+                                                //                 // _data[index]
+                                                //                 //     .latitude,
+                                                //                 // double.parse(
+                                                //                 //     customerList[index]
+                                                //                 //         .latitude),
+                                                //                 longitude: dataLongitude(
+                                                //                     index,
+                                                //                     customerList[
+                                                //                             index]
+                                                //                         .latitude,
+                                                //                     customerList[
+                                                //                             index]
+                                                //                         .longitude),
+                                                //                 // _data[index]
+                                                //                 //     .longitude,
+                                                //                 // double.parse(
+                                                //                 //   customerList[index]
+                                                //                 //       .longitude),
+                                                //                 child: Icon(
+                                                //                   Icons
+                                                //                       .location_on,
+                                                //                   color: Colors
+                                                //                       .red,
+                                                //                   size: 20,
+                                                //                 ),
+                                                //               );
+                                                //             },
+                                                //           ),
+                                                //         ],
+                                                //       ),
+                                                //     ),
+                                                //   ),
+                                                // ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Switch(
+                                                      value: customerList[index]
+                                                          .isActive,
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          customerList[index]
+                                                              .isActive = value;
+                                                        });
+                                                        // _activateCategory(
+                                                        //     customerList[index]);
+                                                      },
+                                                      //activeTrackColor: Colors.blue,
+                                                      // activeColor: Colors.white,
+                                                      //inactiveThumbColor: Colors.grey,
+                                                    ),
+                                                    permissionShowResponse
+                                                                .customer[0]
+                                                                .update ==
+                                                            1
+                                                        ? IconButton(
+                                                            icon: Icon(
+                                                              Icons.edit,
+                                                            ),
+                                                            onPressed: () {
+                                                              _updateCustomer(
+                                                                  customerList[
+                                                                      index]);
+                                                              // _getCurrentLocation();
+                                                            },
+                                                          )
+                                                        : IconButton(
+                                                            icon: Icon(
+                                                              Icons.edit,
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                            // onPressed: () {
+                                                            //   _updateCustomer(
+                                                            //       customerList[index]);
+                                                            //   // _getCurrentLocation();
+                                                            // },
+                                                          ),
+                                                  ],
+                                                )
+                                              ],
                                             ),
-                                            // IconButton(
-                                            //   icon: Icon(Icons.delete),
-                                            //   onPressed: () {
-                                            //     _deleteCustomer(
-                                            //         customerList[index]);
-                                            //   },
-                                            // )
-                                          ],
-                                        ))
-                                      ])),
-                            )))),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            })
+                // SingleChildScrollView(
+                //         scrollDirection: Axis.vertical,
+                //         child: SingleChildScrollView(
+                //             scrollDirection: Axis.horizontal,
+                //             child: DataTable(
+                //               columns: [
+                //                 DataColumn(label: Text("Sr.No#")),
+                //                 DataColumn(label: Text("Name")),
+                //                 DataColumn(label: Text("Phone")),
+                //                 DataColumn(label: Text("E-Mail")),
+                //                 DataColumn(label: Text("Address")),
+                //                 DataColumn(label: Text("Referred By")),
+                //                 DataColumn(label: Text("Created")),
+                //                 DataColumn(label: Text("Actions")),
+                //               ],
+                //               rows: List.generate(
+                //                   customerList.length,
+                //                   (index) => DataRow(cells: <DataCell>[
+                //                         DataCell(Text('${index + 1}')),
+                //                         DataCell(
+                //                             Text(customerList[index].firstName)),
+                //                         DataCell(Text(
+                //                             customerList[index].primaryPhone)),
+                //                         DataCell(Text(customerList[index].email ??
+                //                             'default')),
+                //                         DataCell(
+                //                             Text(customerList[index].address)),
+                //                         DataCell(Text(
+                //                             customerList[index].referredBy ??
+                //                                 'default')),
+                //                         DataCell(Text(DateFormat.yMMMd().format(
+                //                             customerList[index].createdAt))),
+                //                         DataCell(Row(
+                //                           children: [
+                //                             IconButton(
+                //                               icon: Icon(Icons.edit),
+                //                               onPressed: () {
+                //                                 _updateCustomer(
+                //                                     customerList[index]);
+                //                               },
+                //                             ),
+                //                             // IconButton(
+                //                             //   icon: Icon(Icons.delete),
+                //                             //   onPressed: () {
+                //                             //     _deleteCustomer(
+                //                             //         customerList[index]);
+                //                             //   },
+                //                             // )
+                //                           ],
+                //                         ))
+                //                       ])),
+                //             )),
+                //       ),
+                ),
             if (_isLoading)
               Container(
                   height: MediaQuery.of(context).size.height,
@@ -162,4 +526,36 @@ class _CustomersListingState extends State<CustomersListing> {
       });
     });
   }
+
+  dataLatitude(int index, String latitude, String longitude) {
+    // print(index);
+    // print(latitude);
+    // print(longitude);
+    double _latitude = double.parse(latitude);
+    double _longitude = double.parse(longitude);
+
+    var model = Model('UK', _latitude, _longitude);
+
+    _data = <Model>[
+      Model('UK', _latitude, _longitude),
+    ];
+    return _data[index].latitude;
+  }
+
+  dataLongitude(int index, String latitude, String longitude) {
+    double _latitude = double.parse(latitude);
+    double _longitude = double.parse(longitude);
+    _data = <Model>[
+      Model('UK', _latitude, _longitude),
+    ];
+    return _data[index].longitude;
+  }
+}
+
+class Model {
+  const Model(this.country, this.latitude, this.longitude);
+
+  final String country;
+  final double latitude;
+  final double longitude;
 }

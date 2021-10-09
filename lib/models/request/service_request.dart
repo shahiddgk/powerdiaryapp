@@ -20,7 +20,7 @@ class ServiceUpdateRequest {
   String name;
   String price;
   String serviceColor;
-  String customerMessage;
+  //String customerMessage;
   String companyId;
   // int isActive;
   // int isDeleted;
@@ -33,7 +33,7 @@ class ServiceUpdateRequest {
     this.name,
     this.price,
     this.serviceColor,
-    this.customerMessage,
+    //  this.customerMessage,
     this.companyId,
     // this.isActive,
     // this.isDeleted,
@@ -47,7 +47,7 @@ class ServiceUpdateRequest {
     name = json['name'];
     price = json['price'];
     serviceColor = json['service_color'];
-    customerMessage = json['customer_message'];
+    // customerMessage = json['customer_message'];
     companyId = json['company_id'];
     // isActive = json['is_active'];
     // isDeleted = json['is_deleted'];
@@ -62,7 +62,7 @@ class ServiceUpdateRequest {
     data['name'] = this.name;
     data['price'] = this.price;
     data['service_color'] = this.serviceColor;
-    data['customer_message'] = this.customerMessage;
+    //data['customer_message'] = this.customerMessage;
     data['company_id'] = this.companyId;
     // data['is_active'] = this.isActive;
     // data['is_deleted'] = this.isDeleted;
@@ -77,7 +77,7 @@ class ServiceCreateRequest {
   String name;
   String price;
   String serviceColor;
-  String customerMessage;
+  // String customerMessage;
   String companyId;
   String id;
   // int isActive;
@@ -90,7 +90,7 @@ class ServiceCreateRequest {
     this.name,
     this.price,
     this.serviceColor,
-    this.customerMessage,
+    // this.customerMessage,
     this.companyId,
     this.id,
     // this.isActive,
@@ -105,7 +105,7 @@ class ServiceCreateRequest {
     name = json['name'];
     price = json['price'];
     serviceColor = json['service_color'];
-    customerMessage = json['customer_message'];
+    //  customerMessage = json['customer_message'];
     companyId = json['company_id'];
     // isActive = json['is_active'];
     // isDeleted = json['is_deleted'];
@@ -120,7 +120,7 @@ class ServiceCreateRequest {
     data['name'] = this.name;
     data['price'] = this.price;
     data['service_color'] = this.serviceColor;
-    data['customer_message'] = this.customerMessage;
+    // data['customer_message'] = this.customerMessage;
     data['company_id'] = this.companyId;
     // data['is_active'] = this.isActive;
     // data['is_deleted'] = this.isDeleted;

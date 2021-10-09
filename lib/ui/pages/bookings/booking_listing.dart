@@ -1,13 +1,17 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:powerdiary/models/pd_location.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
+import 'package:powerdiary/models/request/permission_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
+import 'package:powerdiary/models/response/permission_list_response.dart';
 import 'package:powerdiary/network/http_manager.dart';
 import 'package:powerdiary/ui/pages/bookings/edit_booking.dart';
 import 'package:powerdiary/ui/pages/bookings/view_booking_invoice.dart';
@@ -31,12 +35,32 @@ class _BookingListingState extends State<BookingListing> {
   String holder = '';
   bool _isShowing = true;
   String ChequeNumber;
+  PermissionShowResponse permissionShowResponse;
 
   TextEditingController _chequeController = new TextEditingController();
+
+  int _counter = 5;
+  Timer _timer;
+
+  void _startTimer() {
+    _counter = 5;
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _timer.cancel();
+        }
+      });
+    });
+  }
 
   @override
   void initState() {
     _getBookingList();
+    _getPermissionList();
+    _startTimer();
     getCurrentLocation(context).then((value) {
       setState(() {
         _pdLocation = value;
@@ -68,7 +92,36 @@ class _BookingListingState extends State<BookingListing> {
     });
   }
 
-  List<String> paymentMethod = ['Cash', 'Card', 'PayPal', 'Invoice', 'cheque'];
+  _getPermissionList() {
+    HTTPManager()
+        .getPermissionList(PermissionListRequest(
+            companyId: globalSessionUser.companyId,
+            roleId: globalSessionUser.roleId))
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+        permissionShowResponse = value;
+      });
+    }).catchError((e) {
+      print(e);
+      showAlert(context, e.toString(), true, () {
+        setState(() {
+          _isLoading = false;
+        });
+      }, () {
+        _getPermissionList();
+      });
+    });
+  }
+
+  List<String> paymentMethod = [
+    'Cash',
+    'Card',
+    'PayPal',
+    'Invoice',
+    'cheque',
+    'BACS'
+  ];
 
   void getDropDownItem() {
     setState(() {
@@ -94,118 +147,429 @@ class _BookingListingState extends State<BookingListing> {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: bookingList.length == 0
                     ? Text("No Booking available")
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: DataTable(
-                              columns: [
-                                DataColumn(label: Text("Sr.No#")),
-                                DataColumn(label: Text("User")),
-                                DataColumn(label: Text("Customer")),
-                                DataColumn(label: Text("Service")),
-                                DataColumn(label: Text("Price")),
-                                DataColumn(label: Text("Book Date")),
-                                DataColumn(label: Text("Book Time")),
-                                DataColumn(label: Text("Book Status")),
-                                DataColumn(label: Text("Actions")),
-                              ],
-                              rows: List.generate(
-                                  bookingList.length,
-                                  (index) => DataRow(cells: <DataCell>[
-                                        DataCell(Text('${index + 1}')),
-                                        DataCell(
-                                            Text(bookingList[index].userName)),
-                                        DataCell(Text(
-                                            bookingList[index].customerName)),
-                                        DataCell(
-                                            Text(bookingList[index].services)),
-                                        DataCell(Text(
-                                            '${bookingList[index].totalPrice}')),
-                                        DataCell(Text(DateFormat.yMMMd().format(
-                                            bookingList[index].dueDate))),
-                                        // DataCell(Text(DateFormat.Hm()
-                                        //     .format(bookingList[index].startTime))),
-                                        DataCell(Text(
-                                          bookingList[index].startTime,
-                                        )),
-                                        DataCell(IgnorePointer(
-                                          ignoring: bookingList[index]
-                                                      .serviceStatus ==
-                                                  3
-                                              ? true
-                                              : false,
-                                          child: DropdownButton(
-                                            hint: Text("Completed"),
-                                            value: bookingList[index]
-                                                .serviceStatus,
-                                            items: [
-                                              DropdownMenuItem(
-                                                child: Text("Booked"),
-                                                value: 1,
+                    : GridView.builder(
+                        itemCount: bookingList.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: 0.72,
+                            crossAxisCount: 2),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Card(
+                                shadowColor: Colors.white,
+                                color: Colors.white,
+                                elevation: 20,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.all(5),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                height: 10,
                                               ),
-                                              DropdownMenuItem(
-                                                child: Text("In-Progress"),
-                                                value: 2,
+                                              SingleChildScrollView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.calendar_today),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "${DateFormat.yMMMd().format(bookingList[index].dueDate)}",
+                                                      style: TextStyle(
+                                                        fontSize: 15.0,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                              DropdownMenuItem(
-                                                child: Text("Completed"),
-                                                value: 3,
-                                                onTap: () {
-                                                  _paymentPopup(
-                                                      bookingList[index]);
-                                                },
+                                              SizedBox(
+                                                height: 5,
                                               ),
-                                              DropdownMenuItem(
-                                                child: Text("Cancel"),
-                                                value: 4,
+                                              SingleChildScrollView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.person),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "${bookingList[index].customerName}",
+                                                      style: TextStyle(
+                                                        fontSize: 15.0,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.insert_chart),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "${bookingList[index].services}",
+                                                        style: TextStyle(
+                                                          fontSize: 15.0,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(FontAwesomeIcons
+                                                      .poundSign),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    "${bookingList[index].totalPrice}",
+                                                    style: TextStyle(
+                                                      fontSize: 15.0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(FontAwesomeIcons.clock),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    "${bookingList[index].startTime}",
+                                                    style: TextStyle(
+                                                      fontSize: 15.0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              IgnorePointer(
+                                                ignoring: bookingList[index]
+                                                            .serviceStatus ==
+                                                        3
+                                                    ? true
+                                                    : false,
+                                                child: DropdownButton(
+                                                  hint: Text("Completed"),
+                                                  value: bookingList[index]
+                                                      .serviceStatus,
+                                                  items: [
+                                                    DropdownMenuItem(
+                                                      child: Text("Booked"),
+                                                      value: 1,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child:
+                                                          Text("In-Progress"),
+                                                      value: 2,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text("Completed"),
+                                                      value: 3,
+                                                      onTap: () {
+                                                        _paymentPopup(
+                                                            bookingList[index]);
+                                                      },
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text("Cancel"),
+                                                      value: 4,
+                                                    ),
+                                                  ],
+                                                  onChanged: (value) {
+                                                    if (value != 3) {
+                                                      _updateBookingStatus(
+                                                          bookingList[index],
+                                                          value);
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              SingleChildScrollView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Row(
+                                                  children: [
+                                                    Visibility(
+                                                      visible: bookingList[
+                                                                          index]
+                                                                      .serviceStatus ==
+                                                                  3 ||
+                                                              bookingList[index]
+                                                                      .serviceStatus ==
+                                                                  4
+                                                          ? false
+                                                          : true,
+                                                      child:
+                                                          permissionShowResponse
+                                                                      .booking[
+                                                                          0]
+                                                                      .update ==
+                                                                  1
+                                                              ? IconButton(
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .edit),
+                                                                  onPressed:
+                                                                      () {
+                                                                    _updateBooking(
+                                                                        bookingList[
+                                                                            index]);
+                                                                  },
+                                                                )
+                                                              : IconButton(
+                                                                  icon: Icon(
+                                                                    Icons.edit,
+                                                                    color: Colors
+                                                                        .grey,
+                                                                  ),
+                                                                  // onPressed: () {
+                                                                  //   _updateBooking(
+                                                                  //       bookingList[
+                                                                  //       index]);
+                                                                  // },
+                                                                ),
+                                                    ),
+                                                    Visibility(
+                                                      visible: bookingList[
+                                                                          index]
+                                                                      .serviceStatus ==
+                                                                  3 ||
+                                                              bookingList[index]
+                                                                      .serviceStatus ==
+                                                                  4
+                                                          ? false
+                                                          : true,
+                                                      child: IconButton(
+                                                        icon: Icon(
+                                                          Icons.delete,
+                                                          color: Colors.red,
+                                                        ),
+                                                        onPressed: () {
+                                                          _deleteBooking(
+                                                              bookingList[
+                                                                  index]);
+                                                        },
+                                                      ),
+                                                    ),
+                                                    permissionShowResponse
+                                                                .booking[0]
+                                                                .viewInvoice ==
+                                                            1
+                                                        ? IconButton(
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .receipt_long_outlined,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            onPressed: () {
+                                                              _showBooking(
+                                                                  bookingList[
+                                                                      index]);
+                                                            },
+                                                          )
+                                                        : IconButton(
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .receipt_long_outlined,
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                            // onPressed: () {
+                                                            //   _showBooking(
+                                                            //       bookingList[index]);
+                                                            // },
+                                                          ),
+                                                    Visibility(
+                                                      visible: bookingList[
+                                                                          index]
+                                                                      .serviceStatus ==
+                                                                  3 ||
+                                                              bookingList[index]
+                                                                      .serviceStatus ==
+                                                                  4
+                                                          ? false
+                                                          : true,
+                                                      child: IconButton(
+                                                        icon: Icon(
+                                                          Icons.directions,
+                                                        ),
+                                                        onPressed: () {
+                                                          _showDirections(
+                                                              bookingList[
+                                                                  index]);
+                                                          // _getCurrentLocation();
+                                                        },
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
                                             ],
-                                            onChanged: (value) {
-                                              if (value != 3) {
-                                                _updateBookingStatus(
-                                                    bookingList[index], value);
-                                              }
-                                            },
                                           ),
-                                        )),
-                                        //Text(_selectedBookStatus),
-                                        DataCell(Row(
-                                          children: [
-                                            IconButton(
-                                              icon: Icon(Icons.edit),
-                                              onPressed: () {
-                                                _updateBooking(
-                                                    bookingList[index]);
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: Icon(Icons.delete),
-                                              onPressed: () {
-                                                _deleteBooking(
-                                                    bookingList[index]);
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: Icon(
-                                                  Icons.receipt_long_outlined),
-                                              onPressed: () {
-                                                _showBooking(
-                                                    bookingList[index]);
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: Icon(Icons.directions),
-                                              onPressed: () {
-                                                _showDirections(
-                                                    bookingList[index]);
-                                                // _getCurrentLocation();
-                                              },
-                                            )
-                                          ],
-                                        ))
-                                      ])),
-                            )))),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )),
+                          );
+                        })
+                // SingleChildScrollView(
+                //         scrollDirection: Axis.vertical,
+                //         child: SingleChildScrollView(
+                //             scrollDirection: Axis.horizontal,
+                //             child: DataTable(
+                //               columns: [
+                //                 DataColumn(label: Text("Sr.No#")),
+                //                 DataColumn(label: Text("User")),
+                //                 DataColumn(label: Text("Customer")),
+                //                 DataColumn(label: Text("Service")),
+                //                 DataColumn(label: Text("Price")),
+                //                 DataColumn(label: Text("Book Date")),
+                //                 DataColumn(label: Text("Book Time")),
+                //                 DataColumn(label: Text("Book Status")),
+                //                 DataColumn(label: Text("Actions")),
+                //               ],
+                //               rows: List.generate(
+                //                   bookingList.length,
+                //                   (index) => DataRow(cells: <DataCell>[
+                //                         DataCell(Text('${index + 1}')),
+                //                         DataCell(
+                //                             Text(bookingList[index].userName)),
+                //                         DataCell(Text(
+                //                             bookingList[index].customerName)),
+                //                         DataCell(
+                //                             Text(bookingList[index].services)),
+                //                         DataCell(Text(
+                //                             '${bookingList[index].totalPrice}')),
+                //                         DataCell(Text(DateFormat.yMMMd().format(
+                //                             bookingList[index].dueDate))),
+                //                         // DataCell(Text(DateFormat.Hm()
+                //                         //     .format(bookingList[index].startTime))),
+                //                         DataCell(Text(
+                //                           bookingList[index].startTime,
+                //                         )),
+                //                         DataCell(IgnorePointer(
+                //                           ignoring: bookingList[index]
+                //                                       .serviceStatus ==
+                //                                   3
+                //                               ? true
+                //                               : false,
+                //                           child: DropdownButton(
+                //                             hint: Text("Completed"),
+                //                             value: bookingList[index]
+                //                                 .serviceStatus,
+                //                             items: [
+                //                               DropdownMenuItem(
+                //                                 child: Text("Booked"),
+                //                                 value: 1,
+                //                               ),
+                //                               DropdownMenuItem(
+                //                                 child: Text("In-Progress"),
+                //                                 value: 2,
+                //                               ),
+                //                               DropdownMenuItem(
+                //                                 child: Text("Completed"),
+                //                                 value: 3,
+                //                                 onTap: () {
+                //                                   _paymentPopup(
+                //                                       bookingList[index]);
+                //                                 },
+                //                               ),
+                //                               DropdownMenuItem(
+                //                                 child: Text("Cancel"),
+                //                                 value: 4,
+                //                               ),
+                //                             ],
+                //                             onChanged: (value) {
+                //                               if (value != 3) {
+                //                                 _updateBookingStatus(
+                //                                     bookingList[index], value);
+                //                               }
+                //                             },
+                //                           ),
+                //                         )),
+                //                         //Text(_selectedBookStatus),
+                //                         DataCell(Row(
+                //                           children: [
+                //                             IconButton(
+                //                               icon: Icon(Icons.edit),
+                //                               onPressed: () {
+                //                                 _updateBooking(
+                //                                     bookingList[index]);
+                //                               },
+                //                             ),
+                //                             IconButton(
+                //                               icon: Icon(Icons.delete),
+                //                               onPressed: () {
+                //                                 _deleteBooking(
+                //                                     bookingList[index]);
+                //                               },
+                //                             ),
+                //                             IconButton(
+                //                               icon: Icon(
+                //                                   Icons.receipt_long_outlined),
+                //                               onPressed: () {
+                //                                 _showBooking(
+                //                                     bookingList[index]);
+                //                               },
+                //                             ),
+                //                             IconButton(
+                //                               icon: Icon(Icons.directions),
+                //                               onPressed: () {
+                //                                 _showDirections(
+                //                                     bookingList[index]);
+                //                                 // _getCurrentLocation();
+                //                               },
+                //                             )
+                //                           ],
+                //                         ))
+                //                       ])),
+                //             ),
+                //         ),
+                // ),
+                ),
             if (_isLoading)
               Container(
                   height: MediaQuery.of(context).size.height,
@@ -305,6 +669,8 @@ class _BookingListingState extends State<BookingListing> {
   }
 
   _showDirections(BookingReadResponse bookingReadResponse) async {
+    print('latitude:${bookingReadResponse.customerReadResponse.latitude}');
+    print('longitude:${bookingReadResponse.customerReadResponse.longitude}');
     if (Platform.isAndroid) {
       // Android-specific code/UI Component
       if (await MapLauncher.isMapAvailable(MapType.google)) {
@@ -323,19 +689,21 @@ class _BookingListingState extends State<BookingListing> {
       }
     } else if (Platform.isIOS) {
       // iOS-specific code/UI Component
-      if (await MapLauncher.isMapAvailable(MapType.apple)) {
+      if (await MapLauncher.isMapAvailable(MapType.google)) {
         await MapLauncher.showDirections(
-          mapType: MapType.apple,
+          mapType: MapType.google,
           destination: Coords(
             double.parse(bookingReadResponse.customerReadResponse.latitude),
             double.parse(bookingReadResponse.customerReadResponse.longitude),
           ),
-          //destinationTitle: "Some Destination",
+          destinationTitle: bookingReadResponse.customerReadResponse.address,
           origin: Coords(_pdLocation.latitude, _pdLocation.longitude),
           originTitle: "User Current Location",
           //waypoints: waypoints,
           directionsMode: DirectionsMode.driving,
         );
+      } else {
+        throw "google Maps not available";
       }
     }
   }

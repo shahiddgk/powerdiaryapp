@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,9 +19,27 @@ class _ExpensesListState extends State<ExpensesList> {
   bool _isLoading = true;
   List<ExpenseReadResponse> expenseList = [];
 
+  int _counter = 5;
+  Timer _timer;
+
+  void _startTimer() {
+    _counter = 5;
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _timer.cancel();
+        }
+      });
+    });
+  }
+
   @override
   void initState() {
     _getExpenseList();
+    _startTimer();
   }
 
   _getExpenseList() {
@@ -55,47 +75,49 @@ class _ExpensesListState extends State<ExpensesList> {
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: expenseList.length == 0
                 ? Text("No Expenses available")
-                : SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                        columns: [
-                          DataColumn(label: Text("Sr.No#")),
-                          DataColumn(label: Text("Expense Types")),
-                          DataColumn(label: Text("Expense Payable")),
-                          DataColumn(label: Text("Amount")),
-                          DataColumn(label: Text("Action")),
-                        ],
-                        rows: List.generate(
-                          expenseList.length,
-                          (index) => DataRow(cells: [
-                            DataCell(Text('${index + 1}')),
-                            DataCell(Text('${expenseList[index].type}')),
-                            DataCell(Text(DateFormat.yMMMd()
-                                .format(expenseList[index].payable))),
-                            DataCell(Text('${expenseList[index].amount}')),
-                            DataCell(Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {
-                                    _updateExpense(expenseList[index]);
-                                  },
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
-                                    _deleteExpense(expenseList[index]);
-                                  },
-                                )
-                              ],
-                            ))
-                          ]),
+                : _counter > 0
+                    ? Center(child: CircularProgressIndicator())
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: DataTable(
+                            columns: [
+                              DataColumn(label: Text("Sr.No#")),
+                              DataColumn(label: Text("Expense Types")),
+                              DataColumn(label: Text("Expense Payable")),
+                              DataColumn(label: Text("Amount")),
+                              DataColumn(label: Text("Action")),
+                            ],
+                            rows: List.generate(
+                              expenseList.length,
+                              (index) => DataRow(cells: [
+                                DataCell(Text('${index + 1}')),
+                                DataCell(Text('${expenseList[index].type}')),
+                                DataCell(Text(DateFormat.yMMMd()
+                                    .format(expenseList[index].payable))),
+                                DataCell(Text('${expenseList[index].amount}')),
+                                DataCell(Row(
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        _updateExpense(expenseList[index]);
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () {
+                                        _deleteExpense(expenseList[index]);
+                                      },
+                                    )
+                                  ],
+                                ))
+                              ]),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
           ),
           if (_isLoading)
             Container(

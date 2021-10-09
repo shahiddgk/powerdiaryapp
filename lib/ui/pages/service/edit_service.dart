@@ -135,10 +135,11 @@ class _EditServiceState extends State<EditService> {
                       },
                       controller: _serviceColorController,
                     ),
-                    TextFeildWidget(
-                      hint: 'Customer Message',
-                      controller: _customerMessageController,
-                    ),
+                    // TextFeildWidget(
+                    //   hint: 'Customer Message',
+                    //   controller: _customerMessageController,
+                    //   optional: true,
+                    // ),
                     Row(
                       children: <Widget>[
                         Expanded(
@@ -201,7 +202,9 @@ class _EditServiceState extends State<EditService> {
         name: _nameController.text,
         price: _priceController.text,
         serviceColor: _serviceColorController.text,
-        customerMessage: _customerMessageController.text,
+        // customerMessage: _customerMessageController.text.isEmpty
+        //     ? ''
+        //     : _customerMessageController.text,
         companyId: '${widget.serviceReadResponse.companyId}',
       ))
           .then((value) {

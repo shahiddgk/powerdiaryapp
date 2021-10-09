@@ -9,6 +9,7 @@ import 'package:powerdiary/network/http_manager.dart';
 import 'package:powerdiary/ui/widgets/widget_button.dart';
 import 'package:powerdiary/ui/widgets/widget_datepicker_field.dart';
 import 'package:powerdiary/ui/widgets/widget_dropdown_field.dart';
+import 'package:powerdiary/ui/widgets/widget_payment_method.dart';
 import 'package:powerdiary/ui/widgets/widget_progress_indicator.dart';
 import 'package:powerdiary/ui/widgets/widget_text_field.dart';
 import 'package:powerdiary/utils/utils.dart';
@@ -80,45 +81,72 @@ class _EditExpensesState extends State<EditExpenses> {
                         );
                       })?.toList(),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 8, right: 8),
-                      child: Card(
-                        child: Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black38)),
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: DropdownButton(
-                              isExpanded: true,
-                              value: _selectedExpenseMethod,
-                              items: [
-                                DropdownMenuItem(
-                                  child: Text("Cash"),
-                                  value: 1,
-                                ),
-                                DropdownMenuItem(
-                                  child: Text("Card"),
-                                  value: 2,
-                                ),
-                                DropdownMenuItem(
-                                  child: Text("Bank Transfer"),
-                                  value: 3,
-                                ),
-                                DropdownMenuItem(
-                                  child: Text("Check"),
-                                  value: 4,
-                                ),
-                              ],
-                              onChanged: (value) {
-                                _selectedExpenseMethod = value;
-                              },
-                            ),
-                          ),
+                    DropdownPaymentFeildWidget(
+                      hintText: "Select Payment Method",
+                      initialState: _selectedExpenseMethod,
+                      onValueChange: (val) {
+                        setState(() {
+                          _selectedExpenseMethod = val;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem(
+                          child: Text("Cash"),
+                          value: 1,
                         ),
-                      ),
+                        DropdownMenuItem(
+                          child: Text("Card"),
+                          value: 2,
+                        ),
+                        DropdownMenuItem(
+                          child: Text("Bank Transfer"),
+                          value: 3,
+                        ),
+                        DropdownMenuItem(
+                          child: Text("Check"),
+                          value: 4,
+                        ),
+                      ],
                     ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(left: 8, right: 8),
+                    //   child: Card(
+                    //     child: Container(
+                    //       height: 60,
+                    //       width: MediaQuery.of(context).size.width,
+                    //       decoration: BoxDecoration(
+                    //           border: Border.all(color: Colors.black38)),
+                    //       child: Padding(
+                    //         padding: EdgeInsets.only(left: 10, right: 10),
+                    //         child: DropdownButton(
+                    //           isExpanded: true,
+                    //           value: _selectedExpenseMethod,
+                    //           items: [
+                    //             DropdownMenuItem(
+                    //               child: Text("Cash"),
+                    //               value: 1,
+                    //             ),
+                    //             DropdownMenuItem(
+                    //               child: Text("Card"),
+                    //               value: 2,
+                    //             ),
+                    //             DropdownMenuItem(
+                    //               child: Text("Bank Transfer"),
+                    //               value: 3,
+                    //             ),
+                    //             DropdownMenuItem(
+                    //               child: Text("Check"),
+                    //               value: 4,
+                    //             ),
+                    //           ],
+                    //           onChanged: (value) {
+                    //             _selectedExpenseMethod = value;
+                    //           },
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     CustomDatePickerWidget(
                       hint: 'Payable',
                       controller: _payableController,

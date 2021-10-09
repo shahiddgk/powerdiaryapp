@@ -125,10 +125,11 @@ class _CreateServiceState extends State<CreateService> {
                       },
                       controller: _serviceColorController,
                     ),
-                    TextFeildWidget(
-                      hint: 'Customer Message',
-                      controller: _customerMessageController,
-                    ),
+                    // TextFeildWidget(
+                    //   hint: 'Customer Message',
+                    //   controller: _customerMessageController,
+                    //   optional: true,
+                    // ),
                     Row(
                       children: <Widget>[
                         Expanded(
@@ -189,7 +190,9 @@ class _CreateServiceState extends State<CreateService> {
         name: _nameController.text,
         price: _priceController.text,
         serviceColor: _serviceColorController.text,
-        customerMessage: _customerMessageController.text,
+        // customerMessage: _customerMessageController.text.isEmpty
+        //     ? ''
+        //     : _customerMessageController.text,
         companyId: '${globalSessionUser.companyId}',
         id: '${globalSessionUser.id}',
       ))

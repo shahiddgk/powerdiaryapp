@@ -40,6 +40,7 @@ class ApplicationURLs {
   static const API_BOOKING_STATUS = BASE_URL + "booking-status";
   static const API_BOOKING_SEND_INVOICE = BASE_URL + "send-invoice";
   static const API_TAX_INFO = BASE_URL + "tax-info";
+  static const API_CATEGORY_SERVICES = BASE_URL + "category-services";
 
   //User
   static const API_USER_LIST = BASE_URL + "users";
@@ -56,6 +57,7 @@ class ApplicationURLs {
   static const API_ROLE_UPDATE = BASE_URL + "roles/update";
   static const API_ROLE_DELETE = BASE_URL + "roles/delete";
   static const API_ROLE_PERMISSIONS = BASE_URL + "roles/permissions-name";
+  static const API_ROLE_PERMISSIONS_LIST = BASE_URL + "roles/permissions";
 
   //Expense Types
   static const API_EXPENSE_TYPE_LIST = BASE_URL + "expense-types";

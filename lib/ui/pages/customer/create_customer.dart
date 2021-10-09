@@ -62,7 +62,8 @@ class _CreateCustomerState extends State<CreateCustomer> {
     'Recommendation',
     'Repeat client',
     'Seen van',
-    'Paper advert'
+    'Paper advert',
+    'Facebook'
   ];
   String referredByDropDownValue = 'Google';
 
