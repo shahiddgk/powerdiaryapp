@@ -103,7 +103,7 @@ class _EditExpensesState extends State<EditExpenses> {
                           value: 3,
                         ),
                         DropdownMenuItem(
-                          child: Text("Check"),
+                          child: Text("Cheque"),
                           value: 4,
                         ),
                       ],

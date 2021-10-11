@@ -430,6 +430,7 @@ class _EditBookingState extends State<EditBooking> {
                   ),
                   TextFeildWidget(
                     hint: 'Comments',
+                    optional: true,
                     controller: _commentsController,
                   ),
                   Row(

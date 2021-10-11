@@ -29,7 +29,12 @@ class _DropdownFeildWidgetState extends State<DropdownFeildWidget> {
                 child: DropdownButtonHideUnderline(
                   child: ButtonTheme(
                     alignedDropdown: true,
-                    child: DropdownButton<String>(
+                    child: DropdownButtonFormField<String>(
+                      validator: (value) {
+                        if (value == null || value.length == 0) {
+                          return 'Please select one options';
+                        }
+                      },
                       value: widget.initialState,
                       iconSize: 30,
                       icon: (null),
@@ -45,16 +50,6 @@ class _DropdownFeildWidgetState extends State<DropdownFeildWidget> {
                   ),
                 ),
               )),
-          if (widget.initialState == null || widget.initialState.isEmpty)
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15),
-                  child: Text(
-                    "Required Field",
-                    style: style_InputErrorText,
-                  )),
-            )
         ]));
   }
 }

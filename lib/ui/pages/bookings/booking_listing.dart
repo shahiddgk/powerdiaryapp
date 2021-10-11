@@ -147,201 +147,209 @@ class _BookingListingState extends State<BookingListing> {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: bookingList.length == 0
                     ? Text("No Booking available")
-                    : GridView.builder(
-                        itemCount: bookingList.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5,
-                            childAspectRatio: 0.72,
-                            crossAxisCount: 2),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: EdgeInsets.all(5),
-                            child: Card(
-                                shadowColor: Colors.white,
-                                color: Colors.white,
-                                elevation: 20,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Stack(
-                                  children: <Widget>[
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.all(5),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons.calendar_today),
-                                                    SizedBox(
-                                                      width: 5,
+                    : _counter > 0
+                        ? Center(child: CircularProgressIndicator())
+                        : GridView.builder(
+                            itemCount: bookingList.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisSpacing: 5,
+                                    mainAxisSpacing: 5,
+                                    childAspectRatio: 0.72,
+                                    crossAxisCount: 2),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Card(
+                                    shadowColor: Colors.white,
+                                    color: Colors.white,
+                                    elevation: 20,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.all(5),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons
+                                                            .calendar_today),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          "${DateFormat.yMMMd().format(bookingList[index].dueDate)}",
+                                                          style: TextStyle(
+                                                            fontSize: 15.0,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    Text(
-                                                      "${DateFormat.yMMMd().format(bookingList[index].dueDate)}",
-                                                      style: TextStyle(
-                                                        fontSize: 15.0,
-                                                      ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.person),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          "${bookingList[index].customerName}",
+                                                          style: TextStyle(
+                                                            fontSize: 15.0,
+                                                          ),
+                                                        )
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons.person),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "${bookingList[index].customerName}",
-                                                      style: TextStyle(
-                                                        fontSize: 15.0,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  child: Row(
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(Icons
+                                                              .insert_chart),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            "${bookingList[index].services}",
+                                                            style: TextStyle(
+                                                              fontSize: 15.0,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
                                                     children: [
-                                                      Icon(Icons.insert_chart),
+                                                      Icon(FontAwesomeIcons
+                                                          .poundSign),
                                                       SizedBox(
                                                         width: 5,
                                                       ),
                                                       Text(
-                                                        "${bookingList[index].services}",
+                                                        "${bookingList[index].totalPrice}",
                                                         style: TextStyle(
                                                           fontSize: 15.0,
                                                         ),
                                                       ),
                                                     ],
-                                                  )),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Icon(FontAwesomeIcons
-                                                      .poundSign),
+                                                  ),
                                                   SizedBox(
-                                                    width: 5,
+                                                    height: 5,
                                                   ),
-                                                  Text(
-                                                    "${bookingList[index].totalPrice}",
-                                                    style: TextStyle(
-                                                      fontSize: 15.0,
-                                                    ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(FontAwesomeIcons
+                                                          .clock),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "${bookingList[index].startTime}",
+                                                        style: TextStyle(
+                                                          fontSize: 15.0,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Icon(FontAwesomeIcons.clock),
                                                   SizedBox(
-                                                    width: 5,
+                                                    height: 5,
                                                   ),
-                                                  Text(
-                                                    "${bookingList[index].startTime}",
-                                                    style: TextStyle(
-                                                      fontSize: 15.0,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              IgnorePointer(
-                                                ignoring: bookingList[index]
-                                                            .serviceStatus ==
-                                                        3
-                                                    ? true
-                                                    : false,
-                                                child: DropdownButton(
-                                                  hint: Text("Completed"),
-                                                  value: bookingList[index]
-                                                      .serviceStatus,
-                                                  items: [
-                                                    DropdownMenuItem(
-                                                      child: Text("Booked"),
-                                                      value: 1,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child:
-                                                          Text("In-Progress"),
-                                                      value: 2,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text("Completed"),
-                                                      value: 3,
-                                                      onTap: () {
-                                                        _paymentPopup(
-                                                            bookingList[index]);
+                                                  IgnorePointer(
+                                                    ignoring: bookingList[index]
+                                                                .serviceStatus ==
+                                                            3
+                                                        ? true
+                                                        : false,
+                                                    child: DropdownButton(
+                                                      hint: Text("Completed"),
+                                                      value: bookingList[index]
+                                                          .serviceStatus,
+                                                      items: [
+                                                        DropdownMenuItem(
+                                                          child: Text("Booked"),
+                                                          value: 1,
+                                                        ),
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                              "In-Progress"),
+                                                          value: 2,
+                                                        ),
+                                                        DropdownMenuItem(
+                                                          child:
+                                                              Text("Completed"),
+                                                          value: 3,
+                                                          onTap: () {
+                                                            _paymentPopup(
+                                                                bookingList[
+                                                                    index]);
+                                                          },
+                                                        ),
+                                                        DropdownMenuItem(
+                                                          child: Text("Cancel"),
+                                                          value: 4,
+                                                        ),
+                                                      ],
+                                                      onChanged: (value) {
+                                                        if (value != 3) {
+                                                          _updateBookingStatus(
+                                                              bookingList[
+                                                                  index],
+                                                              value);
+                                                        }
                                                       },
                                                     ),
-                                                    DropdownMenuItem(
-                                                      child: Text("Cancel"),
-                                                      value: 4,
-                                                    ),
-                                                  ],
-                                                  onChanged: (value) {
-                                                    if (value != 3) {
-                                                      _updateBookingStatus(
-                                                          bookingList[index],
-                                                          value);
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(
-                                                  children: [
-                                                    Visibility(
-                                                      visible: bookingList[
-                                                                          index]
-                                                                      .serviceStatus ==
-                                                                  3 ||
-                                                              bookingList[index]
-                                                                      .serviceStatus ==
-                                                                  4
-                                                          ? false
-                                                          : true,
-                                                      child:
-                                                          permissionShowResponse
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                      children: [
+                                                        Visibility(
+                                                          visible: bookingList[
+                                                                              index]
+                                                                          .serviceStatus ==
+                                                                      3 ||
+                                                                  bookingList[index]
+                                                                          .serviceStatus ==
+                                                                      4
+                                                              ? false
+                                                              : true,
+                                                          child: permissionShowResponse
                                                                       .booking[
                                                                           0]
                                                                       .update ==
@@ -369,92 +377,92 @@ class _BookingListingState extends State<BookingListing> {
                                                                   //       index]);
                                                                   // },
                                                                 ),
-                                                    ),
-                                                    Visibility(
-                                                      visible: bookingList[
-                                                                          index]
-                                                                      .serviceStatus ==
-                                                                  3 ||
-                                                              bookingList[index]
-                                                                      .serviceStatus ==
-                                                                  4
-                                                          ? false
-                                                          : true,
-                                                      child: IconButton(
-                                                        icon: Icon(
-                                                          Icons.delete,
-                                                          color: Colors.red,
                                                         ),
-                                                        onPressed: () {
-                                                          _deleteBooking(
-                                                              bookingList[
-                                                                  index]);
-                                                        },
-                                                      ),
-                                                    ),
-                                                    permissionShowResponse
-                                                                .booking[0]
-                                                                .viewInvoice ==
-                                                            1
-                                                        ? IconButton(
+                                                        Visibility(
+                                                          visible: bookingList[
+                                                                              index]
+                                                                          .serviceStatus ==
+                                                                      3 ||
+                                                                  bookingList[index]
+                                                                          .serviceStatus ==
+                                                                      4
+                                                              ? false
+                                                              : true,
+                                                          child: IconButton(
                                                             icon: Icon(
-                                                              Icons
-                                                                  .receipt_long_outlined,
-                                                              color:
-                                                                  Colors.black,
+                                                              Icons.delete,
+                                                              color: Colors.red,
                                                             ),
                                                             onPressed: () {
-                                                              _showBooking(
+                                                              _deleteBooking(
                                                                   bookingList[
                                                                       index]);
                                                             },
-                                                          )
-                                                        : IconButton(
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .receipt_long_outlined,
-                                                              color:
-                                                                  Colors.grey,
-                                                            ),
-                                                            // onPressed: () {
-                                                            //   _showBooking(
-                                                            //       bookingList[index]);
-                                                            // },
                                                           ),
-                                                    Visibility(
-                                                      visible: bookingList[
-                                                                          index]
-                                                                      .serviceStatus ==
-                                                                  3 ||
-                                                              bookingList[index]
-                                                                      .serviceStatus ==
-                                                                  4
-                                                          ? false
-                                                          : true,
-                                                      child: IconButton(
-                                                        icon: Icon(
-                                                          Icons.directions,
                                                         ),
-                                                        onPressed: () {
-                                                          _showDirections(
-                                                              bookingList[
-                                                                  index]);
-                                                          // _getCurrentLocation();
-                                                        },
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
+                                                        permissionShowResponse
+                                                                    .booking[0]
+                                                                    .viewInvoice ==
+                                                                1
+                                                            ? IconButton(
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .receipt_long_outlined,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                                onPressed: () {
+                                                                  _showBooking(
+                                                                      bookingList[
+                                                                          index]);
+                                                                },
+                                                              )
+                                                            : IconButton(
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .receipt_long_outlined,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                                // onPressed: () {
+                                                                //   _showBooking(
+                                                                //       bookingList[index]);
+                                                                // },
+                                                              ),
+                                                        Visibility(
+                                                          visible: bookingList[
+                                                                              index]
+                                                                          .serviceStatus ==
+                                                                      3 ||
+                                                                  bookingList[index]
+                                                                          .serviceStatus ==
+                                                                      4
+                                                              ? false
+                                                              : true,
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                              Icons.directions,
+                                                            ),
+                                                            onPressed: () {
+                                                              _showDirections(
+                                                                  bookingList[
+                                                                      index]);
+                                                              // _getCurrentLocation();
+                                                            },
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
                                         )
                                       ],
-                                    )
-                                  ],
-                                )),
-                          );
-                        })
+                                    )),
+                              );
+                            })
                 // SingleChildScrollView(
                 //         scrollDirection: Axis.vertical,
                 //         child: SingleChildScrollView(

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:powerdiary/models/pd_location.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
+import 'package:powerdiary/models/request/permission_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
 import 'package:powerdiary/network/http_manager.dart';
 import 'package:powerdiary/ui/pages/bookings/create_booking.dart';
@@ -20,6 +21,7 @@ import 'package:powerdiary/utils/styles.dart';
 import 'package:powerdiary/utils/utils.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:powerdiary/models/response/permission_list_response.dart';
 
 class dashboard extends StatefulWidget {
   @override
@@ -35,6 +37,7 @@ class _dashboardState extends State<dashboard> {
   final GlobalKey<FormState> _smsFormKey = GlobalKey<FormState>();
   String selectedStatus = "0";
   Map<int, String> userFilter = new Map<int, String>();
+  PermissionShowResponse permissionShowResponse;
 
   @override
   void initState() {
@@ -44,6 +47,9 @@ class _dashboardState extends State<dashboard> {
         _pdLocation = value;
       });
     });
+
+    _getPermissionList();
+
     super.initState();
   }
 
@@ -73,6 +79,28 @@ class _dashboardState extends State<dashboard> {
         });
       }, () {
         _getBookingList();
+      });
+    });
+  }
+
+  _getPermissionList() {
+    HTTPManager()
+        .getPermissionList(PermissionListRequest(
+            companyId: globalSessionUser.companyId,
+            roleId: globalSessionUser.roleId))
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+        permissionShowResponse = value;
+      });
+    }).catchError((e) {
+      print(e);
+      showAlert(context, e.toString(), true, () {
+        setState(() {
+          _isLoading = false;
+        });
+      }, () {
+        _getPermissionList();
       });
     });
   }
@@ -204,15 +232,29 @@ class _dashboardState extends State<dashboard> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(Icons.edit),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop();
-                                      _updateBooking(
-                                          details.appointments[index]);
-                                    },
-                                  ),
+                                  permissionShowResponse.booking[0].update == 1
+                                      ? IconButton(
+                                          icon: Icon(Icons.edit),
+                                          onPressed: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop();
+                                            _updateBooking(
+                                                details.appointments[index]);
+                                          },
+                                        )
+                                      : IconButton(
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Colors.grey,
+                                          ),
+                                          // onPressed: () {
+                                          //   Navigator.of(context, rootNavigator: true)
+                                          //       .pop();
+                                          //   _updateBooking(
+                                          //       details.appointments[index]);
+                                          // },
+                                        ),
                                   IconButton(
                                     icon: Icon(Icons.delete),
                                     onPressed: () {
@@ -222,14 +264,31 @@ class _dashboardState extends State<dashboard> {
                                           details.appointments[index]);
                                     },
                                   ),
-                                  IconButton(
-                                    icon: Icon(Icons.receipt_long_outlined),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop();
-                                      _showBooking(details.appointments[index]);
-                                    },
-                                  ),
+                                  permissionShowResponse
+                                              .booking[0].viewInvoice ==
+                                          1
+                                      ? IconButton(
+                                          icon:
+                                              Icon(Icons.receipt_long_outlined),
+                                          onPressed: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop();
+                                            _showBooking(
+                                                details.appointments[index]);
+                                          },
+                                        )
+                                      : IconButton(
+                                          icon: Icon(
+                                            Icons.receipt_long_outlined,
+                                            color: Colors.grey,
+                                          ),
+                                          // onPressed: () {
+                                          //   Navigator.of(context, rootNavigator: true)
+                                          //       .pop();
+                                          //   _showBooking(details.appointments[index]);
+                                          // },
+                                        ),
                                   IconButton(
                                     icon: Icon(Icons.send_to_mobile),
                                     onPressed: () {
