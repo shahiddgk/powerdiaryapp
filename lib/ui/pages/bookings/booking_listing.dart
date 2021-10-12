@@ -18,6 +18,7 @@ import 'package:powerdiary/ui/pages/bookings/view_booking_invoice.dart';
 import 'package:powerdiary/ui/widgets/widget_progress_indicator.dart';
 import 'package:powerdiary/ui/widgets/widget_text_field.dart';
 import 'package:powerdiary/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BookingListing extends StatefulWidget {
   @override
@@ -701,9 +702,8 @@ class _BookingListingState extends State<BookingListing> {
         await MapLauncher.showDirections(
           mapType: MapType.google,
           destination: Coords(
-            double.parse(bookingReadResponse.customerReadResponse.latitude),
-            double.parse(bookingReadResponse.customerReadResponse.longitude),
-          ),
+              double.parse(bookingReadResponse.customerReadResponse.latitude),
+              double.parse(bookingReadResponse.customerReadResponse.longitude)),
           destinationTitle: bookingReadResponse.customerReadResponse.address,
           origin: Coords(_pdLocation.latitude, _pdLocation.longitude),
           originTitle: "User Current Location",
@@ -711,7 +711,11 @@ class _BookingListingState extends State<BookingListing> {
           directionsMode: DirectionsMode.driving,
         );
       } else {
-        throw "google Maps not available";
+        const _url =
+            'https://apps.apple.com/gb/app/google-maps-transit-food/id585027354';
+        await canLaunch(_url)
+            ? await launch(_url)
+            : throw 'Could not launch $_url';
       }
     }
   }

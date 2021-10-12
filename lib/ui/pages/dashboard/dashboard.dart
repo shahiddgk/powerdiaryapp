@@ -22,6 +22,7 @@ import 'package:powerdiary/utils/utils.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:powerdiary/models/response/permission_list_response.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class dashboard extends StatefulWidget {
   @override
@@ -406,19 +407,24 @@ class _dashboardState extends State<dashboard> {
       }
     } else if (Platform.isIOS) {
       // iOS-specific code/UI Component
-      if (await MapLauncher.isMapAvailable(MapType.apple)) {
+      if (await MapLauncher.isMapAvailable(MapType.google)) {
         await MapLauncher.showDirections(
-          mapType: MapType.apple,
+          mapType: MapType.google,
           destination: Coords(
-            double.parse(bookingReadResponse.customerReadResponse.latitude),
-            double.parse(bookingReadResponse.customerReadResponse.longitude),
-          ),
+              double.parse(bookingReadResponse.customerReadResponse.latitude),
+              double.parse(bookingReadResponse.customerReadResponse.longitude)),
           destinationTitle: bookingReadResponse.customerReadResponse.address,
           origin: Coords(_pdLocation.latitude, _pdLocation.longitude),
           originTitle: "User Current Location",
           //waypoints: waypoints,
           directionsMode: DirectionsMode.driving,
         );
+      } else {
+        const _url =
+            'https://apps.apple.com/gb/app/google-maps-transit-food/id585027354';
+        await canLaunch(_url)
+            ? await launch(_url)
+            : throw 'Could not launch $_url';
       }
     }
   }

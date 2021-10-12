@@ -66,7 +66,7 @@ class _EditCustomerState extends State<EditCustomer> {
           latitude: double.parse(widget.customerReadResponse.latitude),
           longitude: double.parse(widget.customerReadResponse.longitude),
           address: widget.customerReadResponse.address);
-      _addressListState = widget.customerReadResponse.address;
+      // _addressListState = widget.customerReadResponse.address;
       _getAddressesList();
       _isLoading = false;
     });
