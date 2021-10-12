@@ -188,7 +188,7 @@ class _ServicesListingState extends State<ServicesListing> {
                                                       Text(
                                                         "${serviceList[index].serviceColor}",
                                                         style: TextStyle(
-                                                          fontSize: 15.0,
+                                                          fontSize: 13.0,
                                                         ),
                                                       ),
                                                     ],
@@ -196,23 +196,23 @@ class _ServicesListingState extends State<ServicesListing> {
                                                   SizedBox(
                                                     height: 5,
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Icon(Icons.message),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        "${serviceList[index].customerMessage == null ? " " : serviceList[index].customerMessage}",
-                                                        style: TextStyle(
-                                                          fontSize: 15.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
+                                                  // Row(
+                                                  //   children: [
+                                                  //     Icon(Icons.message),
+                                                  //     SizedBox(
+                                                  //       width: 5,
+                                                  //     ),
+                                                  //     Text(
+                                                  //       "${serviceList[index].customerMessage == null ? " " : serviceList[index].customerMessage}",
+                                                  //       style: TextStyle(
+                                                  //         fontSize: 15.0,
+                                                  //       ),
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                  // SizedBox(
+                                                  //   height: 5,
+                                                  // ),
                                                   Row(
                                                     children: [
                                                       Icon(

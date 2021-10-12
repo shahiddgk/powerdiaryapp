@@ -25,6 +25,7 @@ class _CustomersListingState extends State<CustomersListing> {
   String api_response = "";
   List<CustomerReadResponse> customerList = [];
   PermissionShowResponse permissionShowResponse;
+  MapTileLayerController _controller;
 
   int _counter = 5;
   Timer _timer;
@@ -107,10 +108,17 @@ class _CustomersListingState extends State<CustomersListing> {
     });
   }
 
+  List<GeneralModel> _general;
+
   @override
   void initState() {
     _getCustomerList();
     _getPermissionList();
+
+    setState(() {
+      _general = <GeneralModel>[GeneralModel(55.3781, 3.4360)];
+    });
+    _controller = MapTileLayerController();
 
     _stTimer();
     _startTimer();
@@ -236,28 +244,28 @@ class _CustomersListingState extends State<CustomersListing> {
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(Icons.phone),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        customerList[index]
-                                                            .secondaryPhone,
-                                                        style: TextStyle(
-                                                          fontSize: 15.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
+                                                // SizedBox(
+                                                //   height: 5,
+                                                // ),
+                                                // SingleChildScrollView(
+                                                //   scrollDirection:
+                                                //       Axis.horizontal,
+                                                //   child: Row(
+                                                //     children: [
+                                                //       Icon(Icons.phone),
+                                                //       SizedBox(
+                                                //         width: 5,
+                                                //       ),
+                                                //       Text(
+                                                //         customerList[index]
+                                                //             .secondaryPhone,
+                                                //         style: TextStyle(
+                                                //           fontSize: 15.0,
+                                                //         ),
+                                                //       ),
+                                                //     ],
+                                                //   ),
+                                                // ),
                                                 SizedBox(
                                                   height: 5,
                                                 ),
@@ -353,63 +361,92 @@ class _CustomersListingState extends State<CustomersListing> {
                                                           ),
                                                   ],
                                                 ),
-                                                Container(
-                                                  height: 110,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  child: SingleChildScrollView(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    child:
-                                                        SingleChildScrollView(
-                                                      scrollDirection:
-                                                          Axis.vertical,
-                                                      child: SfMaps(
-                                                        layers: <MapLayer>[
-                                                          MapTileLayer(
-                                                            initialMarkersCount:
-                                                                1,
-                                                            //controller: _controller,
-                                                            urlTemplate:
-                                                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                            initialFocalLatLng: MapLatLng(
-                                                                double.parse(
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 3.0, right: 3.0),
+                                                  child: Container(
+                                                    height: 140,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    child: SfMaps(
+                                                      layers: <MapLayer>[
+                                                        MapTileLayer(
+                                                          controller:
+                                                              _controller,
+                                                          initialMarkersCount:
+                                                              1,
+                                                          //controller: _controller,
+                                                          urlTemplate:
+                                                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                          initialFocalLatLng: customerList[
+                                                                          index]
+                                                                      .latitude
+                                                                      .isEmpty ||
+                                                                  customerList[
+                                                                          index]
+                                                                      .longitude
+                                                                      .isEmpty
+                                                              ? MapLatLng(
+                                                                  54.5316223,
+                                                                  -8.0317785)
+                                                              : MapLatLng(
+                                                                  double.parse(_data[
+                                                                          index]
+                                                                      .latitude),
+                                                                  double.parse(_data[
+                                                                          index]
+                                                                      .longitude),
+                                                                ),
+                                                          initialZoomLevel: 5,
+                                                          markerBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int i) {
+                                                            return customerList[
+                                                                            index]
+                                                                        .latitude
+                                                                        .isEmpty ||
                                                                     customerList[
                                                                             index]
-                                                                        .latitude),
-                                                                double.parse(
-                                                                    customerList[
-                                                                            index]
-                                                                        .longitude)),
-                                                            initialZoomLevel: 5,
-                                                            markerBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int i) {
-                                                              return MapMarker(
-                                                                latitude: double
-                                                                    .parse(_data[
-                                                                            index]
-                                                                        .latitude),
-                                                                longitude:
-                                                                    double
-                                                                        .parse(
-                                                                  _data[index]
-                                                                      .longitude,
-                                                                ),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .location_on,
-                                                                  color: Colors
-                                                                      .red,
-                                                                  size: 20,
-                                                                ),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
+                                                                        .latitude
+                                                                        .isEmpty
+                                                                ? MapMarker(
+                                                                    latitude:
+                                                                        _general[0]
+                                                                            .latitude,
+                                                                    longitude:
+                                                                        _general[0]
+                                                                            .longitude,
+                                                                    // child:
+                                                                    // Icon(
+                                                                    //   Icons
+                                                                    //       .location_on,
+                                                                    //   color: Colors
+                                                                    //       .red,
+                                                                    //   size:
+                                                                    //   20,
+                                                                    // ),
+                                                                  )
+                                                                : MapMarker(
+                                                                    latitude: double.parse(
+                                                                        _data[index]
+                                                                            .latitude),
+                                                                    longitude: double.parse(
+                                                                        _data[index]
+                                                                            .longitude),
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .location_on,
+                                                                      color: Colors
+                                                                          .red,
+                                                                      size: 20,
+                                                                    ),
+                                                                  );
+                                                          },
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
@@ -561,4 +598,11 @@ class Model {
   String toString() {
     return '{ ${this.latitude}, ${this.longitude} }';
   }
+}
+
+class GeneralModel {
+  final double latitude;
+  final double longitude;
+
+  GeneralModel(this.longitude, this.latitude);
 }
