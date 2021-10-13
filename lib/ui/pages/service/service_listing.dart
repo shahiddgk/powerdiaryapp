@@ -23,11 +23,11 @@ class _ServicesListingState extends State<ServicesListing> {
   bool _isLoading = true;
   List<ServiceReadResponse> serviceList = [];
   PermissionShowResponse permissionShowResponse;
-  int _counter = 5;
+  int _counter = 3;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 5;
+    _counter = 3;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -105,7 +105,7 @@ class _ServicesListingState extends State<ServicesListing> {
                 child: serviceList.length == 0
                     ? Text("No Service available")
                     : _counter > 0
-                        ? Center(child: CircularProgressIndicator())
+                        ? Text("No Service available")
                         : GridView.builder(
                             itemCount: serviceList.length,
                             gridDelegate:

@@ -22,11 +22,11 @@ class _ExpenseTypeState extends State<ExpenseType> {
   List<ExpenseTypeReadResponse> expensetypeList = [];
   PermissionShowResponse permissionShowResponse;
 
-  int _counter = 5;
+  int _counter = 3;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 5;
+    _counter = 3;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -103,7 +103,7 @@ class _ExpenseTypeState extends State<ExpenseType> {
             child: expensetypeList.length == 0
                 ? Text("No Expense Types available")
                 : _counter > 0
-                    ? Center(child: CircularProgressIndicator())
+                    ? Text("No Expense Types available")
                     : SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: SingleChildScrollView(

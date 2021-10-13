@@ -150,11 +150,16 @@ class BookingReadResponse {
           hour: (st.contains("PM") ? hours + 12 : hours), minute: minutes);
       return DateTime(
           dateTime.year, dateTime.month, dateTime.day, time.hour, time.minute);
-    } else if (hours == 12) {
+    } else if (hours == 12 && st.contains("PM")) {
       TimeOfDay time = TimeOfDay(
           hour: (st.contains("PM") ? hours : hours + 12), minute: minutes);
-      return DateTime(dateTime.year, dateTime.month, dateTime.day - 1,
-          time.hour, time.minute);
+      return DateTime(
+          dateTime.year, dateTime.month, dateTime.day, time.hour, time.minute);
+    } else if (hours == 12 && st.contains("AM")) {
+      TimeOfDay time = TimeOfDay(
+          hour: (st.contains("AM") ? hours - 12 : hours), minute: minutes);
+      return DateTime(
+          dateTime.year, dateTime.month, dateTime.day, time.hour, time.minute);
     }
   }
 
@@ -169,11 +174,17 @@ class BookingReadResponse {
       DateTime endDate = DateTime(
           dateTime.year, dateTime.month, dateTime.day, time.hour, time.minute);
       return endDate.add(Duration(seconds: endTime * 60));
-    } else if (hours == 12) {
+    } else if (hours == 12 && st.contains("PM")) {
       TimeOfDay time = TimeOfDay(
           hour: (st.contains("PM") ? hours : hours + 12), minute: minutes);
-      DateTime endDate = DateTime(dateTime.year, dateTime.month,
-          dateTime.day - 1, time.hour, time.minute);
+      DateTime endDate = DateTime(
+          dateTime.year, dateTime.month, dateTime.day, time.hour, time.minute);
+      return endDate.add(Duration(seconds: endTime * 60));
+    } else if (hours == 12 && st.contains("AM")) {
+      TimeOfDay time = TimeOfDay(
+          hour: (st.contains("AM") ? hours - 12 : hours), minute: minutes);
+      DateTime endDate = DateTime(
+          dateTime.year, dateTime.month, dateTime.day, time.hour, time.minute);
       return endDate.add(Duration(seconds: endTime * 60));
     }
   }

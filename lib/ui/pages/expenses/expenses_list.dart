@@ -19,11 +19,11 @@ class _ExpensesListState extends State<ExpensesList> {
   bool _isLoading = true;
   List<ExpenseReadResponse> expenseList = [];
 
-  int _counter = 5;
+  int _counter = 3;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 5;
+    _counter = 3;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -76,7 +76,7 @@ class _ExpensesListState extends State<ExpensesList> {
             child: expenseList.length == 0
                 ? Text("No Expenses available")
                 : _counter > 0
-                    ? Center(child: CircularProgressIndicator())
+                    ? Text("No Expenses available")
                     : SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: SingleChildScrollView(

@@ -325,109 +325,135 @@ class _CreateBookingState extends State<CreateBooking> {
                       })?.toList(),
                     ),
                     // _categoryListState != null
-                    //     ? Container(
-                    //         padding: EdgeInsets.symmetric(
-                    //             horizontal: 10, vertical: 5),
-                    //         width: MediaQuery.of(context).size.width,
-                    //         child: Card(
-                    //           elevation: 8,
-                    //           child: MultiSelectDialogField(
-                    //             height: 250,
-                    //             title: Text('services'),
-                    //             items: categoryServiceNameList1
-                    //                 .map((e) =>
-                    //                     MultiSelectItem<dynamic>(e.id, e.name))
-                    //                 .toList(),
-                    //             // onSaved: (value) {
-                    //             //   if (value == null) return;
-                    //             //   setState(() {
-                    //             //     serviceList = value;
-                    //             //   });
-                    //             // },
-                    //             onSelectionChanged: (value) {
-                    //               // for (int i = 0; i < value.length; i++) {
-                    //
-                    //               if (categoryServiceNameList1
-                    //                       .contains(services) &&
-                    //                   services.isNotEmpty) {
-                    //                 // setState(() {
-                    //                 //   List availableServices = [];
-                    //                 //   services.add(value);
-                    //                 //   selectedServices = services;
-                    //                 //   selectedServices = selectedServices[
-                    //                 //       selectedServices.length - 1];
-                    //                 //
-                    //                 //   availableServices = value + services;
-                    //                 //
-                    //                 //   value = availableServices;
-                    //                 //   print("Value::${value}");
-                    //                 //
-                    //                 //   print('Services::${services}');
-                    //                 //   print(
-                    //                 //       'selectedServices::${selectedServices}');
-                    //                 // });
-                    //               } else {
-                    //                 List newServicesList = [];
-                    //                 setState(() {
-                    //                   newServicesList.add(value);
-                    //
-                    //                   selectedServices = newServicesList;
-                    //
-                    //                   // selectedServices = selectedServices[0];
-                    //
-                    //                   print(
-                    //                       'newServicesList::${newServicesList}');
-                    //                   print(
-                    //                       'selectedServices::${selectedServices}');
-                    //                 });
-                    //               }
-                    //               // }
-                    //               // setState(() {
-                    //               //
-                    //               // });
-                    //             },
-                    //             // onSaved: (result) {
-                    //             //   int totalPrice = 0;
-                    //             //   // for (ServiceReadResponse vl in result) {
-                    //             //   //   totalPrice += vl.price;
-                    //             //   //   services.add(vl.id);
-                    //             //   //   print('services:${services}');
-                    //             //   // }
-                    //             //   setState(() {
-                    //             //     _priceController.text =
-                    //             //         totalPrice.toString();
-                    //             //     servicesSum = totalPrice;
-                    //             //     services = result;
-                    //             //     selectedServices = services;
-                    //             //     print('services::${services}');
-                    //             //   });
-                    //             // }
-                    //           ),
-                    //         ),
-                    //       )
-                    //     :
-                    MultiselectDropdownFeildWidget(
-                      hintText: "Select Services",
-                      items: serviceList?.map((item) {
-                        return MultiselectItem(
-                          display: item.name,
-                          value: item,
-                        ).toJson();
-                      })?.toList(),
-                      onValueChange: (value) {
-                        int totalPrice = 0;
-                        List services = [];
-                        for (ServiceReadResponse vl in value) {
-                          totalPrice += vl.price;
-                          services.add(vl.id);
-                        }
-                        setState(() {
-                          _priceController.text = totalPrice.toString();
-                          servicesSum = totalPrice;
-                          selectedServices = services;
-                        });
-                      },
+                    //     ?
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      width: MediaQuery.of(context).size.width,
+                      child: Card(
+                        elevation: 8,
+                        child: MultiSelectDialogField(
+                          height: 250,
+                          title: Text('services'),
+                          items: categoryServiceNameList1
+                              .map(
+                                  (e) => MultiSelectItem<dynamic>(e.id, e.name))
+                              .toList(),
+                          // onSaved: (value) {
+                          //   if (value == null) return;
+                          //   setState(() {
+                          //     serviceList = value;
+                          //   });
+                          // },
+                          onSelectionChanged: (value) {
+                            // for (int i = 0; i < value.length; i++) {
+
+                            if (categoryServiceNameList1.contains(services) &&
+                                services.isNotEmpty) {
+                              // setState(() {
+                              //   List availableServices = [];
+                              //   services.add(value);
+                              //   selectedServices = services;
+                              //   selectedServices = selectedServices[
+                              //       selectedServices.length - 1];
+                              //
+                              //   availableServices = value + services;
+                              //
+                              //   value = availableServices;
+                              //   print("Value::${value}");
+                              //
+                              //   print('Services::${services}');
+                              //   print(
+                              //       'selectedServices::${selectedServices}');
+                              // });
+                            } else {
+                              List newServicesList = [];
+                              int totalPrice = 0;
+
+                              if (serviceList.isNotEmpty) {
+                                for (int i = 0; i < serviceList.length; i++) {
+                                  for (int j = 0; j < value.length; j++) {
+                                    int serviceID = serviceList[i].id;
+                                    String valueId = value[j];
+                                    int valueID = int.parse(valueId);
+                                    if (serviceID == valueID) {
+                                      setState(() {
+                                        print(
+                                            "serviceList:::${serviceList[i].id}");
+                                        print(
+                                            "serviceListPrice:::${serviceList[i].price}");
+                                        print("value:::${value[j]}");
+
+                                        totalPrice =
+                                            totalPrice + serviceList[i].price;
+
+                                        print("totalPrice:::${totalPrice}");
+                                      });
+                                    }
+                                  }
+                                }
+                              }
+
+                              setState(() {
+                                print("value:::${value}");
+
+                                newServicesList.add(value);
+
+                                _priceController.text = totalPrice.toString();
+
+                                selectedServices = newServicesList;
+
+                                print('newServicesList::${newServicesList}');
+                                print('selectedServices::${selectedServices}');
+                              });
+                            }
+                            // }
+                            // setState(() {
+                            //
+                            // });
+                          },
+                          // onSaved: (result) {
+                          //   int totalPrice = 0;
+                          //   // for (ServiceReadResponse vl in result) {
+                          //   //   totalPrice += vl.price;
+                          //   //   services.add(vl.id);
+                          //   //   print('services:${services}');
+                          //   // }
+                          //   setState(() {
+                          //     _priceController.text =
+                          //         totalPrice.toString();
+                          //     servicesSum = totalPrice;
+                          //     services = result;
+                          //     selectedServices = services;
+                          //     print('services::${services}');
+                          //   });
+                          // }
+                        ),
+                      ),
                     ),
+                    //     :
+                    // MultiselectDropdownFeildWidget(
+                    //   hintText: "Select Services",
+                    //   items: serviceList?.map((item) {
+                    //     return MultiselectItem(
+                    //       display: item.name,
+                    //       value: item,
+                    //     ).toJson();
+                    //   })?.toList(),
+                    //   onValueChange: (value) {
+                    //     int totalPrice = 0;
+                    //     List services = [];
+                    //     for (ServiceReadResponse vl in value) {
+                    //       totalPrice += vl.price;
+                    //       services.add(vl.id);
+                    //     }
+                    //     setState(() {
+                    //       _priceController.text = totalPrice.toString();
+                    //       servicesSum = totalPrice;
+                    //       selectedServices = services;
+                    //     });
+                    //   },
+                    // ),
                     // MultiselectDropdownFeildWidget(
                     //     hintText: "Select Services",
                     //     items: categoryServiceNameList1.map((item) {
@@ -595,11 +621,11 @@ class _CreateBookingState extends State<CreateBooking> {
   }
 
   _submitBooking() {
-    // setState(() {
-    //   servicesIdList = selectedServices[0];
-    //
-    //   print('servicesIdList::${servicesIdList}');
-    // });
+    setState(() {
+      servicesIdList = selectedServices[0];
+
+      print('servicesIdList::${servicesIdList}');
+    });
     if (_bookingFormKey.currentState.validate()) {
       setState(() {
         _isLoading = true;
@@ -614,7 +640,7 @@ class _CreateBookingState extends State<CreateBooking> {
         dueTime: _timeController.text,
         finishTime: _finishtimeController.text,
         comment: _commentsController.text,
-        serviceId: selectedServices,
+        serviceId: servicesIdList,
         paymentDays: _numofDaysController.text.isEmpty
             ? '${0}'
             : '${_numofDaysController.text}',

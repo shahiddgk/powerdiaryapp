@@ -638,9 +638,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           title: Text('Dashboard'),
         ),
         body: Container(
-          child: _counter > 0
-              ? Center(child: CircularProgressIndicator())
-              : dashboard(),
+          child: dashboard(),
         ),
       ),
     );

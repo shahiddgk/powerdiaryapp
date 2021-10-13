@@ -27,11 +27,11 @@ class _CustomersListingState extends State<CustomersListing> {
   PermissionShowResponse permissionShowResponse;
   MapTileLayerController _controller;
 
-  int _counter = 5;
+  int _counter = 3;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 5;
+    _counter = 3;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -153,7 +153,7 @@ class _CustomersListingState extends State<CustomersListing> {
                 child: customerList.length == 0
                     ? Text("No Customer available")
                     : _counter > 0
-                        ? Center(child: CircularProgressIndicator())
+                        ? Text("No Customer available")
                         : GridView.builder(
                             itemCount: customerList.length,
                             gridDelegate:
@@ -399,7 +399,7 @@ class _CustomersListingState extends State<CustomersListing> {
                                                                           index]
                                                                       .longitude),
                                                                 ),
-                                                          initialZoomLevel: 5,
+                                                          initialZoomLevel: 15,
                                                           markerBuilder:
                                                               (BuildContext
                                                                       context,
