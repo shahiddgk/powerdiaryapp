@@ -18,6 +18,7 @@ import 'package:powerdiary/ui/pages/bookings/view_booking_invoice.dart';
 import 'package:powerdiary/ui/widgets/widget_progress_indicator.dart';
 import 'package:powerdiary/ui/widgets/widget_text_field.dart';
 import 'package:powerdiary/utils/utils.dart';
+import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BookingListing extends StatefulWidget {
@@ -31,6 +32,9 @@ class _BookingListingState extends State<BookingListing> {
   bool _isLoading = true;
   List<BookingReadResponse> bookingList = [];
   PdLocation _pdLocation;
+  MapTileLayerController _controller;
+  List<GeneralModel> _general;
+  List<Model> _data;
 
   String dropdownValue = 'Cash';
   String holder = '';
@@ -62,12 +66,35 @@ class _BookingListingState extends State<BookingListing> {
     _getBookingList();
     _getPermissionList();
     _startTimer();
+
+    setState(() {
+      _general = <GeneralModel>[GeneralModel(55.3781, 3.4360)];
+    });
+    _controller = MapTileLayerController();
+
     getCurrentLocation(context).then((value) {
       setState(() {
         _pdLocation = value;
       });
     });
     super.initState();
+  }
+
+  _getCoordinates(customer) {
+    print("customer:::${customer}");
+    setState(() {
+      _data = bookingList
+          .map((e) => Model(
+              longitude: e.customerReadResponse.longitude,
+              latitude: e.customerReadResponse.latitude))
+          .toList();
+      // customer
+      // .map((e) => Model(
+      //     latitude: double.parse(e.latitude),
+      //     longitude: double.parse(e.longitude)))
+      // .toList();
+    });
+    print("data:::${_data}");
   }
 
   _getBookingList() {
@@ -80,6 +107,8 @@ class _BookingListingState extends State<BookingListing> {
       setState(() {
         _isLoading = false;
         bookingList = value.values;
+
+        _getCoordinates(bookingList);
       });
     }).catchError((e) {
       print(e);
@@ -156,7 +185,7 @@ class _BookingListingState extends State<BookingListing> {
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 5,
                                     mainAxisSpacing: 5,
-                                    childAspectRatio: 0.72,
+                                    childAspectRatio: 0.49,
                                     crossAxisCount: 2),
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
@@ -453,6 +482,101 @@ class _BookingListingState extends State<BookingListing> {
                                                           ),
                                                         )
                                                       ],
+                                                    ),
+                                                  ),
+                                                  SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 3.0,
+                                                          right: 3.0),
+                                                      child: Container(
+                                                        height: 140,
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        child: SfMaps(
+                                                          layers: <MapLayer>[
+                                                            MapTileLayer(
+                                                              controller:
+                                                                  _controller,
+                                                              initialMarkersCount:
+                                                                  1,
+                                                              //controller: _controller,
+                                                              urlTemplate:
+                                                                  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                              initialFocalLatLng: bookingList[
+                                                                              index]
+                                                                          .customerReadResponse
+                                                                          .latitude
+                                                                          .isEmpty ||
+                                                                      bookingList[
+                                                                              index]
+                                                                          .customerReadResponse
+                                                                          .longitude
+                                                                          .isEmpty
+                                                                  ? MapLatLng(
+                                                                      54.5316223,
+                                                                      -8.0317785)
+                                                                  : MapLatLng(
+                                                                      double.parse(
+                                                                          _data[index]
+                                                                              .latitude),
+                                                                      double.parse(
+                                                                          _data[index]
+                                                                              .longitude),
+                                                                    ),
+                                                              initialZoomLevel:
+                                                                  15,
+                                                              markerBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      int i) {
+                                                                return bookingList[index]
+                                                                            .customerReadResponse
+                                                                            .latitude
+                                                                            .isEmpty ||
+                                                                        bookingList[index]
+                                                                            .customerReadResponse
+                                                                            .latitude
+                                                                            .isEmpty
+                                                                    ? MapMarker(
+                                                                        latitude:
+                                                                            _general[0].latitude,
+                                                                        longitude:
+                                                                            _general[0].longitude,
+                                                                        // child:
+                                                                        // Icon(
+                                                                        //   Icons
+                                                                        //       .location_on,
+                                                                        //   color: Colors
+                                                                        //       .red,
+                                                                        //   size:
+                                                                        //   20,
+                                                                        // ),
+                                                                      )
+                                                                    : MapMarker(
+                                                                        latitude:
+                                                                            double.parse(_data[index].latitude),
+                                                                        longitude:
+                                                                            double.parse(_data[index].longitude),
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .location_on,
+                                                                          color:
+                                                                              Colors.red,
+                                                                          size:
+                                                                              20,
+                                                                        ),
+                                                                      );
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     ),
                                                   )
                                                 ],
@@ -807,4 +931,23 @@ class _BookingListingState extends State<BookingListing> {
       });
     });
   }
+}
+
+class Model {
+  final String latitude;
+  final String longitude;
+
+  Model({this.longitude, this.latitude});
+
+  @override
+  String toString() {
+    return '{ ${this.latitude}, ${this.longitude} }';
+  }
+}
+
+class GeneralModel {
+  final double latitude;
+  final double longitude;
+
+  GeneralModel(this.longitude, this.latitude);
 }

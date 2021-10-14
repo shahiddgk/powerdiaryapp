@@ -78,11 +78,11 @@ class _AddressTextFeildWidgetState extends State<AddressTextFeildWidget> {
                             ? Colors.blue
                             : Colors.grey,
                       ),
-                    IconButton(
-                      onPressed: _getCurrentLocation,
-                      icon: Icon(Icons.my_location),
-                      color: Colors.blue,
-                    )
+                    // IconButton(
+                    //   onPressed: _getCurrentLocation,
+                    //   icon: Icon(Icons.my_location),
+                    //   color: Colors.blue,
+                    // )
                   ],
                 ),
               ),

@@ -112,7 +112,7 @@ class _ServicesListingState extends State<ServicesListing> {
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 5,
                                     mainAxisSpacing: 5,
-                                    childAspectRatio: 0.72,
+                                    childAspectRatio: 0.82,
                                     crossAxisCount: 2),
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(

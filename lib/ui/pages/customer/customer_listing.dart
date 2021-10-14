@@ -172,290 +172,300 @@ class _CustomersListingState extends State<CustomersListing> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.all(5),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  child: Row(children: [
-                                                    Icon(Icons.person),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          customerList[index]
-                                                              .firstName,
-                                                          style: TextStyle(
-                                                            fontSize: 15.0,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(5),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(children: [
+                                                      Icon(Icons.person),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Row(
+                                                        children: <Widget>[
+                                                          Text(
+                                                            customerList[index]
+                                                                .firstName,
+                                                            style: TextStyle(
+                                                              fontSize: 15.0,
+                                                            ),
                                                           ),
-                                                        ),
+                                                          SizedBox(
+                                                            width: 3,
+                                                          ),
+                                                          Text(
+                                                            customerList[index]
+                                                                .lastName,
+                                                            style: TextStyle(
+                                                              fontSize: 15.0,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ]),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.phone),
                                                         SizedBox(
-                                                          width: 3,
+                                                          width: 5,
                                                         ),
                                                         Text(
                                                           customerList[index]
-                                                              .lastName,
+                                                              .primaryPhone,
                                                           style: TextStyle(
                                                             fontSize: 15.0,
                                                           ),
                                                         ),
                                                       ],
-                                                    )
-                                                  ]),
-                                                ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(Icons.phone),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        customerList[index]
-                                                            .primaryPhone,
-                                                        style: TextStyle(
-                                                          fontSize: 15.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                // SizedBox(
-                                                //   height: 5,
-                                                // ),
-                                                // SingleChildScrollView(
-                                                //   scrollDirection:
-                                                //       Axis.horizontal,
-                                                //   child: Row(
-                                                //     children: [
-                                                //       Icon(Icons.phone),
-                                                //       SizedBox(
-                                                //         width: 5,
-                                                //       ),
-                                                //       Text(
-                                                //         customerList[index]
-                                                //             .secondaryPhone,
-                                                //         style: TextStyle(
-                                                //           fontSize: 15.0,
-                                                //         ),
-                                                //       ),
-                                                //     ],
-                                                //   ),
-                                                // ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(Icons.email),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        customerList[index]
-                                                            .email,
-                                                        style: TextStyle(
-                                                          fontSize: 15.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(Icons
-                                                          .location_city_outlined),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        customerList[index]
-                                                            .address,
-                                                        style: TextStyle(
-                                                          fontSize: 15.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Switch(
-                                                      value: customerList[index]
-                                                          .isActive,
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          customerList[index]
-                                                              .isActive = value;
-                                                        });
-                                                        // _activateCategory(
-                                                        //     customerList[index]);
-                                                      },
-                                                      //activeTrackColor: Colors.blue,
-                                                      // activeColor: Colors.white,
-                                                      //inactiveThumbColor: Colors.grey,
                                                     ),
-                                                    permissionShowResponse
-                                                                .customer[0]
-                                                                .update ==
-                                                            1
-                                                        ? IconButton(
-                                                            icon: Icon(
-                                                              Icons.edit,
-                                                            ),
-                                                            onPressed: () {
-                                                              _updateCustomer(
-                                                                  customerList[
-                                                                      index]);
-                                                              // _getCurrentLocation();
-                                                            },
-                                                          )
-                                                        : IconButton(
-                                                            icon: Icon(
-                                                              Icons.edit,
-                                                              color:
-                                                                  Colors.grey,
-                                                            ),
-                                                            // onPressed: () {
-                                                            //   _updateCustomer(
-                                                            //       customerList[index]);
-                                                            //   // _getCurrentLocation();
-                                                            // },
+                                                  ),
+                                                  // SizedBox(
+                                                  //   height: 5,
+                                                  // ),
+                                                  // SingleChildScrollView(
+                                                  //   scrollDirection:
+                                                  //       Axis.horizontal,
+                                                  //   child: Row(
+                                                  //     children: [
+                                                  //       Icon(Icons.phone),
+                                                  //       SizedBox(
+                                                  //         width: 5,
+                                                  //       ),
+                                                  //       Text(
+                                                  //         customerList[index]
+                                                  //             .secondaryPhone,
+                                                  //         style: TextStyle(
+                                                  //           fontSize: 15.0,
+                                                  //         ),
+                                                  //       ),
+                                                  //     ],
+                                                  //   ),
+                                                  // ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.email),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          customerList[index]
+                                                              .email,
+                                                          style: TextStyle(
+                                                            fontSize: 15.0,
                                                           ),
-                                                  ],
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 3.0, right: 3.0),
-                                                  child: Container(
-                                                    height: 140,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: SfMaps(
-                                                      layers: <MapLayer>[
-                                                        MapTileLayer(
-                                                          controller:
-                                                              _controller,
-                                                          initialMarkersCount:
-                                                              1,
-                                                          //controller: _controller,
-                                                          urlTemplate:
-                                                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                          initialFocalLatLng: customerList[
-                                                                          index]
-                                                                      .latitude
-                                                                      .isEmpty ||
-                                                                  customerList[
-                                                                          index]
-                                                                      .longitude
-                                                                      .isEmpty
-                                                              ? MapLatLng(
-                                                                  54.5316223,
-                                                                  -8.0317785)
-                                                              : MapLatLng(
-                                                                  double.parse(_data[
-                                                                          index]
-                                                                      .latitude),
-                                                                  double.parse(_data[
-                                                                          index]
-                                                                      .longitude),
-                                                                ),
-                                                          initialZoomLevel: 15,
-                                                          markerBuilder:
-                                                              (BuildContext
-                                                                      context,
-                                                                  int i) {
-                                                            return customerList[
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons
+                                                            .location_city_outlined),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          customerList[index]
+                                                              .address,
+                                                          style: TextStyle(
+                                                            fontSize: 15.0,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Switch(
+                                                        value:
+                                                            customerList[index]
+                                                                .isActive,
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            customerList[index]
+                                                                    .isActive =
+                                                                value;
+                                                          });
+                                                          // _activateCategory(
+                                                          //     customerList[index]);
+                                                        },
+                                                        //activeTrackColor: Colors.blue,
+                                                        // activeColor: Colors.white,
+                                                        //inactiveThumbColor: Colors.grey,
+                                                      ),
+                                                      permissionShowResponse
+                                                                  .customer[0]
+                                                                  .update ==
+                                                              1
+                                                          ? IconButton(
+                                                              icon: Icon(
+                                                                Icons.edit,
+                                                              ),
+                                                              onPressed: () {
+                                                                _updateCustomer(
+                                                                    customerList[
+                                                                        index]);
+                                                                // _getCurrentLocation();
+                                                              },
+                                                            )
+                                                          : IconButton(
+                                                              icon: Icon(
+                                                                Icons.edit,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                              // onPressed: () {
+                                                              //   _updateCustomer(
+                                                              //       customerList[index]);
+                                                              //   // _getCurrentLocation();
+                                                              // },
+                                                            ),
+                                                    ],
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 3.0, right: 3.0),
+                                                    child: Container(
+                                                      height: 140,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      child: SfMaps(
+                                                        layers: <MapLayer>[
+                                                          MapTileLayer(
+                                                            controller:
+                                                                _controller,
+                                                            initialMarkersCount:
+                                                                1,
+                                                            //controller: _controller,
+                                                            urlTemplate:
+                                                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                            initialFocalLatLng: customerList[
                                                                             index]
                                                                         .latitude
                                                                         .isEmpty ||
                                                                     customerList[
                                                                             index]
-                                                                        .latitude
+                                                                        .longitude
                                                                         .isEmpty
-                                                                ? MapMarker(
-                                                                    latitude:
-                                                                        _general[0]
-                                                                            .latitude,
-                                                                    longitude:
-                                                                        _general[0]
-                                                                            .longitude,
-                                                                    // child:
-                                                                    // Icon(
-                                                                    //   Icons
-                                                                    //       .location_on,
-                                                                    //   color: Colors
-                                                                    //       .red,
-                                                                    //   size:
-                                                                    //   20,
-                                                                    // ),
-                                                                  )
-                                                                : MapMarker(
-                                                                    latitude: double.parse(
+                                                                ? MapLatLng(
+                                                                    54.5316223,
+                                                                    -8.0317785)
+                                                                : MapLatLng(
+                                                                    double.parse(
                                                                         _data[index]
                                                                             .latitude),
-                                                                    longitude: double.parse(
+                                                                    double.parse(
                                                                         _data[index]
                                                                             .longitude),
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .location_on,
-                                                                      color: Colors
-                                                                          .red,
-                                                                      size: 20,
-                                                                    ),
-                                                                  );
-                                                          },
-                                                        ),
-                                                      ],
+                                                                  ),
+                                                            initialZoomLevel:
+                                                                15,
+                                                            markerBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    int i) {
+                                                              return customerList[
+                                                                              index]
+                                                                          .latitude
+                                                                          .isEmpty ||
+                                                                      customerList[
+                                                                              index]
+                                                                          .latitude
+                                                                          .isEmpty
+                                                                  ? MapMarker(
+                                                                      latitude:
+                                                                          _general[0]
+                                                                              .latitude,
+                                                                      longitude:
+                                                                          _general[0]
+                                                                              .longitude,
+                                                                      // child:
+                                                                      // Icon(
+                                                                      //   Icons
+                                                                      //       .location_on,
+                                                                      //   color: Colors
+                                                                      //       .red,
+                                                                      //   size:
+                                                                      //   20,
+                                                                      // ),
+                                                                    )
+                                                                  : MapMarker(
+                                                                      latitude:
+                                                                          double.parse(
+                                                                              _data[index].latitude),
+                                                                      longitude:
+                                                                          double.parse(
+                                                                              _data[index].longitude),
+                                                                      child:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .location_on,
+                                                                        color: Colors
+                                                                            .red,
+                                                                        size:
+                                                                            20,
+                                                                      ),
+                                                                    );
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
