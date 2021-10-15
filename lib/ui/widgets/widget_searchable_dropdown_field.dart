@@ -28,8 +28,13 @@ class _SearchableDropdownFeildWidgetState
               height: 70,
               width: MediaQuery.of(context).size.width,
               child: Card(
-                elevation: 8,
+                elevation: 9,
                 child: DropdownSearch(
+                  validator: (value) {
+                    if (value == null) {
+                      return "Select any customer";
+                    }
+                  },
                   items: widget.items ?? [],
                   itemAsString: (dynamic customer) =>
                       "${customer.firstName} ${customer.lastName} ${customer.primaryPhone}",
@@ -40,16 +45,6 @@ class _SearchableDropdownFeildWidgetState
                   selectedItem: widget.initialState,
                 ),
               )),
-          if (widget.initialState == null)
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15),
-                  child: Text(
-                    "Required Field",
-                    style: style_InputErrorText,
-                  )),
-            )
         ]));
   }
 }

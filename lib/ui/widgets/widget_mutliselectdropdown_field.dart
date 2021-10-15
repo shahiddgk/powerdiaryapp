@@ -4,12 +4,17 @@ import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 class MultiselectDropdownFeildWidget extends StatefulWidget {
   final Function(List value) onValueChange;
+  final Function(List value) onSelectionChanged;
   final List<dynamic> items;
   final String hintText;
   final List selectedItems;
 
   MultiselectDropdownFeildWidget(
-      {this.items, this.hintText, this.onValueChange, this.selectedItems});
+      {this.items,
+      this.hintText,
+      this.onValueChange,
+      this.onSelectionChanged,
+      this.selectedItems});
 
   @override
   _MultiselectDropdownFeildWidgetState createState() =>

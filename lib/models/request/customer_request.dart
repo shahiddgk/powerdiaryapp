@@ -150,3 +150,25 @@ class CustomerDeleteRequest {
     return data;
   }
 }
+
+class CustomerStatusRequest {
+  String id;
+  String status;
+  String companyId;
+
+  CustomerStatusRequest({this.id, this.status, this.companyId});
+
+  CustomerStatusRequest.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    status = json['status'];
+    companyId = json['company_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['status'] = this.status;
+    data['company_id'] = this.companyId;
+    return data;
+  }
+}

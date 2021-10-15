@@ -39,6 +39,9 @@ class _CreateServiceState extends State<CreateService> {
   @override
   void initState() {
     _getCategoryList();
+    setState(() {
+      _priceController.text = "0";
+    });
   }
 
   // ValueChanged<Color> callback
@@ -70,6 +73,8 @@ class _CreateServiceState extends State<CreateService> {
                       onValueChange: (val) {
                         setState(() {
                           _categoryListState = val;
+
+                          print(_categoryListState);
                         });
                       },
                       items: categoryList?.map((item) {
@@ -87,6 +92,7 @@ class _CreateServiceState extends State<CreateService> {
                       hint: 'Price',
                       iconData: FontAwesomeIcons.poundSign,
                       controller: _priceController,
+                      optional: true,
                     ),
                     TextFeildWidget(
                       hint: 'Service Color',
@@ -181,6 +187,11 @@ class _CreateServiceState extends State<CreateService> {
 
   _submitService() {
     if (_serviceFormKey.currentState.validate()) {
+      print("categoryId:::${_categoryListState}");
+      print("name:::${_nameController.text}");
+      print(_priceController.text);
+      print(_serviceColorController.text);
+
       setState(() {
         _isLoading = true;
       });

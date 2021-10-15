@@ -23,11 +23,11 @@ class _CategoryListingState extends State<CategoryListing> {
   String api_response = "";
   List<CategoryReadResponse> categoryList = [];
   PermissionShowResponse permissionShowResponse;
-  int _counter = 3;
+  int _counter = 4;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 3;
+    _counter = 4;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -102,9 +102,13 @@ class _CategoryListingState extends State<CategoryListing> {
             Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: categoryList.length == 0
-                    ? Text("No Category available")
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
                     : _counter > 0
-                        ? Text("No Category available")
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
                         : SingleChildScrollView(
                             scrollDirection: Axis.vertical,
                             child: SingleChildScrollView(

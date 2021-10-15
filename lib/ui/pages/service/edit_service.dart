@@ -96,6 +96,7 @@ class _EditServiceState extends State<EditService> {
                     ),
                     TextFeildWidget(
                       hint: 'Price',
+                      optional: true,
                       controller: _priceController,
                     ),
                     TextFeildWidget(

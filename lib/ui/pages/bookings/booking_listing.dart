@@ -9,8 +9,10 @@ import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:powerdiary/models/pd_location.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
+import 'package:powerdiary/models/request/category_request.dart';
 import 'package:powerdiary/models/request/permission_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
+import 'package:powerdiary/models/response/category_list_response.dart';
 import 'package:powerdiary/models/response/permission_list_response.dart';
 import 'package:powerdiary/network/http_manager.dart';
 import 'package:powerdiary/ui/pages/bookings/edit_booking.dart';
@@ -35,6 +37,9 @@ class _BookingListingState extends State<BookingListing> {
   MapTileLayerController _controller;
   List<GeneralModel> _general;
   List<Model> _data;
+  List<CategoryReadResponse> categoryList = [];
+
+  String _categoryListState;
 
   String dropdownValue = 'Cash';
   String holder = '';
@@ -44,11 +49,11 @@ class _BookingListingState extends State<BookingListing> {
 
   TextEditingController _chequeController = new TextEditingController();
 
-  int _counter = 3;
+  int _counter = 4;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 3;
+    _counter = 4;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -67,6 +72,8 @@ class _BookingListingState extends State<BookingListing> {
     _getPermissionList();
     _startTimer();
 
+    _getCategoryList();
+
     setState(() {
       _general = <GeneralModel>[GeneralModel(55.3781, 3.4360)];
     });
@@ -80,6 +87,26 @@ class _BookingListingState extends State<BookingListing> {
     super.initState();
   }
 
+  _getCategoryList() {
+    HTTPManager()
+        .getCategoryListing(
+            CategoryListRequest(companyId: globalSessionUser.companyId))
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+        categoryList =
+            value.values.where((element) => element.isActive).toList();
+
+        _categoryListState = "${categoryList[0].id}";
+      });
+    }).catchError((e) {
+      print(e);
+      showAlert(context, e.toString(), true, () {}, () {
+        _getCategoryList();
+      });
+    });
+  }
+
   _getCoordinates(customer) {
     print("customer:::${customer}");
     setState(() {
@@ -88,11 +115,6 @@ class _BookingListingState extends State<BookingListing> {
               longitude: e.customerReadResponse.longitude,
               latitude: e.customerReadResponse.latitude))
           .toList();
-      // customer
-      // .map((e) => Model(
-      //     latitude: double.parse(e.latitude),
-      //     longitude: double.parse(e.longitude)))
-      // .toList();
     });
     print("data:::${_data}");
   }
@@ -176,9 +198,13 @@ class _BookingListingState extends State<BookingListing> {
             Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: bookingList.length == 0
-                    ? Text("No Booking available")
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
                     : _counter > 0
-                        ? Text("No Booking available")
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
                         : GridView.builder(
                             itemCount: bookingList.length,
                             gridDelegate:
@@ -392,7 +418,10 @@ class _BookingListingState extends State<BookingListing> {
                                                                       () {
                                                                     _updateBooking(
                                                                         bookingList[
-                                                                            index]);
+                                                                            index],
+                                                                        _categoryListState);
+                                                                    print(
+                                                                        _categoryListState);
                                                                   },
                                                                 )
                                                               : IconButton(
@@ -851,11 +880,12 @@ class _BookingListingState extends State<BookingListing> {
             )));
   }
 
-  _updateBooking(BookingReadResponse bookingReadResponse) {
+  _updateBooking(BookingReadResponse bookingReadResponse, category) {
     Navigator.of(context)
         .push(new MaterialPageRoute(
             builder: (BuildContext context) => EditBooking(
                   bookingReadResponse: bookingReadResponse,
+                  category: category,
                 )))
         .then((value) {
       _getBookingList();

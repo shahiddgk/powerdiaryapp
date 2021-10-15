@@ -144,6 +144,14 @@ class HTTPManager {
     return response;
   }
 
+  Future<GeneralResponseModel> statusCustomer(
+      CustomerStatusRequest customerStatusRequest) async {
+    final url = ApplicationURLs.API_CUSTOMER_STATUS;
+    final GeneralResponseModel response =
+        await _handler.post(url, customerStatusRequest.toJson(), false);
+    return response;
+  }
+
   Future<ServiceListModel> getServiceListing(
       ServiceListRequest serviceListRequest, List selected) async {
     final url = ApplicationURLs.API_SERVICE_LIST;

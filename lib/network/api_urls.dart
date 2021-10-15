@@ -20,6 +20,7 @@ class ApplicationURLs {
   static const API_CUSTOMER_UPDATE = BASE_URL + "customers/update";
   static const API_CUSTOMER_CREATE = BASE_URL + "customers/create";
   static const API_CUSTOMER_DELETE = BASE_URL + "customers/delete";
+  static const API_CUSTOMER_STATUS = BASE_URL + "customers/status";
 
   //PostCodeAddress
   static const API_POST_CODE_ADDRESS_LIST = POSTCODEURL;

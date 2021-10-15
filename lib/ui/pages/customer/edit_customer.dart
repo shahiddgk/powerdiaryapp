@@ -121,6 +121,8 @@ class _EditCustomerState extends State<EditCustomer> {
                       ),
                       TextFeildWidget(
                         hint: 'Email',
+                        isEmail: true,
+                        optional: true,
                         controller: _emailController,
                       ),
                       PostCodeAddressTextFeildWidget(

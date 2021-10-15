@@ -32,8 +32,10 @@ import 'package:powerdiary/utils/utils.dart';
 
 class EditBooking extends StatefulWidget {
   final BookingReadResponse bookingReadResponse;
+  final String category;
 
-  const EditBooking({Key key, this.bookingReadResponse}) : super(key: key);
+  const EditBooking({Key key, this.bookingReadResponse, this.category})
+      : super(key: key);
 
   @override
   _EditBookingState createState() => _EditBookingState();
@@ -82,6 +84,9 @@ class _EditBookingState extends State<EditBooking> {
   void initState() {
     // TODO: implement initState
     setState(() {
+      print("Category:::${widget.category}");
+      _categoryListState = "${widget.category}";
+      print("_categoryListState:::${_categoryListState}");
       _dateController.text =
           DateFormat('yyyy-MM-dd').format(widget.bookingReadResponse.dueDate);
       if (widget.bookingReadResponse.startTime != null)
@@ -333,6 +338,7 @@ class _EditBookingState extends State<EditBooking> {
                     child: Card(
                       elevation: 8,
                       child: MultiSelectDialogField(
+                        buttonIcon: Icon(Icons.arrow_drop_down),
                         height: 250,
                         title: Text('services'),
                         items: categoryServiceNameList1
@@ -480,6 +486,7 @@ class _EditBookingState extends State<EditBooking> {
         _isLoading = false;
         categoryList =
             value.values.where((element) => element.isActive).toList();
+        // _categoryListState = categoryList[0].name;
       });
     }).catchError((e) {
       print(e);
@@ -490,13 +497,11 @@ class _EditBookingState extends State<EditBooking> {
   }
 
   _submitBooking() {
-    setState(() {
-      servicesIdList = selectedServices[0];
-      print('servicesIdList::${servicesIdList}');
-    });
-
     if (_bookingFormKey.currentState.validate()) {
       setState(() {
+        servicesIdList = selectedServices[0];
+        print('servicesIdList::${servicesIdList}');
+
         _isLoading = true;
       });
       HTTPManager()

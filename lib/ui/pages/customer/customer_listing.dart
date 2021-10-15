@@ -27,11 +27,11 @@ class _CustomersListingState extends State<CustomersListing> {
   PermissionShowResponse permissionShowResponse;
   MapTileLayerController _controller;
 
-  int _counter = 3;
+  int _counter = 4;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 3;
+    _counter = 4;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -72,7 +72,7 @@ class _CustomersListingState extends State<CustomersListing> {
         _isLoading = false;
         customerList = value.values;
         api_response = jsonEncode(value.values);
-        _getCoordinates(customerList);
+        // _getCoordinates(customerList);
       });
     }).catchError((e) {
       print(e);
@@ -125,20 +125,20 @@ class _CustomersListingState extends State<CustomersListing> {
     super.initState();
   }
 
-  _getCoordinates(customer) {
-    print("customer:::${customer}");
-    setState(() {
-      _data = customerList
-          .map((e) => Model(longitude: e.longitude, latitude: e.latitude))
-          .toList();
-      // customer
-      // .map((e) => Model(
-      //     latitude: double.parse(e.latitude),
-      //     longitude: double.parse(e.longitude)))
-      // .toList();
-    });
-    print("data:::${_data}");
-  }
+  // _getCoordinates(customer) {
+  //   print("customer:::${customer}");
+  //   setState(() {
+  //     _data = customerList
+  //         .map((e) => Model(longitude: e.longitude, latitude: e.latitude))
+  //         .toList();
+  //     // customer
+  //     // .map((e) => Model(
+  //     //     latitude: double.parse(e.latitude),
+  //     //     longitude: double.parse(e.longitude)))
+  //     // .toList();
+  //   });
+  //   print("data:::${_data}");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -151,16 +151,20 @@ class _CustomersListingState extends State<CustomersListing> {
             Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: customerList.length == 0
-                    ? Text("No Customer available")
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
                     : _counter > 0
-                        ? Text("No Customer available")
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
                         : GridView.builder(
                             itemCount: customerList.length,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 5,
                                     mainAxisSpacing: 5,
-                                    childAspectRatio: 0.62,
+                                    childAspectRatio: 0.82,
                                     crossAxisCount: 2),
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
@@ -331,8 +335,9 @@ class _CustomersListingState extends State<CustomersListing> {
                                                                     .isActive =
                                                                 value;
                                                           });
-                                                          // _activateCategory(
-                                                          //     customerList[index]);
+                                                          _activateCustomer(
+                                                              customerList[
+                                                                  index]);
                                                         },
                                                         //activeTrackColor: Colors.blue,
                                                         // activeColor: Colors.white,
@@ -367,98 +372,98 @@ class _CustomersListingState extends State<CustomersListing> {
                                                             ),
                                                     ],
                                                   ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 3.0, right: 3.0),
-                                                    child: Container(
-                                                      height: 140,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      child: SfMaps(
-                                                        layers: <MapLayer>[
-                                                          MapTileLayer(
-                                                            controller:
-                                                                _controller,
-                                                            initialMarkersCount:
-                                                                1,
-                                                            //controller: _controller,
-                                                            urlTemplate:
-                                                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                            initialFocalLatLng: customerList[
-                                                                            index]
-                                                                        .latitude
-                                                                        .isEmpty ||
-                                                                    customerList[
-                                                                            index]
-                                                                        .longitude
-                                                                        .isEmpty
-                                                                ? MapLatLng(
-                                                                    54.5316223,
-                                                                    -8.0317785)
-                                                                : MapLatLng(
-                                                                    double.parse(
-                                                                        _data[index]
-                                                                            .latitude),
-                                                                    double.parse(
-                                                                        _data[index]
-                                                                            .longitude),
-                                                                  ),
-                                                            initialZoomLevel:
-                                                                15,
-                                                            markerBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int i) {
-                                                              return customerList[
-                                                                              index]
-                                                                          .latitude
-                                                                          .isEmpty ||
-                                                                      customerList[
-                                                                              index]
-                                                                          .latitude
-                                                                          .isEmpty
-                                                                  ? MapMarker(
-                                                                      latitude:
-                                                                          _general[0]
-                                                                              .latitude,
-                                                                      longitude:
-                                                                          _general[0]
-                                                                              .longitude,
-                                                                      // child:
-                                                                      // Icon(
-                                                                      //   Icons
-                                                                      //       .location_on,
-                                                                      //   color: Colors
-                                                                      //       .red,
-                                                                      //   size:
-                                                                      //   20,
-                                                                      // ),
-                                                                    )
-                                                                  : MapMarker(
-                                                                      latitude:
-                                                                          double.parse(
-                                                                              _data[index].latitude),
-                                                                      longitude:
-                                                                          double.parse(
-                                                                              _data[index].longitude),
-                                                                      child:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .location_on,
-                                                                        color: Colors
-                                                                            .red,
-                                                                        size:
-                                                                            20,
-                                                                      ),
-                                                                    );
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  // Padding(
+                                                  //   padding: EdgeInsets.only(
+                                                  //       left: 3.0, right: 3.0),
+                                                  //   child: Container(
+                                                  //     height: 140,
+                                                  //     width:
+                                                  //         MediaQuery.of(context)
+                                                  //             .size
+                                                  //             .width,
+                                                  //     child: SfMaps(
+                                                  //       layers: <MapLayer>[
+                                                  //         MapTileLayer(
+                                                  //           controller:
+                                                  //               _controller,
+                                                  //           initialMarkersCount:
+                                                  //               1,
+                                                  //           //controller: _controller,
+                                                  //           urlTemplate:
+                                                  //               'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                  //           initialFocalLatLng: customerList[
+                                                  //                           index]
+                                                  //                       .latitude
+                                                  //                       .isEmpty ||
+                                                  //                   customerList[
+                                                  //                           index]
+                                                  //                       .longitude
+                                                  //                       .isEmpty
+                                                  //               ? MapLatLng(
+                                                  //                   54.5316223,
+                                                  //                   -8.0317785)
+                                                  //               : MapLatLng(
+                                                  //                   double.parse(
+                                                  //                       _data[index]
+                                                  //                           .latitude),
+                                                  //                   double.parse(
+                                                  //                       _data[index]
+                                                  //                           .longitude),
+                                                  //                 ),
+                                                  //           initialZoomLevel:
+                                                  //               15,
+                                                  //           markerBuilder:
+                                                  //               (BuildContext
+                                                  //                       context,
+                                                  //                   int i) {
+                                                  //             return customerList[
+                                                  //                             index]
+                                                  //                         .latitude
+                                                  //                         .isEmpty ||
+                                                  //                     customerList[
+                                                  //                             index]
+                                                  //                         .latitude
+                                                  //                         .isEmpty
+                                                  //                 ? MapMarker(
+                                                  //                     latitude:
+                                                  //                         _general[0]
+                                                  //                             .latitude,
+                                                  //                     longitude:
+                                                  //                         _general[0]
+                                                  //                             .longitude,
+                                                  //                     // child:
+                                                  //                     // Icon(
+                                                  //                     //   Icons
+                                                  //                     //       .location_on,
+                                                  //                     //   color: Colors
+                                                  //                     //       .red,
+                                                  //                     //   size:
+                                                  //                     //   20,
+                                                  //                     // ),
+                                                  //                   )
+                                                  //                 : MapMarker(
+                                                  //                     latitude:
+                                                  //                         double.parse(
+                                                  //                             _data[index].latitude),
+                                                  //                     longitude:
+                                                  //                         double.parse(
+                                                  //                             _data[index].longitude),
+                                                  //                     child:
+                                                  //                         Icon(
+                                                  //                       Icons
+                                                  //                           .location_on,
+                                                  //                       color: Colors
+                                                  //                           .red,
+                                                  //                       size:
+                                                  //                           20,
+                                                  //                     ),
+                                                  //                   );
+                                                  //           },
+                                                  //         ),
+                                                  //       ],
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
                                                 ],
                                               ),
                                             )
@@ -532,7 +537,33 @@ class _CustomersListingState extends State<CustomersListing> {
         ));
   }
 
-  _activateCategory() {}
+  _activateCustomer(CustomerReadResponse customerReadResponse) {
+    setState(() {
+      _isLoading = true;
+    });
+    HTTPManager()
+        .statusCustomer(CustomerStatusRequest(
+            status: customerReadResponse.isActive ? "1" : "0",
+            id: "${customerReadResponse.id}",
+            companyId: "${customerReadResponse.companyId}"))
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+      });
+      showAlert(context, value.message, false, () {}, () {
+        _getCustomerList();
+      });
+    }).catchError((e) {
+      print(e);
+      showAlert(context, e.toString(), true, () {
+        setState(() {
+          _isLoading = false;
+        });
+      }, () {
+        _activateCustomer(customerReadResponse);
+      });
+    });
+  }
 
   _updateCustomer(CustomerReadResponse customerReadResponse) {
     Navigator.of(context)
@@ -574,28 +605,6 @@ class _CustomersListingState extends State<CustomersListing> {
       });
     });
   }
-
-  // dataLatitude(int index, String latitude, String longitude) {
-  //   // print(index);
-  //   // print(latitude);
-  //   // print(longitude);
-  //   double _latitude = double.parse(latitude);
-  //   double _longitude = double.parse(longitude);
-  //
-  //   _data = <Model>[
-  //     Model(_latitude, _longitude),
-  //   ];
-  //   return _data[index].latitude;
-  // }
-
-  // dataLongitude(int index, String latitude, String longitude) {
-  //   double _latitude = double.parse(latitude);
-  //   double _longitude = double.parse(longitude);
-  //   _data = <Model>[
-  //     Model(_latitude, _longitude),
-  //   ];
-  //   return _data[index].longitude;
-  // }
 }
 
 class Model {

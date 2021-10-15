@@ -331,8 +331,14 @@ class _CreateBookingState extends State<CreateBooking> {
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       width: MediaQuery.of(context).size.width,
                       child: Card(
-                        elevation: 8,
+                        elevation: 9,
                         child: MultiSelectDialogField(
+                          buttonIcon: Icon(Icons.arrow_drop_down),
+                          validator: (value) {
+                            if (value == null || value.length == 0) {
+                              return "Select one or more services";
+                            }
+                          },
                           height: 250,
                           title: Text('services'),
                           items: categoryServiceNameList1
@@ -407,127 +413,10 @@ class _CreateBookingState extends State<CreateBooking> {
                                 print('selectedServices::${selectedServices}');
                               });
                             }
-                            // }
-                            // setState(() {
-                            //
-                            // });
                           },
-                          // onSaved: (result) {
-                          //   int totalPrice = 0;
-                          //   // for (ServiceReadResponse vl in result) {
-                          //   //   totalPrice += vl.price;
-                          //   //   services.add(vl.id);
-                          //   //   print('services:${services}');
-                          //   // }
-                          //   setState(() {
-                          //     _priceController.text =
-                          //         totalPrice.toString();
-                          //     servicesSum = totalPrice;
-                          //     services = result;
-                          //     selectedServices = services;
-                          //     print('services::${services}');
-                          //   });
-                          // }
                         ),
                       ),
                     ),
-                    //     :
-                    // MultiselectDropdownFeildWidget(
-                    //   hintText: "Select Services",
-                    //   items: serviceList?.map((item) {
-                    //     return MultiselectItem(
-                    //       display: item.name,
-                    //       value: item,
-                    //     ).toJson();
-                    //   })?.toList(),
-                    //   onValueChange: (value) {
-                    //     int totalPrice = 0;
-                    //     List services = [];
-                    //     for (ServiceReadResponse vl in value) {
-                    //       totalPrice += vl.price;
-                    //       services.add(vl.id);
-                    //     }
-                    //     setState(() {
-                    //       _priceController.text = totalPrice.toString();
-                    //       servicesSum = totalPrice;
-                    //       selectedServices = services;
-                    //     });
-                    //   },
-                    // ),
-                    // MultiselectDropdownFeildWidget(
-                    //     hintText: "Select Services",
-                    //     items: categoryServiceNameList1.map((item) {
-                    //       setState(() {
-                    //         multiselectItem(
-                    //           display: "",
-                    //           value: "",
-                    //         );
-                    //         services.clear();
-                    //         selectedServices.clear();
-                    //       });
-                    //       return multiselectItem(
-                    //         display: item.name,
-                    //         value: item.id,
-                    //       ).toJson();
-                    //     })?.toList(),
-                    //     onValueChange: (value) {
-                    //       setState(() {
-                    //         services.add(value);
-                    //         //selectedServices = services;
-                    //         print('SelectedServices:${services}');
-                    //         services.clear();
-                    //       });
-                    //     }),
-
-                    // MultiselectDropdownFeildWidget(
-                    //   hintText: "Select Services",
-                    //   items: serviceList?.map((item) {
-                    //     return MultiselectItem(
-                    //       display: item.name,
-                    //       value: item,
-                    //     ).toJson();
-                    //   })?.toList(),
-                    //   onValueChange: (value) {
-                    //     int totalPrice = 0;
-                    //     List services = [];
-                    //     for (ServiceReadResponse vl in value) {
-                    //       totalPrice += vl.price;
-                    //       services.add(vl.id);
-                    //       print('services:${services}');
-                    //     }
-                    //     setState(() {
-                    //       _priceController.text = totalPrice.toString();
-                    //       servicesSum = totalPrice;
-                    //       selectedServices = services;
-                    //       print('selectedServices:${selectedServices}');
-                    //     });
-                    //   },
-                    // ),
-
-                    // MultiselectDropdownFeildWidget(
-                    //   hintText: "Select Services",
-                    //   items: serviceList?.map((item) {
-                    //     return MultiselectItem(
-                    //       display: item.name,
-                    //       value: item.id,
-                    //     ).toJson();
-                    //   })?.toList(),
-                    //   onValueChange: (value) {
-                    //     int totalPrice = 0;
-                    //     List services = [];
-                    //     print('value::${value}');
-                    //     for (ServiceReadResponse vl in value) {
-                    //       totalPrice += vl.price;
-                    //       services.add(vl.id);
-                    //     }
-                    //     setState(() {
-                    //       _priceController.text = totalPrice.toString();
-                    //       servicesSum = totalPrice;
-                    //       selectedServices = services;
-                    //       print('selectedServices::${selectedServices}');
-                    //     });
-                    //   },
-                    // ),
                     TextFeildWidget(
                       hint: 'Price',
                       iconData: FontAwesomeIcons.poundSign,
@@ -621,13 +510,13 @@ class _CreateBookingState extends State<CreateBooking> {
   }
 
   _submitBooking() {
-    setState(() {
-      servicesIdList = selectedServices[0];
-
-      print('servicesIdList::${servicesIdList}');
-    });
     if (_bookingFormKey.currentState.validate()) {
       setState(() {
+        servicesIdList = selectedServices[0];
+        print(_categoryListState);
+
+        print('servicesIdList::${servicesIdList}');
+
         _isLoading = true;
       });
       HTTPManager()
