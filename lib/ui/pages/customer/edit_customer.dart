@@ -63,8 +63,14 @@ class _EditCustomerState extends State<EditCustomer> {
       _addressController.text = widget.customerReadResponse.address;
       referredByDropDownValue = widget.customerReadResponse.referredBy;
       _pdLocation = new PdLocation(
-          latitude: double.parse(widget.customerReadResponse.latitude),
-          longitude: double.parse(widget.customerReadResponse.longitude),
+          latitude: widget.customerReadResponse.latitude == null ||
+                  widget.customerReadResponse.latitude.isEmpty
+              ? 0.0
+              : double.parse(widget.customerReadResponse.latitude),
+          longitude: widget.customerReadResponse.longitude == null ||
+                  widget.customerReadResponse.longitude.isEmpty
+              ? 0.0
+              : double.parse(widget.customerReadResponse.longitude),
           address: widget.customerReadResponse.address);
       // _addressListState = widget.customerReadResponse.address;
       _getAddressesList();
