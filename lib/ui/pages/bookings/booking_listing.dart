@@ -49,11 +49,11 @@ class _BookingListingState extends State<BookingListing> {
 
   TextEditingController _chequeController = new TextEditingController();
 
-  int _counter = 4;
+  int _counter = 5;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 4;
+    _counter = 5;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {

@@ -182,8 +182,7 @@ class _EditBookingState extends State<EditBooking> {
             print("CategoryNameLis${categoryNameList}");
           });
         }
-        // categoryServiceList
-        //     .sublist(categoryService['data'][categoryList[i].name]);
+        _getCategoryServicesList(_categoryListState);
       });
       print(categoryList);
     });

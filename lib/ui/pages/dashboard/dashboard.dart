@@ -5,8 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:powerdiary/models/pd_location.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
+import 'package:powerdiary/models/request/category_request.dart';
 import 'package:powerdiary/models/request/permission_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
+import 'package:powerdiary/models/response/category_list_response.dart';
 import 'package:powerdiary/network/http_manager.dart';
 import 'package:powerdiary/ui/pages/bookings/create_booking.dart';
 import 'package:powerdiary/ui/pages/bookings/edit_booking.dart';
@@ -40,6 +42,9 @@ class _dashboardState extends State<dashboard> {
   Map<int, String> userFilter = new Map<int, String>();
   PermissionShowResponse permissionShowResponse;
 
+  List<CategoryReadResponse> categoryList = [];
+  String _categoryListState;
+
   @override
   void initState() {
     _getBookingList();
@@ -49,9 +54,31 @@ class _dashboardState extends State<dashboard> {
       });
     });
 
+    _getCategoryList();
+
     _getPermissionList();
 
     super.initState();
+  }
+
+  _getCategoryList() {
+    HTTPManager()
+        .getCategoryListing(
+            CategoryListRequest(companyId: globalSessionUser.companyId))
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+        categoryList =
+            value.values.where((element) => element.isActive).toList();
+
+        _categoryListState = "${categoryList[0].id}";
+      });
+    }).catchError((e) {
+      print(e);
+      showAlert(context, e.toString(), true, () {}, () {
+        _getCategoryList();
+      });
+    });
   }
 
   _getBookingList() {
@@ -241,7 +268,8 @@ class _dashboardState extends State<dashboard> {
                                                     rootNavigator: true)
                                                 .pop();
                                             _updateBooking(
-                                                details.appointments[index]);
+                                                details.appointments[index],
+                                                _categoryListState);
                                           },
                                         )
                                       : IconButton(
@@ -436,11 +464,12 @@ class _dashboardState extends State<dashboard> {
             )));
   }
 
-  _updateBooking(BookingReadResponse bookingReadResponse) {
+  _updateBooking(BookingReadResponse bookingReadResponse, String category) {
     Navigator.of(context)
         .push(new MaterialPageRoute(
             builder: (BuildContext context) => EditBooking(
                   bookingReadResponse: bookingReadResponse,
+                  category: category,
                 )))
         .then((value) {
       _getBookingList();

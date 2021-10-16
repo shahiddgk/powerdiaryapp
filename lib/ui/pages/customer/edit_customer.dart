@@ -79,7 +79,8 @@ class _EditCustomerState extends State<EditCustomer> {
     'Recommendation',
     'Repeat client',
     'Seen van',
-    'Paper advert'
+    'Paper advert',
+    'Facebook'
   ];
 
   String referredByDropDownValue = 'Google';
