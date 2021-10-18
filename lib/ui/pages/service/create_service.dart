@@ -95,6 +95,7 @@ class _CreateServiceState extends State<CreateService> {
                       optional: true,
                     ),
                     TextFeildWidget(
+                      readOnly: true,
                       hint: 'Service Color',
                       onTouch: () {
                         print("This is in onpress of color picker");

@@ -100,6 +100,7 @@ class _EditServiceState extends State<EditService> {
                       controller: _priceController,
                     ),
                     TextFeildWidget(
+                      readOnly: true,
                       hint: 'Service Color',
                       onTouch: () {
                         print("This is in onpress of color picker");

@@ -70,6 +70,7 @@ class _EditBookingState extends State<EditBooking> {
   List selectedServices = [];
   int servicesSum;
   List servicesIdList = [];
+  List availableServicesIdList = [];
 
   String api_response = "";
   List<TaxInfoResponse> taxList = [];
@@ -98,7 +99,7 @@ class _EditBookingState extends State<EditBooking> {
       if (widget.bookingReadResponse.comment != null)
         _commentsController.text = '${widget.bookingReadResponse.comment}';
       if (widget.bookingReadResponse.serviceIds != null) {
-        selectedServices
+        availableServicesIdList
             .addAll(widget.bookingReadResponse.serviceIds.split(","));
         _selectedServicesController.text = widget.bookingReadResponse.services;
       }
@@ -343,7 +344,7 @@ class _EditBookingState extends State<EditBooking> {
                         items: categoryServiceNameList1
                             .map((e) => MultiSelectItem<dynamic>(e.id, e.name))
                             .toList(),
-                        initialValue: selectedServices,
+                        initialValue: availableServicesIdList,
                         // onSaved: (value) {
                         //   if (value == null) return;
                         //   setState(() {
@@ -373,6 +374,7 @@ class _EditBookingState extends State<EditBooking> {
                             // });
                           } else {
                             List newServicesList = [];
+                            //List availableServicesList = [];
                             int totalPrice = 0;
 
                             if (serviceList.isNotEmpty) {
@@ -405,9 +407,12 @@ class _EditBookingState extends State<EditBooking> {
                               _priceController.text = totalPrice.toString();
 
                               selectedServices = newServicesList;
+                              availableServicesIdList = value;
 
                               print('newServicesList::${newServicesList}');
                               print('selectedServices::${selectedServices}');
+                              print(
+                                  'availableServices::${availableServicesIdList}');
                             });
                           }
                         },
@@ -498,8 +503,8 @@ class _EditBookingState extends State<EditBooking> {
   _submitBooking() {
     if (_bookingFormKey.currentState.validate()) {
       setState(() {
-        servicesIdList = selectedServices[0];
-        print('servicesIdList::${servicesIdList}');
+        // servicesIdList = selectedServices[0];
+        // print('servicesIdList::${servicesIdList}');
 
         _isLoading = true;
       });
@@ -514,7 +519,7 @@ class _EditBookingState extends State<EditBooking> {
         dueTime: _timeController.text,
         finishTime: _finishController.text,
         comment: _commentsController.text,
-        serviceId: servicesIdList,
+        serviceId: availableServicesIdList,
         paymentDays: _numofDaysController.text.isEmpty
             ? '${0}'
             : '${_numofDaysController.text}',

@@ -108,6 +108,8 @@ class _SplashState extends State<Splash> {
   }
 
   _updateFcmToken(String token) {
+    print("token::::${token}");
+
     HTTPManager()
         .updateFcmToken(UserTokenRequest(
             userId: "${globalSessionUser.id}", fcmToken: token))

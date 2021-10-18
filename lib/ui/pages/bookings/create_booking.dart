@@ -69,6 +69,7 @@ class _CreateBookingState extends State<CreateBooking> {
   List selectedServices = [];
   int servicesSum;
   List servicesIdList = [];
+  List availableServicesIdList = [];
 
   String api_response = "";
   List<TaxInfoResponse> taxList = [];
@@ -405,12 +406,16 @@ class _CreateBookingState extends State<CreateBooking> {
 
                                 newServicesList.add(value);
 
+                                availableServicesIdList = value;
+
                                 _priceController.text = totalPrice.toString();
 
                                 selectedServices = newServicesList;
 
                                 print('newServicesList::${newServicesList}');
                                 print('selectedServices::${selectedServices}');
+                                print(
+                                    'availableServices::${availableServicesIdList}');
                               });
                             }
                           },
@@ -512,10 +517,10 @@ class _CreateBookingState extends State<CreateBooking> {
   _submitBooking() {
     if (_bookingFormKey.currentState.validate()) {
       setState(() {
-        servicesIdList = selectedServices[0];
-        print(_categoryListState);
-
-        print('servicesIdList::${servicesIdList}');
+        // servicesIdList = selectedServices[0];
+        // print(_categoryListState);
+        //
+        // print('servicesIdList::${servicesIdList}');
 
         _isLoading = true;
       });
@@ -529,7 +534,7 @@ class _CreateBookingState extends State<CreateBooking> {
         dueTime: _timeController.text,
         finishTime: _finishtimeController.text,
         comment: _commentsController.text,
-        serviceId: servicesIdList,
+        serviceId: availableServicesIdList,
         paymentDays: _numofDaysController.text.isEmpty
             ? '${0}'
             : '${_numofDaysController.text}',
