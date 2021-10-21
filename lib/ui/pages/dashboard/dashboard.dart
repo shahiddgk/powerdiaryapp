@@ -421,7 +421,7 @@ class _dashboardState extends State<dashboard> {
       // Android-specific code/UI Component
       if (await MapLauncher.isMapAvailable(MapType.google)) {
         await MapLauncher.showDirections(
-          mapType: MapType.apple,
+          mapType: MapType.google,
           destination: Coords(
             double.parse(bookingReadResponse.customerReadResponse.latitude),
             double.parse(bookingReadResponse.customerReadResponse.longitude),
@@ -430,8 +430,14 @@ class _dashboardState extends State<dashboard> {
           origin: Coords(_pdLocation.latitude, _pdLocation.longitude),
           originTitle: "User Current Location",
           //waypoints: waypoints,
-          directionsMode: DirectionsMode.walking,
+          directionsMode: DirectionsMode.driving,
         );
+      } else {
+        const _url =
+            'https://play.google.com/store/apps/details?id=com.google.android.apps.maps';
+        await canLaunch(_url)
+            ? await launch(_url)
+            : throw 'Could not launch $_url';
       }
     } else if (Platform.isIOS) {
       // iOS-specific code/UI Component

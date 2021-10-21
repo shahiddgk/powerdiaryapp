@@ -211,7 +211,7 @@ class _BookingListingState extends State<BookingListing> {
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 5,
                                     mainAxisSpacing: 5,
-                                    childAspectRatio: 0.49,
+                                    childAspectRatio: 0.69,
                                     crossAxisCount: 2),
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
@@ -513,101 +513,101 @@ class _BookingListingState extends State<BookingListing> {
                                                       ],
                                                     ),
                                                   ),
-                                                  SingleChildScrollView(
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 3.0,
-                                                          right: 3.0),
-                                                      child: Container(
-                                                        height: 140,
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        child: SfMaps(
-                                                          layers: <MapLayer>[
-                                                            MapTileLayer(
-                                                              controller:
-                                                                  _controller,
-                                                              initialMarkersCount:
-                                                                  1,
-                                                              //controller: _controller,
-                                                              urlTemplate:
-                                                                  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                              initialFocalLatLng: bookingList[
-                                                                              index]
-                                                                          .customerReadResponse
-                                                                          .latitude
-                                                                          .isEmpty ||
-                                                                      bookingList[
-                                                                              index]
-                                                                          .customerReadResponse
-                                                                          .longitude
-                                                                          .isEmpty
-                                                                  ? MapLatLng(
-                                                                      54.5316223,
-                                                                      -8.0317785)
-                                                                  : MapLatLng(
-                                                                      double.parse(
-                                                                          _data[index]
-                                                                              .latitude),
-                                                                      double.parse(
-                                                                          _data[index]
-                                                                              .longitude),
-                                                                    ),
-                                                              initialZoomLevel:
-                                                                  15,
-                                                              markerBuilder:
-                                                                  (BuildContext
-                                                                          context,
-                                                                      int i) {
-                                                                return bookingList[index]
-                                                                            .customerReadResponse
-                                                                            .latitude
-                                                                            .isEmpty ||
-                                                                        bookingList[index]
-                                                                            .customerReadResponse
-                                                                            .latitude
-                                                                            .isEmpty
-                                                                    ? MapMarker(
-                                                                        latitude:
-                                                                            _general[0].latitude,
-                                                                        longitude:
-                                                                            _general[0].longitude,
-                                                                        // child:
-                                                                        // Icon(
-                                                                        //   Icons
-                                                                        //       .location_on,
-                                                                        //   color: Colors
-                                                                        //       .red,
-                                                                        //   size:
-                                                                        //   20,
-                                                                        // ),
-                                                                      )
-                                                                    : MapMarker(
-                                                                        latitude:
-                                                                            double.parse(_data[index].latitude),
-                                                                        longitude:
-                                                                            double.parse(_data[index].longitude),
-                                                                        child:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .location_on,
-                                                                          color:
-                                                                              Colors.red,
-                                                                          size:
-                                                                              20,
-                                                                        ),
-                                                                      );
-                                                              },
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
+                                                  // SingleChildScrollView(
+                                                  //   scrollDirection:
+                                                  //       Axis.vertical,
+                                                  //   child: Padding(
+                                                  //     padding: EdgeInsets.only(
+                                                  //         left: 3.0,
+                                                  //         right: 3.0),
+                                                  //     child: Container(
+                                                  //       height: 140,
+                                                  //       width: MediaQuery.of(
+                                                  //               context)
+                                                  //           .size
+                                                  //           .width,
+                                                  //       child: SfMaps(
+                                                  //         layers: <MapLayer>[
+                                                  //           MapTileLayer(
+                                                  //             controller:
+                                                  //                 _controller,
+                                                  //             initialMarkersCount:
+                                                  //                 1,
+                                                  //             //controller: _controller,
+                                                  //             urlTemplate:
+                                                  //                 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                  //             initialFocalLatLng: bookingList[
+                                                  //                             index]
+                                                  //                         .customerReadResponse
+                                                  //                         .latitude
+                                                  //                         .isEmpty ||
+                                                  //                     bookingList[
+                                                  //                             index]
+                                                  //                         .customerReadResponse
+                                                  //                         .longitude
+                                                  //                         .isEmpty
+                                                  //                 ? MapLatLng(
+                                                  //                     54.5316223,
+                                                  //                     -8.0317785)
+                                                  //                 : MapLatLng(
+                                                  //                     double.parse(
+                                                  //                         _data[index]
+                                                  //                             .latitude),
+                                                  //                     double.parse(
+                                                  //                         _data[index]
+                                                  //                             .longitude),
+                                                  //                   ),
+                                                  //             initialZoomLevel:
+                                                  //                 10,
+                                                  //             markerBuilder:
+                                                  //                 (BuildContext
+                                                  //                         context,
+                                                  //                     int i) {
+                                                  //               return bookingList[index]
+                                                  //                           .customerReadResponse
+                                                  //                           .latitude
+                                                  //                           .isEmpty ||
+                                                  //                       bookingList[index]
+                                                  //                           .customerReadResponse
+                                                  //                           .latitude
+                                                  //                           .isEmpty
+                                                  //                   ? MapMarker(
+                                                  //                       latitude:
+                                                  //                           _general[0].latitude,
+                                                  //                       longitude:
+                                                  //                           _general[0].longitude,
+                                                  //                       // child:
+                                                  //                       // Icon(
+                                                  //                       //   Icons
+                                                  //                       //       .location_on,
+                                                  //                       //   color: Colors
+                                                  //                       //       .red,
+                                                  //                       //   size:
+                                                  //                       //   20,
+                                                  //                       // ),
+                                                  //                     )
+                                                  //                   : MapMarker(
+                                                  //                       latitude:
+                                                  //                           double.parse(_data[index].latitude),
+                                                  //                       longitude:
+                                                  //                           double.parse(_data[index].longitude),
+                                                  //                       child:
+                                                  //                           Icon(
+                                                  //                         Icons
+                                                  //                             .location_on,
+                                                  //                         color:
+                                                  //                             Colors.red,
+                                                  //                         size:
+                                                  //                             20,
+                                                  //                       ),
+                                                  //                     );
+                                                  //             },
+                                                  //           ),
+                                                  //         ],
+                                                  //       ),
+                                                  //     ),
+                                                  //   ),
+                                                  // )
                                                 ],
                                               ),
                                             )
@@ -837,7 +837,7 @@ class _BookingListingState extends State<BookingListing> {
       // Android-specific code/UI Component
       if (await MapLauncher.isMapAvailable(MapType.google)) {
         await MapLauncher.showDirections(
-          mapType: MapType.apple,
+          mapType: MapType.google,
           destination: Coords(
             double.parse(bookingReadResponse.customerReadResponse.latitude),
             double.parse(bookingReadResponse.customerReadResponse.longitude),
@@ -846,8 +846,14 @@ class _BookingListingState extends State<BookingListing> {
           origin: Coords(_pdLocation.latitude, _pdLocation.longitude),
           originTitle: "User Current Location",
           //waypoints: waypoints,
-          directionsMode: DirectionsMode.walking,
+          directionsMode: DirectionsMode.driving,
         );
+      } else {
+        const _url =
+            'https://play.google.com/store/apps/details?id=com.google.android.apps.maps';
+        await canLaunch(_url)
+            ? await launch(_url)
+            : throw 'Could not launch $_url';
       }
     } else if (Platform.isIOS) {
       // iOS-specific code/UI Component
