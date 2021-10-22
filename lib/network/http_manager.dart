@@ -1,5 +1,6 @@
 import 'package:powerdiary/models/request/QutationListRequest.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
+import 'package:powerdiary/models/request/booking_weekly_request.dart';
 import 'package:powerdiary/models/request/category_request.dart';
 import 'package:powerdiary/models/request/customer_request.dart';
 import 'package:powerdiary/models/request/expense_request.dart';
@@ -12,6 +13,7 @@ import 'package:powerdiary/models/request/service_request.dart';
 import 'package:powerdiary/models/request/tax_info_request.dart';
 import 'package:powerdiary/models/request/user_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
+import 'package:powerdiary/models/response/booking_list_weekly_response.dart';
 import 'package:powerdiary/models/response/booking_show_reponse.dart';
 import 'package:powerdiary/models/response/category_list_response.dart';
 import 'package:powerdiary/models/response/customer_list_response.dart';
@@ -204,6 +206,16 @@ class HTTPManager {
     return bookingListResponse;
   }
 
+  Future<BookingWeeklyListResponse> getBookingWeeklyListing(
+      BookingWeeklyListRequest bookingWeeklyListRequest) async {
+    final url = ApplicationURLs.API_BOOKING_LIST;
+    final GeneralResponseModel response =
+        await _handler.post(url, bookingWeeklyListRequest.toJson(), false);
+    BookingWeeklyListResponse bookingWeeklyListResponse =
+        BookingWeeklyListResponse.fromJson(response.data);
+    return bookingWeeklyListResponse;
+  }
+
   Future<GeneralResponseModel> createBooking(
       BookingCreateRequest bookingCreateRequest) async {
     final url = ApplicationURLs.API_BOOKING_CREATE;
@@ -214,6 +226,14 @@ class HTTPManager {
 
   Future<GeneralResponseModel> updateBooking(
       BookingUpdateRequest bookingUpdateRequest) async {
+    final url = ApplicationURLs.API_BOOKING_UPDATE;
+    final GeneralResponseModel response =
+        await _handler.post(url, bookingUpdateRequest.toJson(), false);
+    return response;
+  }
+
+  Future<GeneralResponseModel> updateWeeklyBooking(
+      BookingWeeklyUpdateRequest bookingUpdateRequest) async {
     final url = ApplicationURLs.API_BOOKING_UPDATE;
     final GeneralResponseModel response =
         await _handler.post(url, bookingUpdateRequest.toJson(), false);
@@ -240,6 +260,14 @@ class HTTPManager {
 
   Future<GeneralResponseModel> statusBooking(
       BookingStatusRequest bookingStatusRequest) async {
+    final url = ApplicationURLs.API_BOOKING_STATUS;
+    final GeneralResponseModel response =
+        await _handler.post(url, bookingStatusRequest.toJson(), false);
+    return response;
+  }
+
+  Future<GeneralResponseModel> statusWeeklyBooking(
+      BookingWeeklyStatusRequest bookingStatusRequest) async {
     final url = ApplicationURLs.API_BOOKING_STATUS;
     final GeneralResponseModel response =
         await _handler.post(url, bookingStatusRequest.toJson(), false);

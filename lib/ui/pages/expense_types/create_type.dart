@@ -17,7 +17,7 @@ class _TypeState extends State<Type> {
   final GlobalKey<FormState> _typeFormKey = GlobalKey<FormState>();
   TextEditingController _expenseTypeController = new TextEditingController();
   // TextEditingController _descriptionController = new TextEditingController();
-  bool _isLoading = false;
+  bool _isLoading = true;
   String api_response = "";
   List<ExpenseTypeReadResponse> expensetypeList = [];
 

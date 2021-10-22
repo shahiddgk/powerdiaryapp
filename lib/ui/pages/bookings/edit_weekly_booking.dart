@@ -31,18 +31,18 @@ import 'package:powerdiary/ui/widgets/widget_text_field.dart';
 import 'package:powerdiary/ui/widgets/widget_timepicker_field.dart';
 import 'package:powerdiary/utils/utils.dart';
 
-class EditBooking extends StatefulWidget {
-  final BookingReadResponse bookingReadResponse;
+class EditWeeklyBooking extends StatefulWidget {
+  final BookingWeeklyReadResponse bookingReadResponse;
   final String category;
 
-  const EditBooking({Key key, this.bookingReadResponse, this.category})
+  const EditWeeklyBooking({Key key, this.bookingReadResponse, this.category})
       : super(key: key);
 
   @override
-  _EditBookingState createState() => _EditBookingState();
+  _EditWeeklyBookingState createState() => _EditWeeklyBookingState();
 }
 
-class _EditBookingState extends State<EditBooking> {
+class _EditWeeklyBookingState extends State<EditWeeklyBooking> {
   final GlobalKey<FormState> _bookingFormKey = GlobalKey<FormState>();
   TextEditingController _dateController = new TextEditingController();
   TextEditingController _timeController = new TextEditingController();

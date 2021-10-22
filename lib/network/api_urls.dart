@@ -42,6 +42,7 @@ class ApplicationURLs {
   static const API_BOOKING_SEND_INVOICE = BASE_URL + "send-invoice";
   static const API_TAX_INFO = BASE_URL + "tax-info";
   static const API_CATEGORY_SERVICES = BASE_URL + "category-services";
+  static const API_BOOKING_WEEKLY_LISTING = BASE_URL + "booking-listings";
 
   //User
   static const API_USER_LIST = BASE_URL + "users";

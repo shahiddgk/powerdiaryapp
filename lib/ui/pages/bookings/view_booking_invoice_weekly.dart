@@ -15,24 +15,25 @@ import 'package:powerdiary/ui/widgets/widget_progress_indicator.dart';
 import 'package:powerdiary/utils/utils.dart';
 import 'package:screenshot/screenshot.dart';
 
-class ViewBookingInvoice extends StatefulWidget {
-  final BookingReadResponse bookingReadResponse;
+class ViewWeeklyBookingInvoice extends StatefulWidget {
+  final BookingWeeklyReadResponse bookingReadResponse;
 
-  const ViewBookingInvoice({Key key, this.bookingReadResponse})
+  const ViewWeeklyBookingInvoice({Key key, this.bookingReadResponse})
       : super(key: key);
 
   @override
-  _ViewBookingInvoiceState createState() => _ViewBookingInvoiceState();
+  _ViewWeeklyBookingInvoiceState createState() =>
+      _ViewWeeklyBookingInvoiceState();
 }
 
-class _ViewBookingInvoiceState extends State<ViewBookingInvoice> {
+class _ViewWeeklyBookingInvoiceState extends State<ViewWeeklyBookingInvoice> {
   bool _isLoading = true;
   BookingShowResponse bookingShowResponse;
   Uint8List _imageFile;
   ScreenshotController screenshotController = ScreenshotController();
   var path;
   List<String> imagePaths = [];
-  _ViewBookingInvoiceState();
+  _ViewWeeklyBookingInvoiceState();
   @override
   void initState() {
     // TODO: implement initState'

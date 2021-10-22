@@ -418,10 +418,10 @@ packages:
   multilevel_drawer:
     dependency: "direct main"
     description:
-      path: multilevel_drawer
-      relative: true
-    source: path
-    version: "1.0.3"
+      name: multilevel_drawer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   multiselect_formfield:
     dependency: "direct main"
     description:

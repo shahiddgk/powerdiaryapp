@@ -29,8 +29,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
   flutter_html:
-  multilevel_drawer:
-    path: multilevel_drawer
+  multilevel_drawer: ^2.0.0
   http: ^0.12.2
   intl: ^0.16.1
   responsive_framework: ^0.0.14

@@ -9,19 +9,24 @@ import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:powerdiary/models/pd_location.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
+import 'package:powerdiary/models/request/booking_weekly_request.dart';
 import 'package:powerdiary/models/request/category_request.dart';
 import 'package:powerdiary/models/request/permission_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
+import 'package:powerdiary/models/response/booking_list_weekly_response.dart';
 import 'package:powerdiary/models/response/category_list_response.dart';
 import 'package:powerdiary/models/response/permission_list_response.dart';
 import 'package:powerdiary/network/http_manager.dart';
 import 'package:powerdiary/ui/pages/bookings/edit_booking.dart';
 import 'package:powerdiary/ui/pages/bookings/view_booking_invoice.dart';
+import 'package:powerdiary/ui/pages/bookings/view_booking_invoice_weekly.dart';
 import 'package:powerdiary/ui/widgets/widget_progress_indicator.dart';
 import 'package:powerdiary/ui/widgets/widget_text_field.dart';
 import 'package:powerdiary/utils/utils.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'edit_weekly_booking.dart';
 
 class BookingListing extends StatefulWidget {
   @override
@@ -32,7 +37,7 @@ class _BookingListingState extends State<BookingListing> {
   final GlobalKey<FormState> _dropdownFormKey = GlobalKey<FormState>();
 
   bool _isLoading = true;
-  List<BookingReadResponse> bookingList = [];
+  List<BookingWeeklyReadResponse> bookingList = [];
   PdLocation _pdLocation;
   MapTileLayerController _controller;
   List<GeneralModel> _general;
@@ -49,11 +54,11 @@ class _BookingListingState extends State<BookingListing> {
 
   TextEditingController _chequeController = new TextEditingController();
 
-  int _counter = 5;
+  int _counter = 2;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 5;
+    _counter = 2;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -121,10 +126,9 @@ class _BookingListingState extends State<BookingListing> {
 
   _getBookingList() {
     HTTPManager()
-        .getBookingListing(BookingListRequest(
-            companyId: globalSessionUser.companyId,
-            userId: globalSessionUser.id,
-            roleId: globalSessionUser.roleId))
+        .getBookingWeeklyListing(BookingWeeklyListRequest(
+      companyId: globalSessionUser.companyId,
+    ))
         .then((value) {
       setState(() {
         _isLoading = false;
@@ -740,7 +744,7 @@ class _BookingListingState extends State<BookingListing> {
         ));
   }
 
-  Future _paymentPopup(BookingReadResponse bookingReadResponse) async {
+  Future _paymentPopup(BookingWeeklyReadResponse bookingReadResponse) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -817,7 +821,8 @@ class _BookingListingState extends State<BookingListing> {
     );
   }
 
-  _updateBookingStatus(BookingReadResponse bookingReadResponse, int value) {
+  _updateBookingStatus(
+      BookingWeeklyReadResponse bookingReadResponse, int value) {
     setState(() {
       bookingReadResponse.serviceStatus = value;
     });
@@ -830,7 +835,7 @@ class _BookingListingState extends State<BookingListing> {
     );
   }
 
-  _showDirections(BookingReadResponse bookingReadResponse) async {
+  _showDirections(BookingWeeklyReadResponse bookingReadResponse) async {
     print('latitude:${bookingReadResponse.customerReadResponse.latitude}');
     print('longitude:${bookingReadResponse.customerReadResponse.longitude}');
     if (Platform.isAndroid) {
@@ -879,18 +884,19 @@ class _BookingListingState extends State<BookingListing> {
     }
   }
 
-  _showBooking(BookingReadResponse bookingReadResponse) {
+  _showBooking(BookingWeeklyReadResponse bookingReadResponse) {
     Navigator.of(context).push(new MaterialPageRoute(
-        builder: (BuildContext context) => ViewBookingInvoice(
+        builder: (BuildContext context) => ViewWeeklyBookingInvoice(
               bookingReadResponse: bookingReadResponse,
             )));
   }
 
-  _updateBooking(BookingReadResponse bookingReadResponse, category) {
+  _updateBooking(
+      BookingWeeklyReadResponse bookingWeeklyReadResponse, category) {
     Navigator.of(context)
         .push(new MaterialPageRoute(
-            builder: (BuildContext context) => EditBooking(
-                  bookingReadResponse: bookingReadResponse,
+            builder: (BuildContext context) => EditWeeklyBooking(
+                  bookingReadResponse: bookingWeeklyReadResponse,
                   category: category,
                 )))
         .then((value) {
@@ -898,7 +904,7 @@ class _BookingListingState extends State<BookingListing> {
     });
   }
 
-  _deleteBooking(BookingReadResponse bookingReadResponse) {
+  _deleteBooking(BookingWeeklyReadResponse bookingReadResponse) {
     confirmDelete(context, () {
       setState(() {
         _isLoading = true;

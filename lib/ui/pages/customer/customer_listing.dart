@@ -164,7 +164,7 @@ class _CustomersListingState extends State<CustomersListing> {
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 5,
                                     mainAxisSpacing: 5,
-                                    childAspectRatio: 0.82,
+                                    childAspectRatio: 0.92,
                                     crossAxisCount: 2),
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
@@ -325,24 +325,24 @@ class _CustomersListingState extends State<CustomersListing> {
                                                         CrossAxisAlignment
                                                             .center,
                                                     children: <Widget>[
-                                                      Switch(
-                                                        value:
-                                                            customerList[index]
-                                                                .isActive,
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            customerList[index]
-                                                                    .isActive =
-                                                                value;
-                                                          });
-                                                          _activateCustomer(
-                                                              customerList[
-                                                                  index]);
-                                                        },
-                                                        //activeTrackColor: Colors.blue,
-                                                        // activeColor: Colors.white,
-                                                        //inactiveThumbColor: Colors.grey,
-                                                      ),
+                                                      // Switch(
+                                                      //   value:
+                                                      //       customerList[index]
+                                                      //           .isActive,
+                                                      //   onChanged: (value) {
+                                                      //     setState(() {
+                                                      //       customerList[index]
+                                                      //               .isActive =
+                                                      //           value;
+                                                      //     });
+                                                      //     _activateCustomer(
+                                                      //         customerList[
+                                                      //             index]);
+                                                      //   },
+                                                      //   //activeTrackColor: Colors.blue,
+                                                      //   // activeColor: Colors.white,
+                                                      //   //inactiveThumbColor: Colors.grey,
+                                                      // ),
                                                       permissionShowResponse
                                                                   .customer[0]
                                                                   .update ==

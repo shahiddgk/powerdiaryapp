@@ -195,6 +195,7 @@ class _dashboardState extends State<dashboard> {
                   monthViewSettings: MonthViewSettings(
                     appointmentDisplayMode:
                         MonthAppointmentDisplayMode.appointment,
+                    showTrailingAndLeadingDates: false,
                   ),
                   // scheduleViewSettings:
                   //     ScheduleViewSettings(appointmentItemHeight: 20),
