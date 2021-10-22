@@ -105,7 +105,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   MLMenuItem(
                       leading: Row(
                         children: [
-                          SizedBox(width: 2),
+                          SizedBox(width: 3),
                           Icon(Icons.home_rounded),
                         ],
                       ),
@@ -121,7 +121,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       ? MLMenuItem(
                           leading: Row(
                             children: [
-                              SizedBox(width: 2),
+                              SizedBox(width: 3),
                               Icon(Icons.business_center)
                             ],
                           ),
@@ -165,7 +165,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       : MLMenuItem(
                           leading: Row(
                             children: [
-                              SizedBox(width: 2),
+                              SizedBox(width: 3),
                               Icon(Icons.business_center)
                             ],
                           ),
@@ -200,7 +200,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       ? MLMenuItem(
                           leading: Row(
                             children: [
-                              SizedBox(width: 2),
+                              SizedBox(width: 3),
                               Icon(Icons.insert_chart)
                             ],
                           ),
@@ -244,7 +244,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       : MLMenuItem(
                           leading: Row(
                             children: [
-                              SizedBox(width: 2),
+                              SizedBox(width: 3),
                               Icon(Icons.insert_chart, color: Colors.grey)
                             ],
                           ),
@@ -275,7 +275,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       ? MLMenuItem(
                           leading: Row(
                             children: [
-                              SizedBox(width: 2),
+                              SizedBox(width: 3),
                               Icon(Icons.people_alt_rounded)
                             ],
                           ),
@@ -319,7 +319,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                           leading: Row(
                             children: [
                               SizedBox(
-                                width: 2,
+                                width: 3,
                               ),
                               Icon(Icons.people_alt_rounded, color: Colors.grey)
                             ],
@@ -352,7 +352,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                           leading: Row(
                             children: [
                               SizedBox(
-                                width: 2,
+                                width: 3,
                               ),
                               Icon(Icons.airport_shuttle_rounded)
                             ],
@@ -398,7 +398,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                           leading: Row(
                             children: [
                               SizedBox(
-                                width: 2,
+                                width: 3,
                               ),
                               Icon(Icons.airport_shuttle_rounded,
                                   color: Colors.grey)
@@ -431,7 +431,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                             leading: Row(
                               children: [
                                 SizedBox(
-                                  width: 2,
+                                  width: 3,
                                 ),
                                 Icon(Icons.help)
                               ],
@@ -477,7 +477,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                             leading: Row(
                               children: [
                                 SizedBox(
-                                  width: 2,
+                                  width: 3,
                                 ),
                                 Icon(Icons.help, color: Colors.grey)
                               ],
@@ -557,7 +557,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                             leading: Row(
                               children: [
                                 SizedBox(
-                                  width: 2,
+                                  width: 3,
                                 ),
                                 Icon(Icons.add)
                               ],
@@ -611,7 +611,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                             leading: Row(
                               children: [
                                 SizedBox(
-                                  width: 2,
+                                  width: 3,
                                 ),
                                 Icon(Icons.add, color: Colors.grey)
                               ],
@@ -644,7 +644,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                             leading: Row(
                               children: [
                                 SizedBox(
-                                  width: 2,
+                                  width: 3,
                                 ),
                                 Icon(Icons.indeterminate_check_box)
                               ],
@@ -698,7 +698,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                             leading: Row(
                               children: [
                                 SizedBox(
-                                  width: 2,
+                                  width: 3,
                                 ),
                                 Icon(Icons.indeterminate_check_box,
                                     color: Colors.grey)
@@ -727,7 +727,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       leading: Row(
                         children: [
                           SizedBox(
-                            width: 2,
+                            width: 3,
                           ),
                           Icon(Icons.logout)
                         ],
