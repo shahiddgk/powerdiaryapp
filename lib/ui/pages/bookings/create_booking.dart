@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -11,11 +12,13 @@ import 'package:powerdiary/models/multiselect_model.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
 import 'package:powerdiary/models/request/category_request.dart';
 import 'package:powerdiary/models/request/customer_request.dart';
+import 'package:powerdiary/models/request/permission_request.dart';
 import 'package:powerdiary/models/request/service_request.dart';
 import 'package:powerdiary/models/request/tax_info_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
 import 'package:powerdiary/models/response/category_list_response.dart';
 import 'package:powerdiary/models/response/customer_list_response.dart';
+import 'package:powerdiary/models/response/permission_list_response.dart';
 import 'package:powerdiary/models/response/service_list_response.dart';
 import 'package:powerdiary/models/response/tax_info_response.dart';
 import 'package:powerdiary/network/http_manager.dart';
@@ -56,6 +59,7 @@ class _CreateBookingState extends State<CreateBooking> {
 
   List<CustomerReadResponse> customersList = [];
   CustomerReadResponse selectedCustomer;
+  PermissionShowResponse permissionShowResponse;
 
   List<CategoryReadResponse> categoryList = [];
   String _categoryListState;
@@ -79,6 +83,23 @@ class _CreateBookingState extends State<CreateBooking> {
   Map<String, dynamic> categoryServiceNameList = {};
   List categoryServiceList;
   int index = 0;
+
+  int _counter = 4;
+  Timer _timer;
+
+  void _startTimer() {
+    _counter = 4;
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _timer.cancel();
+        }
+      });
+    });
+  }
 
   @override
   initState() {
@@ -105,9 +126,33 @@ class _CreateBookingState extends State<CreateBooking> {
     _getCustomerList();
     _getCategoryList();
     _getCategoryServiceList();
+    _getPermissionList();
     _getTaxList();
+    _startTimer();
 
     super.initState();
+  }
+
+  _getPermissionList() {
+    HTTPManager()
+        .getPermissionList(PermissionListRequest(
+            companyId: globalSessionUser.companyId,
+            roleId: globalSessionUser.roleId))
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+        permissionShowResponse = value;
+      });
+    }).catchError((e) {
+      print(e);
+      showAlert(context, e.toString(), true, () {
+        setState(() {
+          _isLoading = false;
+        });
+      }, () {
+        _getPermissionList();
+      });
+    });
   }
 
   _getCategoryServicesList(category) {
@@ -301,10 +346,16 @@ class _CreateBookingState extends State<CreateBooking> {
                             },
                           ),
                         ),
-                        ButtonSmallWidget(
-                          title: "Add New",
-                          onPressed: _goToCustomer,
-                        )
+                        if (_counter == 0)
+                          permissionShowResponse.booking[0].read == 1
+                              ? ButtonSmallWidget(
+                                  title: "Add New",
+                                  onPressed: _goToCustomer,
+                                )
+                              : ButtonSmallWidget(
+                                  title: "Add New",
+                                  //onPressed: _goToCustomer,
+                                )
                       ],
                     ),
                     DropdownFeildWidget(
