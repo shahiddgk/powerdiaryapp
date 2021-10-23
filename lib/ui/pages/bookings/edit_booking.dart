@@ -376,7 +376,7 @@ class _EditBookingState extends State<EditBooking> {
                           } else {
                             List newServicesList = [];
                             //List availableServicesList = [];
-                            int totalPrice = 0;
+                            int totalPrice = int.parse(_priceController.text);
 
                             if (serviceList.isNotEmpty) {
                               for (int i = 0; i < serviceList.length; i++) {
