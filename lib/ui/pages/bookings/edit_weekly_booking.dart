@@ -8,6 +8,7 @@ import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:powerdiary/models/multiselect_model.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
+import 'package:powerdiary/models/request/booking_weekly_request.dart';
 import 'package:powerdiary/models/request/category_request.dart';
 import 'package:powerdiary/models/request/customer_request.dart';
 import 'package:powerdiary/models/request/service_request.dart';
@@ -510,7 +511,7 @@ class _EditWeeklyBookingState extends State<EditWeeklyBooking> {
         _isLoading = true;
       });
       HTTPManager()
-          .updateBooking(BookingUpdateRequest(
+          .updateWeeklyBooking(BookingWeeklyUpdateRequest(
         bookingId: '${widget.bookingReadResponse.bookingId}',
         companyId: "${globalSessionUser.companyId}",
         userId: "${globalSessionUser.id}",

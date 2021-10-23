@@ -910,7 +910,7 @@ class _BookingListingState extends State<BookingListing> {
         _isLoading = true;
       });
       HTTPManager()
-          .deleteBooking(BookingShowRequest(
+          .deleteWeeklyBooking(BookingWeeklyShowRequest(
         companyId: '${bookingReadResponse.companyId}',
         bookingId: '${bookingReadResponse.bookingId}',
       ))
@@ -942,7 +942,7 @@ class _BookingListingState extends State<BookingListing> {
       print(serviceStatus);
     });
     HTTPManager()
-        .statusBooking(BookingStatusRequest(
+        .statusWeeklyBooking(BookingWeeklyStatusRequest(
       bookingId: bookingId,
       companyId: companyId,
       serviceStatus: "$serviceStatus",

@@ -424,84 +424,82 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                           // ]
                         ),
 
-                  if (Platform.isIOS)
-                    permissionShowResponse.quotation[0].read == 1 ||
-                            permissionShowResponse.quotation[0].create == 1
-                        ? MLMenuItem(
-                            leading: Row(
-                              children: [
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                Icon(Icons.help)
-                              ],
-                            ),
-                            trailing: Icon(Icons.arrow_right),
-                            content: Text('  Quotation'),
-                            onClick: () {},
-                            subMenuItems: [
-                                permissionShowResponse.quotation[0].create == 1
-                                    ? MLSubmenu(
-                                        onClick: () {
-                                          Navigator.pushNamed(context,
-                                              RouteManager.route_qoute_list);
-                                        },
-                                        submenuContent: Text('Quotations'))
-                                    : MLSubmenu(
-                                        // onClick: () {
-                                        //   Navigator.pushNamed(
-                                        //       context, RouteManager.route_qoute_list);
-                                        // },
-                                        submenuContent: Text(
-                                        'Quotations',
-                                        style: TextStyle(color: Colors.grey),
-                                      )),
-                                permissionShowResponse.quotation[0].read == 1
-                                    ? MLSubmenu(
-                                        onClick: () {
-                                          Navigator.pushNamed(context,
-                                              RouteManager.route_qoute_create);
-                                        },
-                                        submenuContent: Text('Send Quote'))
-                                    : MLSubmenu(
-                                        // onClick: () {
-                                        //   Navigator.pushNamed(
-                                        //       context, RouteManager.route_qoute_create);
-                                        // },
-                                        submenuContent: Text(
-                                        'Send Quote',
-                                        style: TextStyle(color: Colors.grey),
-                                      )),
-                              ])
-                        : MLMenuItem(
-                            leading: Row(
-                              children: [
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                Icon(Icons.help, color: Colors.grey)
-                              ],
-                            ),
-                            trailing:
-                                Icon(Icons.arrow_right, color: Colors.grey),
-                            content: Text('  Quotation',
-                                style: TextStyle(color: Colors.grey)),
-                            onClick: () {},
-                            // subMenuItems: [
-                            //   MLSubmenu(
-                            //       onClick: () {
-                            //         Navigator.pushNamed(
-                            //             context, RouteManager.route_qoute_list);
-                            //       },
-                            //       submenuContent: Text('Quotations')),
-                            //   MLSubmenu(
-                            //       onClick: () {
-                            //         Navigator.pushNamed(
-                            //             context, RouteManager.route_qoute_create);
-                            //       },
-                            //       submenuContent: Text('Send Quote')),
-                            // ]
-                          ),
+                  // permissionShowResponse.quotation[0].read == 1 ||
+                  //         permissionShowResponse.quotation[0].create == 1
+                  //     ? MLMenuItem(
+                  //         leading: Row(
+                  //           children: [
+                  //             SizedBox(
+                  //               width: 3,
+                  //             ),
+                  //             Icon(Icons.help)
+                  //           ],
+                  //         ),
+                  //         trailing: Icon(Icons.arrow_right),
+                  //         content: Text('  Quotation'),
+                  //         onClick: () {},
+                  //         subMenuItems: [
+                  //             permissionShowResponse.quotation[0].create == 1
+                  //                 ? MLSubmenu(
+                  //                     onClick: () {
+                  //                       Navigator.pushNamed(context,
+                  //                           RouteManager.route_qoute_list);
+                  //                     },
+                  //                     submenuContent: Text('Quotations'))
+                  //                 : MLSubmenu(
+                  //                     // onClick: () {
+                  //                     //   Navigator.pushNamed(
+                  //                     //       context, RouteManager.route_qoute_list);
+                  //                     // },
+                  //                     submenuContent: Text(
+                  //                     'Quotations',
+                  //                     style: TextStyle(color: Colors.grey),
+                  //                   )),
+                  //             permissionShowResponse.quotation[0].read == 1
+                  //                 ? MLSubmenu(
+                  //                     onClick: () {
+                  //                       Navigator.pushNamed(context,
+                  //                           RouteManager.route_qoute_create);
+                  //                     },
+                  //                     submenuContent: Text('Send Quote'))
+                  //                 : MLSubmenu(
+                  //                     // onClick: () {
+                  //                     //   Navigator.pushNamed(
+                  //                     //       context, RouteManager.route_qoute_create);
+                  //                     // },
+                  //                     submenuContent: Text(
+                  //                     'Send Quote',
+                  //                     style: TextStyle(color: Colors.grey),
+                  //                   )),
+                  //           ])
+                  //     : MLMenuItem(
+                  //         leading: Row(
+                  //           children: [
+                  //             SizedBox(
+                  //               width: 3,
+                  //             ),
+                  //             Icon(Icons.help, color: Colors.grey)
+                  //           ],
+                  //         ),
+                  //         trailing: Icon(Icons.arrow_right, color: Colors.grey),
+                  //         content: Text('  Quotation',
+                  //             style: TextStyle(color: Colors.grey)),
+                  //         onClick: () {},
+                  //         // subMenuItems: [
+                  //         //   MLSubmenu(
+                  //         //       onClick: () {
+                  //         //         Navigator.pushNamed(
+                  //         //             context, RouteManager.route_qoute_list);
+                  //         //       },
+                  //         //       submenuContent: Text('Quotations')),
+                  //         //   MLSubmenu(
+                  //         //       onClick: () {
+                  //         //         Navigator.pushNamed(
+                  //         //             context, RouteManager.route_qoute_create);
+                  //         //       },
+                  //         //       submenuContent: Text('Send Quote')),
+                  //         // ]
+                  //       ),
                   // MLMenuItem(
                   //     leading: Icon(Icons.email),
                   //     trailing: Icon(Icons.arrow_right),
@@ -547,182 +545,177 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   //           },
                   //           submenuContent: Text('Message')),
                   //     ]),
-                  // if (Platform.isIOS)
-                  //   permissionShowResponse.expenseTypes[0].read == 1 ||
-                  //           permissionShowResponse.expenseTypes[0].create ==
-                  //               1 ||
-                  //           permissionShowResponse.expenseTypes[0].update == 1
-                  //       ? MLMenuItem(
-                  //           content: Text('  Expense Types'),
-                  //           leading: Row(
-                  //             children: [
-                  //               SizedBox(
-                  //                 width: 3,
-                  //               ),
-                  //               Icon(Icons.add)
-                  //             ],
-                  //           ),
-                  //           trailing: Icon(Icons.arrow_right),
-                  //           onClick: () {},
-                  //           subMenuItems: [
-                  //             permissionShowResponse.expenseTypes[0].create == 1
-                  //                 ? MLSubmenu(
-                  //                     onClick: () {
-                  //                       Navigator.pushNamed(context,
-                  //                           RouteManager.route_expense_types);
-                  //                     },
-                  //                     submenuContent: Text('Expense Types'),
-                  //                   )
-                  //                 : MLSubmenu(
-                  //                     // onClick: () {
-                  //                     //   Navigator.pushNamed(
-                  //                     //       context, RouteManager.route_expense_types);
-                  //                     // },
-                  //                     submenuContent: Text(
-                  //                       'Expense Types',
-                  //                       style: TextStyle(color: Colors.grey),
-                  //                     ),
-                  //                   ),
-                  //             permissionShowResponse.expenseTypes[0].read == 1
-                  //                 ? MLSubmenu(
-                  //                     onClick: () {
-                  //                       Navigator.pushNamed(
-                  //                           context,
-                  //                           RouteManager
-                  //                               .route_expense_types_create);
-                  //                     },
-                  //                     submenuContent: Text('Create Type'),
-                  //                   )
-                  //                 : MLSubmenu(
-                  //                     // onClick: () {
-                  //                     //   Navigator.pushNamed(
-                  //                     //       context, RouteManager.route_expense_types_create);
-                  //                     // },
-                  //                     submenuContent: Text(
-                  //                       'Create Type',
-                  //                       style: TextStyle(color: Colors.grey),
-                  //                     ),
-                  //                   ),
-                  //           ],
-                  //         )
-                  //       : MLMenuItem(
-                  //           content: Text('  Expense Types',
-                  //               style: TextStyle(color: Colors.grey)),
-                  //           leading: Row(
-                  //             children: [
-                  //               SizedBox(
-                  //                 width: 3,
-                  //               ),
-                  //               Icon(Icons.add, color: Colors.grey)
-                  //             ],
-                  //           ),
-                  //           trailing:
-                  //               Icon(Icons.arrow_right, color: Colors.grey),
-                  //           onClick: () {},
-                  //           // subMenuItems: [
-                  //           //   MLSubmenu(
-                  //           //     onClick: () {
-                  //           //       Navigator.pushNamed(
-                  //           //           context, RouteManager.route_expense_types);
-                  //           //     },
-                  //           //     submenuContent: Text('Expense Types'),
-                  //           //   ),
-                  //           //   MLSubmenu(
-                  //           //     onClick: () {
-                  //           //       Navigator.pushNamed(
-                  //           //           context, RouteManager.route_expense_types_create);
-                  //           //     },
-                  //           //     submenuContent: Text('Create Type'),
-                  //           //   ),
-                  //           // ],
-                  //         ),
-                  if (Platform.isIOS)
-                    permissionShowResponse.expenses[0].read == 1 ||
-                            permissionShowResponse.expenses[0].create == 1
-                        ? MLMenuItem(
-                            content: Text('  Expenses'),
-                            leading: Row(
-                              children: [
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                Icon(Icons.indeterminate_check_box)
-                              ],
-                            ),
-                            trailing: Icon(Icons.arrow_right),
-                            onClick: () {},
-                            subMenuItems: [
-                              // permissionShowResponse.expenses[0].create == 1
-                              //     ? MLSubmenu(
-                              //         onClick: () {
-                              //           Navigator.pushNamed(context,
-                              //               RouteManager.route_expenses_sub);
-                              //         },
-                              //         submenuContent: Text('Expenses'),
-                              //       )
-                              //     : MLSubmenu(
-                              //         // onClick: () {
-                              //         //   Navigator.pushNamed(
-                              //         //       context, RouteManager.route_expenses_sub);
-                              //         // },
-                              //         submenuContent: Text(
-                              //           'Expenses',
-                              //           style: TextStyle(color: Colors.grey),
-                              //         ),
-                              //       ),
-                              permissionShowResponse.expenses[0].read == 1
-                                  ? MLSubmenu(
-                                      onClick: () {
-                                        Navigator.pushNamed(context,
-                                            RouteManager.route_expenses);
-                                      },
-                                      submenuContent: Text('Add Expense'),
-                                    )
-                                  : MLSubmenu(
-                                      // onClick: () {
-                                      //   Navigator.pushNamed(
-                                      //       context, RouteManager.route_expenses);
-                                      // },
-                                      submenuContent: Text(
-                                        'Add Expense',
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                    ),
+                  permissionShowResponse.expenseTypes[0].read == 1 ||
+                          permissionShowResponse.expenseTypes[0].create == 1 ||
+                          permissionShowResponse.expenseTypes[0].update == 1
+                      ? MLMenuItem(
+                          content: Text('  Expense Types'),
+                          leading: Row(
+                            children: [
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Icon(Icons.add)
                             ],
-                          )
-                        : MLMenuItem(
-                            content: Text(
-                              '  Expenses',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            leading: Row(
-                              children: [
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                Icon(Icons.indeterminate_check_box,
-                                    color: Colors.grey)
-                              ],
-                            ),
-                            trailing:
-                                Icon(Icons.arrow_right, color: Colors.grey),
-                            onClick: () {},
-                            // subMenuItems: [
-                            //   MLSubmenu(
-                            //     onClick: () {
-                            //       Navigator.pushNamed(
-                            //           context, RouteManager.route_expenses_sub);
-                            //     },
-                            //     submenuContent: Text('Expenses'),
-                            //   ),
-                            //   MLSubmenu(
-                            //     onClick: () {
-                            //       Navigator.pushNamed(context, RouteManager.route_expenses);
-                            //     },
-                            //     submenuContent: Text('Add Expense'),
-                            //   ),
-                            // ],
                           ),
+                          trailing: Icon(Icons.arrow_right),
+                          onClick: () {},
+                          subMenuItems: [
+                            permissionShowResponse.expenseTypes[0].create == 1
+                                ? MLSubmenu(
+                                    onClick: () {
+                                      Navigator.pushNamed(context,
+                                          RouteManager.route_expense_types);
+                                    },
+                                    submenuContent: Text('Expense Types'),
+                                  )
+                                : MLSubmenu(
+                                    // onClick: () {
+                                    //   Navigator.pushNamed(
+                                    //       context, RouteManager.route_expense_types);
+                                    // },
+                                    submenuContent: Text(
+                                      'Expense Types',
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                            // permissionShowResponse.expenseTypes[0].read == 1
+                            //     ? MLSubmenu(
+                            //         onClick: () {
+                            //           Navigator.pushNamed(
+                            //               context,
+                            //               RouteManager
+                            //                   .route_expense_types_create);
+                            //         },
+                            //         submenuContent: Text('Create Type'),
+                            //       )
+                            //     : MLSubmenu(
+                            //         // onClick: () {
+                            //         //   Navigator.pushNamed(
+                            //         //       context, RouteManager.route_expense_types_create);
+                            //         // },
+                            //         submenuContent: Text(
+                            //           'Create Type',
+                            //           style: TextStyle(color: Colors.grey),
+                            //         ),
+                            //       ),
+                          ],
+                        )
+                      : MLMenuItem(
+                          content: Text('  Expense Types',
+                              style: TextStyle(color: Colors.grey)),
+                          leading: Row(
+                            children: [
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Icon(Icons.add, color: Colors.grey)
+                            ],
+                          ),
+                          trailing: Icon(Icons.arrow_right, color: Colors.grey),
+                          onClick: () {},
+                          // subMenuItems: [
+                          //   MLSubmenu(
+                          //     onClick: () {
+                          //       Navigator.pushNamed(
+                          //           context, RouteManager.route_expense_types);
+                          //     },
+                          //     submenuContent: Text('Expense Types'),
+                          //   ),
+                          //   MLSubmenu(
+                          //     onClick: () {
+                          //       Navigator.pushNamed(
+                          //           context, RouteManager.route_expense_types_create);
+                          //     },
+                          //     submenuContent: Text('Create Type'),
+                          //   ),
+                          // ],
+                        ),
+                  permissionShowResponse.expenses[0].read == 1 ||
+                          permissionShowResponse.expenses[0].create == 1
+                      ? MLMenuItem(
+                          content: Text('  Expenses'),
+                          leading: Row(
+                            children: [
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Icon(Icons.indeterminate_check_box)
+                            ],
+                          ),
+                          trailing: Icon(Icons.arrow_right),
+                          onClick: () {},
+                          subMenuItems: [
+                            // permissionShowResponse.expenses[0].create == 1
+                            //     ? MLSubmenu(
+                            //         onClick: () {
+                            //           Navigator.pushNamed(context,
+                            //               RouteManager.route_expenses_sub);
+                            //         },
+                            //         submenuContent: Text('Expenses'),
+                            //       )
+                            //     : MLSubmenu(
+                            //         // onClick: () {
+                            //         //   Navigator.pushNamed(
+                            //         //       context, RouteManager.route_expenses_sub);
+                            //         // },
+                            //         submenuContent: Text(
+                            //           'Expenses',
+                            //           style: TextStyle(color: Colors.grey),
+                            //         ),
+                            //       ),
+                            permissionShowResponse.expenses[0].read == 1
+                                ? MLSubmenu(
+                                    onClick: () {
+                                      Navigator.pushNamed(
+                                          context, RouteManager.route_expenses);
+                                    },
+                                    submenuContent: Text('Add Expense'),
+                                  )
+                                : MLSubmenu(
+                                    // onClick: () {
+                                    //   Navigator.pushNamed(
+                                    //       context, RouteManager.route_expenses);
+                                    // },
+                                    submenuContent: Text(
+                                      'Add Expense',
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                          ],
+                        )
+                      : MLMenuItem(
+                          content: Text(
+                            '  Expenses',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          leading: Row(
+                            children: [
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Icon(Icons.indeterminate_check_box,
+                                  color: Colors.grey)
+                            ],
+                          ),
+                          trailing: Icon(Icons.arrow_right, color: Colors.grey),
+                          onClick: () {},
+                          // subMenuItems: [
+                          //   MLSubmenu(
+                          //     onClick: () {
+                          //       Navigator.pushNamed(
+                          //           context, RouteManager.route_expenses_sub);
+                          //     },
+                          //     submenuContent: Text('Expenses'),
+                          //   ),
+                          //   MLSubmenu(
+                          //     onClick: () {
+                          //       Navigator.pushNamed(context, RouteManager.route_expenses);
+                          //     },
+                          //     submenuContent: Text('Add Expense'),
+                          //   ),
+                          // ],
+                        ),
                   MLMenuItem(
                       leading: Row(
                         children: [

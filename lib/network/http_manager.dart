@@ -208,7 +208,7 @@ class HTTPManager {
 
   Future<BookingWeeklyListResponse> getBookingWeeklyListing(
       BookingWeeklyListRequest bookingWeeklyListRequest) async {
-    final url = ApplicationURLs.API_BOOKING_LIST;
+    final url = ApplicationURLs.API_BOOKING_WEEKLY_LISTING;
     final GeneralResponseModel response =
         await _handler.post(url, bookingWeeklyListRequest.toJson(), false);
     BookingWeeklyListResponse bookingWeeklyListResponse =
@@ -250,8 +250,26 @@ class HTTPManager {
     return bookingShowResponse;
   }
 
+  Future<BookingShowResponse> showWeeklyBookingInvoice(
+      BookingWeeklyShowRequest bookingShowRequest) async {
+    final url = ApplicationURLs.API_BOOKING_SHOW;
+    final GeneralResponseModel response =
+        await _handler.post(url, bookingShowRequest.toJson(), false);
+    BookingShowResponse bookingShowResponse =
+        BookingShowResponse.fromJson(response.data);
+    return bookingShowResponse;
+  }
+
   Future<GeneralResponseModel> deleteBooking(
       BookingShowRequest bookingDeleteRequest) async {
+    final url = ApplicationURLs.API_BOOKING_DELETE;
+    final GeneralResponseModel response =
+        await _handler.post(url, bookingDeleteRequest.toJson(), false);
+    return response;
+  }
+
+  Future<GeneralResponseModel> deleteWeeklyBooking(
+      BookingWeeklyShowRequest bookingDeleteRequest) async {
     final url = ApplicationURLs.API_BOOKING_DELETE;
     final GeneralResponseModel response =
         await _handler.post(url, bookingDeleteRequest.toJson(), false);
@@ -276,6 +294,14 @@ class HTTPManager {
 
   Future<GeneralResponseModel> sendInvoiceBooking(
       BookingSendInvoice bookingSendInvoice) async {
+    final url = ApplicationURLs.API_BOOKING_SEND_INVOICE;
+    final GeneralResponseModel response =
+        await _handler.post(url, bookingSendInvoice.toJson(), false);
+    return response;
+  }
+
+  Future<GeneralResponseModel> sendWeeklyInvoiceBooking(
+      BookingWeeklySendInvoice bookingSendInvoice) async {
     final url = ApplicationURLs.API_BOOKING_SEND_INVOICE;
     final GeneralResponseModel response =
         await _handler.post(url, bookingSendInvoice.toJson(), false);

@@ -7,6 +7,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:powerdiary/models/request/booking_request.dart';
+import 'package:powerdiary/models/request/booking_weekly_request.dart';
 import 'package:powerdiary/models/response/booking_list_response.dart';
 import 'package:powerdiary/models/response/booking_list_weekly_response.dart';
 import 'package:powerdiary/models/response/booking_show_reponse.dart';
@@ -43,7 +44,7 @@ class _ViewWeeklyBookingInvoiceState extends State<ViewWeeklyBookingInvoice> {
 
   _getBookingDetails() {
     HTTPManager()
-        .showBookingInvoice(BookingShowRequest(
+        .showWeeklyBookingInvoice(BookingWeeklyShowRequest(
             companyId: "${widget.bookingReadResponse.companyId}",
             bookingId: "${widget.bookingReadResponse.bookingId}"))
         .then((value) {
@@ -433,7 +434,7 @@ class _ViewWeeklyBookingInvoiceState extends State<ViewWeeklyBookingInvoice> {
       _isLoading = true;
     });
     HTTPManager()
-        .sendInvoiceBooking(BookingSendInvoice(
+        .sendWeeklyInvoiceBooking(BookingWeeklySendInvoice(
       bookingId: '${bookingShowResponse.bookingDetails[0].bookingId}',
       companyId: bookingShowResponse.bookingDetails[0].companyId,
     ))
