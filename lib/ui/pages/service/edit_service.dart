@@ -180,8 +180,7 @@ class _EditServiceState extends State<EditService> {
         .then((value) {
       setState(() {
         _isLoading = false;
-        categoryList =
-            value.values.where((element) => element.isActive).toList();
+        categoryList = value.values.toList();
       });
     }).catchError((e) {
       print(e);

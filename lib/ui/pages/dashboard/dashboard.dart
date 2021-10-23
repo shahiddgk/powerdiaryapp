@@ -286,7 +286,10 @@ class _dashboardState extends State<dashboard> {
                                           // },
                                         ),
                                   IconButton(
-                                    icon: Icon(Icons.delete),
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
                                     onPressed: () {
                                       Navigator.of(context, rootNavigator: true)
                                           .pop();

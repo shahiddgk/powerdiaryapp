@@ -23,11 +23,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   bool _isLoading = true;
   final createcategory = GlobalKey<NavigatorState>();
   PermissionShowResponse permissionShowResponse;
-  int _counter = 7;
+  int _counter = 8;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 7;
+    _counter = 8;
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
