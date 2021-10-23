@@ -939,6 +939,10 @@ class _BookingListingState extends State<BookingListing> {
     setState(() {
       _isLoading = true;
 
+      print(bookingId);
+      print(companyId);
+      print(paymentInstrument);
+      print(paymentInstrumentNumber);
       print(serviceStatus);
     });
     HTTPManager()
